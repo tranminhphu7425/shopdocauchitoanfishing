@@ -227,7 +227,10 @@ export default function CartModal() {
                     </div>
                   </div>
                   
-                  <div onClick={() => window.location.href = "/commerce/checkout"} className="pb-2">
+                  <div onClick={() => {
+                    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
+                    window.location.href = `${basePath}/checkout`;
+                  }} className="pb-2">
                     <CheckoutButton />
                   </div>
                 </div>

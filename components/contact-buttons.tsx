@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { CONTACT_INFO } from 'lib/constants';
 import shopeeIcon from 'public/images/icons/shopee.jpg';
 import tiktokIcon from 'public/images/icons/tiktokshop.jpg';
@@ -9,8 +10,13 @@ import zaloIcon from 'public/images/icons/zalo.jpg';
 import messengerIcon from 'public/images/icons/messenger.png';
 
 const ContactButtons = () => {
+  const pathname = usePathname();
   const { phone: phoneNumber, zalo: zaloNumber, messenger: messengerId, shopee, tiktok } = CONTACT_INFO;
   const [isExpanded, setIsExpanded] = useState(false);
+
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-4 animate-fadeIn items-end">

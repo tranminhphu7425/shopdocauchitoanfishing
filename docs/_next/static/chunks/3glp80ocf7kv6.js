@@ -1,0 +1,1 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,95868,c=>{"use strict";async function t(c){return{success:!0}}async function e(c,t){return{success:!0}}async function n(c){return{success:!0}}c.s(["createProductAction",0,t,"deleteProductAction",0,n,"updateProductAction",0,e])}]);

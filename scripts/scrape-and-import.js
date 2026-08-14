@@ -134,12 +134,12 @@ async function run() {
 
       // Tải và lưu ảnh sản phẩm
       const imageFilename = `${itemId}.jpg`;
-      let localImgUrl = '/commerce/images/products/placeholder.jpg';
+      let localImgUrl = '/shopdocauchitoanfishing/images/products/placeholder.jpg';
       if (cdnImgUrl) {
         console.log(`   - Đang tải ảnh về máy...`);
         const downloaded = await downloadImage(cdnImgUrl, imageFilename);
         if (downloaded) {
-          localImgUrl = `/commerce/images/products/${imageFilename}`;
+          localImgUrl = `/shopdocauchitoanfishing/images/products/${imageFilename}`;
           console.log(`   - Đã tải ảnh thành công!`);
         }
       }

@@ -341,7 +341,8 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           .replace(/[\u0300-\u036f]/g, "")
           .replace(/[^a-z0-9.]+/g, "-");
         const filename = `${timestamp}-${cleanFileName}`;
-        const relativeUrl = `/commerce/images/products/${filename}`;
+        const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
+        const relativeUrl = `${basePath}/images/products/${filename}`;
 
         // Compress image to ~150KB Base64
         const dataUrl = await compressImageFile(file);
@@ -389,7 +390,8 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           .replace(/[\u0300-\u036f]/g, "")
           .replace(/[^a-z0-9.]+/g, "-");
         const filename = `${timestamp}-${cleanFileName}`;
-        const relativeUrl = `/commerce/images/products/${filename}`;
+        const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
+        const relativeUrl = `${basePath}/images/products/${filename}`;
 
         const dataUrl = await compressImageFile(file);
 

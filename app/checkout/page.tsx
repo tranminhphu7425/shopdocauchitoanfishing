@@ -68,8 +68,8 @@ export default function CheckoutPage() {
     setMounted(true);
 
     // Retrieve profiles from localStorage
-    const storedProfiles = localStorage.getItem("commerce_shipping_profiles");
-    const storedActiveId = localStorage.getItem("commerce_active_profile_id");
+    const storedProfiles = localStorage.getItem("shopdocauchitoanfishing_shipping_profiles") || localStorage.getItem("commerce_shipping_profiles");
+    const storedActiveId = localStorage.getItem("shopdocauchitoanfishing_active_profile_id") || localStorage.getItem("commerce_active_profile_id");
     if (storedProfiles) {
       try {
         const parsed = JSON.parse(storedProfiles);
@@ -381,8 +381,8 @@ export default function CheckoutPage() {
 
     setProfiles(updatedProfiles);
     setActiveProfileId(newProfile.id);
-    localStorage.setItem("commerce_shipping_profiles", JSON.stringify(updatedProfiles));
-    localStorage.setItem("commerce_active_profile_id", newProfile.id);
+    localStorage.setItem("shopdocauchitoanfishing_shipping_profiles", JSON.stringify(updatedProfiles));
+    localStorage.setItem("shopdocauchitoanfishing_active_profile_id", newProfile.id);
     setIsEditingOrAdding(false);
     toast.success(formMode === 'edit' ? "Đã cập nhật địa chỉ giao hàng" : "Đã thêm địa chỉ giao hàng mới");
   };
@@ -404,7 +404,7 @@ export default function CheckoutPage() {
     e.stopPropagation();
     setFormMode('edit');
     setActiveProfileId(profile.id);
-    localStorage.setItem("commerce_active_profile_id", profile.id);
+    localStorage.setItem("shopdocauchitoanfishing_active_profile_id", profile.id);
     setFormValues({
       name: profile.name,
       phone: profile.phone,
@@ -421,12 +421,12 @@ export default function CheckoutPage() {
     if (confirm("Bạn có chắc chắn muốn xóa địa chỉ này?")) {
       const updated = profiles.filter((p) => p.id !== id);
       setProfiles(updated);
-      localStorage.setItem("commerce_shipping_profiles", JSON.stringify(updated));
+      localStorage.setItem("shopdocauchitoanfishing_shipping_profiles", JSON.stringify(updated));
 
       if (activeProfileId === id) {
         const nextActive = updated[0]?.id || '';
         setActiveProfileId(nextActive);
-        localStorage.setItem("commerce_active_profile_id", nextActive);
+        localStorage.setItem("shopdocauchitoanfishing_active_profile_id", nextActive);
 
         if (updated.length === 0) {
           setIsEditingOrAdding(true);
@@ -450,7 +450,7 @@ export default function CheckoutPage() {
       setIsEditingOrAdding(false);
     }
     setActiveProfileId(id);
-    localStorage.setItem("commerce_active_profile_id", id);
+    localStorage.setItem("shopdocauchitoanfishing_active_profile_id", id);
   };
 
   if (step === 3) {

@@ -5,11 +5,12 @@ export interface GitHubConfig {
   branch: string;
 }
 
-const STORAGE_KEY = "commerce_github_config";
+const PRIMARY_STORAGE_KEY = "shopdocauchitoanfishing_github_config";
+const FALLBACK_STORAGE_KEY = "commerce_github_config";
 
 export function getGitHubConfig(): GitHubConfig | null {
   if (typeof window === "undefined") return null;
-  const stored = localStorage.getItem(STORAGE_KEY);
+  const stored = localStorage.getItem(PRIMARY_STORAGE_KEY) || localStorage.getItem(FALLBACK_STORAGE_KEY);
   if (!stored) return null;
   try {
     return JSON.parse(stored);
@@ -19,17 +20,16 @@ export function getGitHubConfig(): GitHubConfig | null {
 }
 
 export function saveGitHubConfig(config: GitHubConfig): void {
-  if (typeof window !== "undefined") {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
-    window.dispatchEvent(new Event("github-config-updated"));
-  }
+  if (typeof window === "undefined") return;
+  localStorage.setItem(PRIMARY_STORAGE_KEY, JSON.stringify(config));
+  window.dispatchEvent(new CustomEvent("github-config-updated"));
 }
 
 export function clearGitHubConfig(): void {
-  if (typeof window !== "undefined") {
-    localStorage.removeItem(STORAGE_KEY);
-    window.dispatchEvent(new Event("github-config-updated"));
-  }
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(PRIMARY_STORAGE_KEY);
+  localStorage.removeItem(FALLBACK_STORAGE_KEY);
+  window.dispatchEvent(new CustomEvent("github-config-updated"));
 }
 
 // UTF-8 friendly Base64 helper
@@ -153,7 +153,7 @@ export async function uploadImageToGitHub(file: File): Promise<{ success: boolea
     }).catch(() => { });
 
     // Relative image path for Next.js app
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/commerce";
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
     const imageUrl = `${basePath}/images/products/${filename}`;
     return { success: true, url: imageUrl };
   } catch (err: any) {

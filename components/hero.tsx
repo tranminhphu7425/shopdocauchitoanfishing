@@ -6,7 +6,7 @@ const Hero = () => {
     <div className="relative h-[55vh] sm:h-[65vh] md:h-[80vh] lg:h-[90vh] w-full overflow-hidden border-b border-neutral-200 dark:border-neutral-800">
       {/* Background Image with Overlay */}
       <Image
-        src="/commerce/images/banner/hero.png"
+        src="/shopdocauchitoanfishing/images/banner/hero.png"
         alt="Chí Toàn Fishing Hero"
         fill
         priority

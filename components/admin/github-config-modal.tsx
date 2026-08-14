@@ -10,7 +10,7 @@ export function GitHubStatusButton() {
   const [isOpen, setIsOpen] = useState(false);
   const [config, setConfig] = useState<GitHubConfig>({
     owner: "tranminhphu7425",
-    repo: "commerce",
+    repo: "shopdocauchitoanfishing",
     branch: "main",
     token: "",
   });
@@ -25,7 +25,7 @@ export function GitHubStatusButton() {
       const current = getGitHubConfig();
       setActiveConfig(current);
       if (current) setConfig(current);
-      else setConfig({ owner: "tranminhphu7425", repo: "commerce", branch: "main", token: "" });
+      else setConfig({ owner: "tranminhphu7425", repo: "shopdocauchitoanfishing", branch: "main", token: "" });
     };
     syncConfig();
     window.addEventListener("github-config-updated", syncConfig);
@@ -36,7 +36,7 @@ export function GitHubStatusButton() {
     if (confirm("Bạn có chắc muốn hủy liên kết không?")) {
       clearGitHubConfig();
       setActiveConfig(null);
-      setConfig({ owner: "tranminhphu7425", repo: "commerce", branch: "main", token: "" });
+      setConfig({ owner: "tranminhphu7425", repo: "shopdocauchitoanfishing", branch: "main", token: "" });
       setStatusMessage(null);
       setIsOpen(false);
     }
@@ -113,7 +113,7 @@ export function GitHubConfigModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [config, setConfig] = useState<GitHubConfig>({
     owner: "tranminhphu7425",
-    repo: "commerce",
+    repo: "shopdocauchitoanfishing",
     branch: "main",
     token: "",
   });
@@ -127,7 +127,7 @@ export function GitHubConfigModal() {
       const current = getGitHubConfig();
       setActiveConfig(current);
       if (current) setConfig(current);
-      else setConfig({ owner: "tranminhphu7425", repo: "commerce", branch: "main", token: "" });
+      else setConfig({ owner: "tranminhphu7425", repo: "shopdocauchitoanfishing", branch: "main", token: "" });
     };
     syncConfig();
     window.addEventListener("github-config-updated", syncConfig);

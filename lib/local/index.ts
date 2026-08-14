@@ -42,25 +42,25 @@ type StoreData = {
 function cleanProductImageUrls(products: any[], basePath: string): any[] {
   if (basePath === "") {
     products.forEach((p: any) => {
-      if (p.featuredImage?.url?.startsWith("/commerce/")) {
-        p.featuredImage.url = p.featuredImage.url.replace(/^\/commerce/, "");
+      if (p.featuredImage?.url) {
+        p.featuredImage.url = p.featuredImage.url.replace(/^\/(commerce|shopdocauchitoanfishing)/, "");
       }
       if (Array.isArray(p.images)) {
         p.images.forEach((img: any) => {
-          if (img?.url?.startsWith("/commerce/")) {
-            img.url = img.url.replace(/^\/commerce/, "");
+          if (img?.url) {
+            img.url = img.url.replace(/^\/(commerce|shopdocauchitoanfishing)/, "");
           }
         });
       }
       if (Array.isArray(p.variants)) {
         p.variants.forEach((v: any) => {
-          if (v.image?.url?.startsWith("/commerce/")) {
-            v.image.url = v.image.url.replace(/^\/commerce/, "");
+          if (v.image?.url) {
+            v.image.url = v.image.url.replace(/^\/(commerce|shopdocauchitoanfishing)/, "");
           }
           if (Array.isArray(v.images)) {
             v.images.forEach((img: any) => {
-              if (img?.url?.startsWith("/commerce/")) {
-                img.url = img.url.replace(/^\/commerce/, "");
+              if (img?.url) {
+                img.url = img.url.replace(/^\/(commerce|shopdocauchitoanfishing)/, "");
               }
             });
           }
@@ -74,7 +74,7 @@ function cleanProductImageUrls(products: any[], basePath: string): any[] {
 function readStore(): StoreData {
   const raw = fs.readFileSync(DATA_FILE, "utf-8");
   const data = JSON.parse(raw);
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/commerce";
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
   if (data && Array.isArray(data.products)) {
     data.products = cleanProductImageUrls(data.products, basePath);
   }

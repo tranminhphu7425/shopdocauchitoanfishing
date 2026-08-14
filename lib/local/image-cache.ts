@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 
-const IMAGE_CACHE_KEY = "commerce_image_cache";
-const PENDING_IMAGES_KEY = "commerce_pending_images";
+const IMAGE_CACHE_KEY = "shopdocauchitoanfishing_image_cache";
+const FALLBACK_IMAGE_CACHE_KEY = "commerce_image_cache";
+const PENDING_IMAGES_KEY = "shopdocauchitoanfishing_pending_images";
+const FALLBACK_PENDING_IMAGES_KEY = "commerce_pending_images";
 const MAX_CACHE_ENTRIES = 30;
 
 type CacheMap = Record<string, string>;
@@ -14,7 +16,7 @@ const inMemoryCache = new Map<string, string>();
 function getCacheMap(): CacheMap {
   if (typeof window === "undefined") return {};
   try {
-    const raw = localStorage.getItem(IMAGE_CACHE_KEY);
+    const raw = localStorage.getItem(IMAGE_CACHE_KEY) || localStorage.getItem(FALLBACK_IMAGE_CACHE_KEY);
     return raw ? JSON.parse(raw) : {};
   } catch {
     return {};
@@ -41,6 +43,7 @@ export function saveImageCache(urlPath: string, dataUrl: string): void {
   inMemoryCache.set(cleanPath, dataUrl);
   if (filename) {
     inMemoryCache.set(filename, dataUrl);
+    inMemoryCache.set(`/shopdocauchitoanfishing/images/products/${filename}`, dataUrl);
     inMemoryCache.set(`/commerce/images/products/${filename}`, dataUrl);
     inMemoryCache.set(`/images/products/${filename}`, dataUrl);
     inMemoryCache.set(`public/images/products/${filename}`, dataUrl);
@@ -77,6 +80,11 @@ export function saveImageCache(urlPath: string, dataUrl: string): void {
     }
 
     window.dispatchEvent(
+      new CustomEvent("shopdocauchitoanfishing-image-cache-updated", {
+        detail: { urlPath: cleanPath, filename, dataUrl },
+      })
+    );
+    window.dispatchEvent(
       new CustomEvent("commerce-image-cache-updated", {
         detail: { urlPath: cleanPath, filename, dataUrl },
       })
@@ -102,6 +110,7 @@ export function getImageCache(urlPath?: string): string | null {
   if (inMemoryCache.has(cleanPath)) return inMemoryCache.get(cleanPath)!;
   if (filename) {
     if (inMemoryCache.has(filename)) return inMemoryCache.get(filename)!;
+    if (inMemoryCache.has(`/shopdocauchitoanfishing/images/products/${filename}`)) return inMemoryCache.get(`/shopdocauchitoanfishing/images/products/${filename}`)!;
     if (inMemoryCache.has(`/commerce/images/products/${filename}`)) return inMemoryCache.get(`/commerce/images/products/${filename}`)!;
     if (inMemoryCache.has(`/images/products/${filename}`)) return inMemoryCache.get(`/images/products/${filename}`)!;
     if (inMemoryCache.has(`public/images/products/${filename}`)) return inMemoryCache.get(`public/images/products/${filename}`)!;
@@ -123,6 +132,11 @@ export function getImageCache(urlPath?: string): string | null {
       inMemoryCache.set(filename, val);
       return val;
     }
+    if (cache[`/shopdocauchitoanfishing/images/products/${filename}`]) {
+      const val = cache[`/shopdocauchitoanfishing/images/products/${filename}`]!;
+      inMemoryCache.set(cleanPath, val);
+      return val;
+    }
     if (cache[`/commerce/images/products/${filename}`]) {
       const val = cache[`/commerce/images/products/${filename}`]!;
       inMemoryCache.set(cleanPath, val);
@@ -137,7 +151,7 @@ export function getImageCache(urlPath?: string): string | null {
 
   // 4. Fallback: check pending images in localStorage
   try {
-    const rawPending = localStorage.getItem(PENDING_IMAGES_KEY);
+    const rawPending = localStorage.getItem(PENDING_IMAGES_KEY) || localStorage.getItem(FALLBACK_PENDING_IMAGES_KEY);
     if (rawPending) {
       const pendingMap: Record<string, string> = JSON.parse(rawPending);
       if (filename && pendingMap[filename]) {
@@ -197,11 +211,15 @@ export function useCachedImageUrl(urlPath?: string): string {
       setEffectiveUrl(getEffectiveImageUrl(urlPath));
     };
 
+    window.addEventListener("shopdocauchitoanfishing-image-cache-updated", handleCacheUpdate);
     window.addEventListener("commerce-image-cache-updated", handleCacheUpdate);
+    window.addEventListener("shopdocauchitoanfishing-store-updated", handleStoreUpdate);
     window.addEventListener("commerce-store-updated", handleStoreUpdate);
 
     return () => {
+      window.removeEventListener("shopdocauchitoanfishing-image-cache-updated", handleCacheUpdate);
       window.removeEventListener("commerce-image-cache-updated", handleCacheUpdate);
+      window.removeEventListener("shopdocauchitoanfishing-store-updated", handleStoreUpdate);
       window.removeEventListener("commerce-store-updated", handleStoreUpdate);
     };
   }, [urlPath]);
