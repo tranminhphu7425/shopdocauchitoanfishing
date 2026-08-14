@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing"; // Đổi "/commerce" thành "" khi chuyển sang chạy domain riêng
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ""; // Đổi "/commerce" thành "" khi chuyển sang chạy domain riêng
 
 const nextConfig: NextConfig = {
   output: "export",
