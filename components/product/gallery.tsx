@@ -5,6 +5,7 @@ import { GridTileImage } from "components/grid/tile";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCachedImageUrl, getImageCache } from "lib/local/image-cache";
+import { formatImageUrl } from "lib/site-config";
 import { useState } from "react";
 import type { ProductVariant } from "lib/local/types";
 
@@ -54,7 +55,8 @@ export function Gallery({
 
   const currentImageSrc = images[imageIndex]?.src || "";
   const cachedUrl = useCachedImageUrl(currentImageSrc);
-  const mainImageSrc = fallbackSrc || cachedUrl || currentImageSrc;
+  const rawMainImageSrc = fallbackSrc || cachedUrl || currentImageSrc;
+  const mainImageSrc = formatImageUrl(rawMainImageSrc);
 
   const updateImage = (index: string) => {
     if (onImageChange) {

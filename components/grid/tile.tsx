@@ -4,6 +4,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import Label from "../label";
 import { useCachedImageUrl, getImageCache } from "lib/local/image-cache";
+import { formatImageUrl } from "lib/site-config";
 import { useState } from "react";
 
 export function GridTileImage({
@@ -31,7 +32,8 @@ export function GridTileImage({
   const cachedUrl = useCachedImageUrl(originalSrc);
   const [fallbackSrc, setFallbackSrc] = useState<string | null>(null);
 
-  const finalSrc = fallbackSrc || cachedUrl || props.src;
+  const rawSrc = fallbackSrc || cachedUrl || props.src;
+  const finalSrc = typeof rawSrc === "string" ? formatImageUrl(rawSrc) : rawSrc;
 
   return (
     <div

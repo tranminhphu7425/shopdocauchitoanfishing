@@ -3,6 +3,10 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build && node scripts/postbuild.mjs",
+    "build:gh-pages": "node scripts/set-mode.mjs gh-pages && next build && node scripts/postbuild.mjs",
+    "build:domain": "node scripts/set-mode.mjs domain && next build && node scripts/postbuild.mjs",
+    "mode:gh-pages": "node scripts/set-mode.mjs gh-pages",
+    "mode:domain": "node scripts/set-mode.mjs domain",
     "start": "next start",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",

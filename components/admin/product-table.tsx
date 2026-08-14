@@ -7,10 +7,12 @@ import { getGitHubConfig } from "lib/github";
 import { toast } from "sonner";
 import { deleteLocalProductOverride, mergeProductsWithLocalOverride } from "lib/local/client-store";
 import { useCachedImageUrl, getImageCache } from "lib/local/image-cache";
+import { formatImageUrl } from "lib/site-config";
 
 function TableProductImage({ src, alt }: { src: string; alt: string }) {
   const cachedSrc = useCachedImageUrl(src);
-  const effectiveSrc = cachedSrc || getImageCache(src) || src;
+  const rawSrc = cachedSrc || getImageCache(src) || src;
+  const effectiveSrc = formatImageUrl(rawSrc);
   return (
     <img
       src={effectiveSrc}
@@ -19,7 +21,7 @@ function TableProductImage({ src, alt }: { src: string; alt: string }) {
       onError={(e) => {
         const cached = getImageCache(src);
         if (cached && e.currentTarget.src !== cached) {
-          e.currentTarget.src = cached;
+          e.currentTarget.src = formatImageUrl(cached);
         }
       }}
     />

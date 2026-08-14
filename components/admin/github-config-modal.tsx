@@ -1,6 +1,7 @@
 "use client";
 
 import { clearGitHubConfig, getGitHubConfig, GitHubConfig, saveGitHubConfig, testGitHubConnection } from "lib/github";
+import { getDeploymentMode } from "lib/site-config";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -225,6 +226,44 @@ export function GitHubConfigModal() {
       {/* Settings Form */}
       {isOpen && (
         <div className="mt-6 border-t border-neutral-100 dark:border-neutral-800 pt-6 animate-in fade-in slide-in-from-top-2 duration-300">
+          
+          {/* Deployment Mode Card */}
+          <div className="mb-6 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-800/40 p-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-2 flex items-center gap-2">
+              <span>🌐</span> Chế độ Tên miền (Deployment Target)
+            </h4>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 mb-3">
+              Dễ dàng chuyển đổi giữa <strong>GitHub Pages</strong> (đường dẫn subpath <code className="text-orange-600 font-mono">/shopdocauchitoanfishing</code>) và <strong>Tên miền riêng (Custom Domain)</strong> (đường dẫn gốc <code className="text-orange-600 font-mono">/</code>).
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div className={`p-3 rounded-lg border transition-all ${
+                getDeploymentMode() === "gh-pages"
+                  ? "border-orange-500 bg-orange-50/60 dark:bg-orange-950/40 text-orange-900 dark:text-orange-200 font-semibold shadow-xs"
+                  : "border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400"
+              }`}>
+                <div className="font-bold flex items-center justify-between mb-1">
+                  <span>🐙 1. GitHub Pages</span>
+                  {getDeploymentMode() === "gh-pages" && <span className="text-[10px] bg-orange-600 text-white px-1.5 py-0.5 rounded font-bold">Đang kích hoạt</span>}
+                </div>
+                <p className="text-[11px] opacity-85 mt-1">Route ảnh có prefix: <code className="font-mono bg-neutral-200 dark:bg-neutral-800 px-1 py-0.5 rounded">/shopdocauchitoanfishing/images/products/...</code></p>
+                <p className="text-[10px] mt-1 text-neutral-500 dark:text-neutral-400 font-mono">Terminal: npm run mode:gh-pages</p>
+              </div>
+
+              <div className={`p-3 rounded-lg border transition-all ${
+                getDeploymentMode() === "custom-domain"
+                  ? "border-orange-500 bg-orange-50/60 dark:bg-orange-950/40 text-orange-900 dark:text-orange-200 font-semibold shadow-xs"
+                  : "border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400"
+              }`}>
+                <div className="font-bold flex items-center justify-between mb-1">
+                  <span>🌐 2. Tên miền riêng</span>
+                  {getDeploymentMode() === "custom-domain" && <span className="text-[10px] bg-orange-600 text-white px-1.5 py-0.5 rounded font-bold">Đang kích hoạt</span>}
+                </div>
+                <p className="text-[11px] opacity-85 mt-1">Route ảnh gốc: <code className="font-mono bg-neutral-200 dark:bg-neutral-800 px-1 py-0.5 rounded">/images/products/...</code></p>
+                <p className="text-[10px] mt-1 text-neutral-500 dark:text-neutral-400 font-mono">Terminal: npm run mode:domain</p>
+              </div>
+            </div>
+          </div>
+
           <div className="mb-4">
             <label className="text-xs font-bold block mb-1">Mã kết nối hệ thống *</label>
             <input
