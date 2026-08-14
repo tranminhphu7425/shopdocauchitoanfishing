@@ -1,6 +1,70 @@
 {
   "products": [
     {
+      "id": "prod-1786698815052",
+      "handle": "csdfiwuer",
+      "title": "Csdfiwuer",
+      "availableForSale": true,
+      "description": "",
+      "descriptionHtml": "<p></p>",
+      "options": [
+        {
+          "id": "opt-1786698785308",
+          "name": "Size",
+          "values": [
+            "12"
+          ]
+        }
+      ],
+      "priceRange": {
+        "minVariantPrice": {
+          "amount": "100000",
+          "currencyCode": "VND"
+        },
+        "maxVariantPrice": {
+          "amount": "100000",
+          "currencyCode": "VND"
+        }
+      },
+      "variants": [
+        {
+          "id": "var-1786698815052-0",
+          "title": "12",
+          "availableForSale": true,
+          "selectedOptions": [
+            {
+              "name": "Size",
+              "value": "12"
+            }
+          ],
+          "price": {
+            "amount": "100000",
+            "currencyCode": "VND"
+          }
+        }
+      ],
+      "featuredImage": {
+        "url": "/images/products/1786698804484-hoa-am-ban-sac-poster-1-.png",
+        "altText": "Csdfiwuer",
+        "width": 800,
+        "height": 800
+      },
+      "images": [
+        {
+          "url": "/images/products/1786698804484-hoa-am-ban-sac-poster-1-.png",
+          "altText": "Csdfiwuer",
+          "width": 800,
+          "height": 800
+        }
+      ],
+      "seo": {
+        "title": "Csdfiwuer",
+        "description": ""
+      },
+      "tags": [],
+      "updatedAt": "2026-08-14T09:13:35.052Z"
+    },
+    {
       "id": "prod-42710507117",
       "handle": "-combo-10-luoi-bkk-luoi-bkk-6066-4x-ba-tieu-cau-ca-so-468-chinh-hang",
       "availableForSale": true,
