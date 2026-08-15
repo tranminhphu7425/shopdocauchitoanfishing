@@ -30,7 +30,7 @@
       },
       "variants": [
         {
-          "id": "var-1786792390117-0",
+          "id": "var-1786792752570-0",
           "title": "Số 4",
           "availableForSale": true,
           "selectedOptions": [
@@ -67,7 +67,7 @@
           ]
         },
         {
-          "id": "var-1786792390117-1",
+          "id": "var-1786792752570-1",
           "title": "Số 6",
           "availableForSale": true,
           "selectedOptions": [
@@ -104,7 +104,7 @@
           ]
         },
         {
-          "id": "var-1786792390117-2",
+          "id": "var-1786792752570-2",
           "title": "Số 8",
           "availableForSale": true,
           "selectedOptions": [
@@ -163,7 +163,7 @@
         "phu-kien",
         "shopee-import"
       ],
-      "updatedAt": "2026-08-15T11:13:10.117Z",
+      "updatedAt": "2026-08-15T11:19:12.570Z",
       "collections": [
         "phu-kien"
       ]
