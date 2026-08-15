@@ -24,13 +24,13 @@
           "currencyCode": "VND"
         },
         "maxVariantPrice": {
-          "amount": "120000",
+          "amount": "100000",
           "currencyCode": "VND"
         }
       },
       "variants": [
         {
-          "id": "var-1786791052268-0",
+          "id": "var-1786791957390-0",
           "title": "Số 4",
           "availableForSale": true,
           "selectedOptions": [
@@ -44,22 +44,22 @@
             "currencyCode": "VND"
           },
           "compareAtPrice": {
-            "amount": "130000",
+            "amount": "100000",
             "currencyCode": "VND"
           },
           "importPrice": {
-            "amount": "60000",
+            "amount": "100000",
             "currencyCode": "VND"
           },
           "image": {
-            "url": "/images/products/42710507117.jpg",
+            "url": "/images/products/1786791947813-vn-11134207-7ras8-mcoekjvpil652d.webp",
             "altText": "Số 4",
             "width": 800,
             "height": 800
           },
           "images": [
             {
-              "url": "/images/products/42710507117.jpg",
+              "url": "/images/products/1786791947813-vn-11134207-7ras8-mcoekjvpil652d.webp",
               "altText": "Số 4",
               "width": 800,
               "height": 800
@@ -67,7 +67,7 @@
           ]
         },
         {
-          "id": "var-1786791052268-1",
+          "id": "var-1786791957390-1",
           "title": "Số 6",
           "availableForSale": true,
           "selectedOptions": [
@@ -77,26 +77,26 @@
             }
           ],
           "price": {
-            "amount": "110000",
+            "amount": "100000",
             "currencyCode": "VND"
           },
           "compareAtPrice": {
-            "amount": "143000",
+            "amount": "100000",
             "currencyCode": "VND"
           },
           "importPrice": {
-            "amount": "66000",
+            "amount": "100000",
             "currencyCode": "VND"
           },
           "image": {
-            "url": "/images/products/42710507117.jpg",
+            "url": "/images/products/1786791951487-vn-11134207-7ras8-mcoekjvph6lp33.webp",
             "altText": "Số 6",
             "width": 800,
             "height": 800
           },
           "images": [
             {
-              "url": "/images/products/42710507117.jpg",
+              "url": "/images/products/1786791951487-vn-11134207-7ras8-mcoekjvph6lp33.webp",
               "altText": "Số 6",
               "width": 800,
               "height": 800
@@ -104,7 +104,7 @@
           ]
         },
         {
-          "id": "var-1786791052268-2",
+          "id": "var-1786791957390-2",
           "title": "Số 8",
           "availableForSale": true,
           "selectedOptions": [
@@ -114,26 +114,26 @@
             }
           ],
           "price": {
-            "amount": "120000",
+            "amount": "100000",
             "currencyCode": "VND"
           },
           "compareAtPrice": {
-            "amount": "156000",
+            "amount": "100000",
             "currencyCode": "VND"
           },
           "importPrice": {
-            "amount": "72000",
+            "amount": "100000",
             "currencyCode": "VND"
           },
           "image": {
-            "url": "/images/products/42710507117.jpg",
+            "url": "/images/products/1786791955329-vn-11134207-7ras8-mcoekjvpk09o33.webp",
             "altText": "Số 8",
             "width": 800,
             "height": 800
           },
           "images": [
             {
-              "url": "/images/products/42710507117.jpg",
+              "url": "/images/products/1786791955329-vn-11134207-7ras8-mcoekjvpk09o33.webp",
               "altText": "Số 8",
               "width": 800,
               "height": 800
@@ -153,6 +153,36 @@
           "altText": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng",
           "width": 800,
           "height": 800
+        },
+        {
+          "url": "/images/products/1786791879609-vn-11134207-7ras8-mcoektq12ov0ce.webp",
+          "altText": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "url": "/images/products/1786791882284-vn-11134207-7ras8-mcoekqa046sccd.webp",
+          "altText": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "url": "/images/products/1786791947813-vn-11134207-7ras8-mcoekjvpil652d.webp",
+          "altText": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "url": "/images/products/1786791951487-vn-11134207-7ras8-mcoekjvph6lp33.webp",
+          "altText": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "url": "/images/products/1786791955329-vn-11134207-7ras8-mcoekjvpk09o33.webp",
+          "altText": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng",
+          "width": 800,
+          "height": 800
         }
       ],
       "seo": {
@@ -163,7 +193,7 @@
         "phu-kien",
         "shopee-import"
       ],
-      "updatedAt": "2026-08-15T10:50:52.268Z",
+      "updatedAt": "2026-08-15T11:05:57.390Z",
       "collections": [
         "phu-kien"
       ]
