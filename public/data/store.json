@@ -5,8 +5,8 @@
       "handle": "-combo-10-luoi-bkk-luoi-bkk-6066-4x-ba-tieu-cau-ca-so-468-chinh-hang",
       "availableForSale": true,
       "title": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng",
-      "description": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng cao cấp, chính hãng, giá tốt, giao hàng toàn quốc nhanh chóng.",
-      "descriptionHtml": "<p>( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng cao cấp, chính hãng, giá tốt, giao hàng toàn quốc nhanh chóng.</p>",
+      "description": "Lưỡi BKK 6066 4X số 4,6,8\n\n\n\nLà loại lưỡi treble hook (ba tiêu) độ cứng 4X, đi kèm lớp phủ chống rỉ Ultra‑AntiRust NP (Nickel Plating) để sử dụng tốt trong môi trường nước mặn và nước ngọt.\n\n\n\nĐộ cứng 4X: tăng khả năng chịu lực, không bị cong vênh khi bắt cá cứng.\n\n\n\nChất liệu thép không gỉ kết hợp phủ NP giúp kéo dài tuổi thọ trong môi trường nước mặn, dễ giữ màu sáng sau khi rửa sạch.\n\n\n\n Ngạnh sắc nhọn, thân lưỡi dạng cong mềm mại, giúp giữ mồi chắc và hạn chế cá rớt khi lên cần.\n\n\n\n Khối lượng nhẹ, giúp giữ action mồi nguyên bản, không ảnh hưởng tới chuyển động của lure.",
+      "descriptionHtml": "<p>Lưỡi BKK 6066 4X số 4,6,8\n\n\n\nLà loại lưỡi treble hook (ba tiêu) độ cứng 4X, đi kèm lớp phủ chống rỉ Ultra‑AntiRust NP (Nickel Plating) để sử dụng tốt trong môi trường nước mặn và nước ngọt.\n\n\n\nĐộ cứng 4X: tăng khả năng chịu lực, không bị cong vênh khi bắt cá cứng.\n\n\n\nChất liệu thép không gỉ kết hợp phủ NP giúp kéo dài tuổi thọ trong môi trường nước mặn, dễ giữ màu sáng sau khi rửa sạch.\n\n\n\n Ngạnh sắc nhọn, thân lưỡi dạng cong mềm mại, giúp giữ mồi chắc và hạn chế cá rớt khi lên cần.\n\n\n\n Khối lượng nhẹ, giúp giữ action mồi nguyên bản, không ảnh hưởng tới chuyển động của lure.</p>",
       "options": [
         {
           "id": "opt-42710507117",
@@ -26,7 +26,7 @@
       },
       "variants": [
         {
-          "id": "var-42710507117-0",
+          "id": "var-1786792752570-0",
           "title": "Số 4",
           "availableForSale": true,
           "selectedOptions": [
@@ -63,7 +63,7 @@
           ]
         },
         {
-          "id": "var-42710507117-1",
+          "id": "var-1786792752570-1",
           "title": "Số 6",
           "availableForSale": true,
           "selectedOptions": [
@@ -100,7 +100,7 @@
           ]
         },
         {
-          "id": "var-42710507117-2",
+          "id": "var-1786792752570-2",
           "title": "Số 8",
           "availableForSale": true,
           "selectedOptions": [
@@ -153,19 +153,30 @@
       ],
       "seo": {
         "title": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng",
-        "description": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng chất lượng cao, nhạy cá."
+        "description": "Lưỡi BKK 6066 4X số 4,6,8\n\n\n\nLà loại lưỡi treble hook (ba tiêu) độ cứng 4X, đi kèm lớp phủ chống rỉ Ultra‑AntiRust NP (Nickel Plating) để sử dụng tốt trong môi trường nước mặn và nước ngọt.\n\n\n\nĐộ cứng 4X: tăng khả năng chịu lực, không bị cong vênh khi bắt cá cứng.\n\n\n\nChất liệu thép không gỉ kết hợp phủ NP giúp kéo dài tuổi thọ trong môi trường nước mặn, dễ giữ màu sáng sau khi rửa sạch.\n\n\n\n Ngạnh sắc nhọn, thân lưỡi dạng cong mềm mại, giúp giữ mồi chắc và hạn chế cá rớt khi lên cần.\n\n\n\n Khối lượng nhẹ, giúp giữ action mồi nguyên bản, không ảnh hưởng tới chuyển động của lure."
       },
+<<<<<<< HEAD
       "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:26.056Z",
       "collections": ["phu-kien"]
+=======
+      "tags": [
+        "phu-kien",
+        "shopee-import"
+      ],
+      "updatedAt": "2026-08-15T11:19:12.570Z",
+      "collections": [
+        "phu-kien"
+      ]
+>>>>>>> 5239ec0470168a11e90e0531f79ef5a9009705a9
     },
     {
       "id": "prod-52351040992",
       "handle": "moi-cau-ca-barramundi-s2",
       "availableForSale": true,
       "title": "Mồi câu cá Barramundi S2",
-      "description": "Mồi câu cá Barramundi S2 cao cấp, chính hãng, giá tốt, giao hàng toàn quốc nhanh chóng.",
-      "descriptionHtml": "<p>Mồi câu cá Barramundi S2 cao cấp, chính hãng, giá tốt, giao hàng toàn quốc nhanh chóng.</p>",
+      "description": "Mồi câu cá Barramundi S2: Sản phẩm này là mồi câu cá đặc biệt dành cho loài Barramundi. 💥\n\nNhạy cá: Mồi câu này có khả năng nhạy cảm với cá, giúp bạn dễ dàng bắt được cá. 🎣\n\nThông tin chi tiết:\n\nLoại mồi: Mồi câu cá Barramundi S2. \n\nTính năng: Nhạy cá, giúp tăng cơ hội bắt được cá.",
+      "descriptionHtml": "<p>Mồi câu cá Barramundi S2: Sản phẩm này là mồi câu cá đặc biệt dành cho loài Barramundi. 💥\n\nNhạy cá: Mồi câu này có khả năng nhạy cảm với cá, giúp bạn dễ dàng bắt được cá. 🎣\n\nThông tin chi tiết:\n\nLoại mồi: Mồi câu cá Barramundi S2. \n\nTính năng: Nhạy cá, giúp tăng cơ hội bắt được cá.</p>",
       "options": [
         {
           "id": "opt-52351040992",
@@ -185,7 +196,7 @@
       },
       "variants": [
         {
-          "id": "var-52351040992-0",
+          "id": "var-1786792468295-0",
           "title": "Mặc định",
           "availableForSale": true,
           "selectedOptions": [
@@ -238,11 +249,22 @@
       ],
       "seo": {
         "title": "Mồi câu cá Barramundi S2",
-        "description": "Mồi câu cá Barramundi S2 chất lượng cao, nhạy cá."
+        "description": "Mồi câu cá Barramundi S2: Sản phẩm này là mồi câu cá đặc biệt dành cho loài Barramundi. 💥\n\nNhạy cá: Mồi câu này có khả năng nhạy cảm với cá, giúp bạn dễ dàng bắt được cá. 🎣\n\nThông tin chi tiết:\n\nLoại mồi: Mồi câu cá Barramundi S2. \n\nTính năng: Nhạy cá, giúp tăng cơ hội bắt được cá."
       },
+<<<<<<< HEAD
       "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:26.215Z",
       "collections": ["moi-cau"]
+=======
+      "tags": [
+        "moi-cau",
+        "shopee-import"
+      ],
+      "updatedAt": "2026-08-15T11:14:28.295Z",
+      "collections": [
+        "moi-cau"
+      ]
+>>>>>>> 5239ec0470168a11e90e0531f79ef5a9009705a9
     },
     {
       "id": "prod-42372749715",
