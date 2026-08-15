@@ -30,7 +30,7 @@
       },
       "variants": [
         {
-          "id": "var-42710507117-0",
+          "id": "var-1786791052268-0",
           "title": "Số 4",
           "availableForSale": true,
           "selectedOptions": [
@@ -67,7 +67,7 @@
           ]
         },
         {
-          "id": "var-42710507117-1",
+          "id": "var-1786791052268-1",
           "title": "Số 6",
           "availableForSale": true,
           "selectedOptions": [
@@ -104,7 +104,7 @@
           ]
         },
         {
-          "id": "var-42710507117-2",
+          "id": "var-1786791052268-2",
           "title": "Số 8",
           "availableForSale": true,
           "selectedOptions": [
@@ -157,13 +157,13 @@
       ],
       "seo": {
         "title": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng",
-        "description": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng chất lượng cao, nhạy cá."
+        "description": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng cao cấp, chính hãng, giá tốt, giao hàng toàn quốc nhanh chóng."
       },
       "tags": [
         "phu-kien",
         "shopee-import"
       ],
-      "updatedAt": "2026-08-10T09:16:26.056Z",
+      "updatedAt": "2026-08-15T10:50:52.268Z",
       "collections": [
         "phu-kien"
       ]
@@ -178,9 +178,13 @@
       "options": [
         {
           "id": "opt-52351040992",
-          "name": "Phân Loại",
+          "name": "Màu sắc",
           "values": [
-            "Mặc định"
+            "Trắng đầu đỏ",
+            "Trắng đầu vàng",
+            "Trắng bạc",
+            "Bạc Lưng Hồng",
+            "Vàng lưng đỏ"
           ]
         }
       ],
@@ -196,37 +200,145 @@
       },
       "variants": [
         {
-          "id": "var-52351040992-0",
-          "title": "Mặc định",
+          "id": "var-1786791032245-0",
+          "title": "Trắng đầu đỏ",
           "availableForSale": true,
           "selectedOptions": [
             {
-              "name": "Phân Loại",
-              "value": "Mặc định"
+              "name": "Màu sắc",
+              "value": "Trắng đầu đỏ"
             }
           ],
           "price": {
             "amount": "79000",
             "currencyCode": "VND"
           },
-          "compareAtPrice": {
-            "amount": "102700",
-            "currencyCode": "VND"
-          },
-          "importPrice": {
-            "amount": "47400",
-            "currencyCode": "VND"
-          },
           "image": {
-            "url": "/images/products/52351040992.jpg",
-            "altText": "Mặc định",
+            "url": "/images/products/1786790973788-vn-11134207-820l4-mgtgmanvszyj0e.webp",
+            "altText": "Trắng đầu đỏ",
             "width": 800,
             "height": 800
           },
           "images": [
             {
-              "url": "/images/products/52351040992.jpg",
-              "altText": "Mặc định",
+              "url": "/images/products/1786790973788-vn-11134207-820l4-mgtgmanvszyj0e.webp",
+              "altText": "Trắng đầu đỏ",
+              "width": 800,
+              "height": 800
+            }
+          ]
+        },
+        {
+          "id": "var-1786791032245-1",
+          "title": "Trắng đầu vàng",
+          "availableForSale": true,
+          "selectedOptions": [
+            {
+              "name": "Màu sắc",
+              "value": "Trắng đầu vàng"
+            }
+          ],
+          "price": {
+            "amount": "79000",
+            "currencyCode": "VND"
+          },
+          "image": {
+            "url": "/images/products/1786790988953-vn-11134207-820l4-mgtgnw3zzk7f51.webp",
+            "altText": "Trắng đầu vàng",
+            "width": 800,
+            "height": 800
+          },
+          "images": [
+            {
+              "url": "/images/products/1786790988953-vn-11134207-820l4-mgtgnw3zzk7f51.webp",
+              "altText": "Trắng đầu vàng",
+              "width": 800,
+              "height": 800
+            }
+          ]
+        },
+        {
+          "id": "var-1786791032245-2",
+          "title": "Trắng bạc",
+          "availableForSale": true,
+          "selectedOptions": [
+            {
+              "name": "Màu sắc",
+              "value": "Trắng bạc"
+            }
+          ],
+          "price": {
+            "amount": "79000",
+            "currencyCode": "VND"
+          },
+          "image": {
+            "url": "/images/products/1786790995875-vn-11134207-820l4-mgtgnzhwl4wba6.webp",
+            "altText": "Trắng bạc",
+            "width": 800,
+            "height": 800
+          },
+          "images": [
+            {
+              "url": "/images/products/1786790995875-vn-11134207-820l4-mgtgnzhwl4wba6.webp",
+              "altText": "Trắng bạc",
+              "width": 800,
+              "height": 800
+            }
+          ]
+        },
+        {
+          "id": "var-1786791032245-3",
+          "title": "Bạc Lưng Hồng",
+          "availableForSale": true,
+          "selectedOptions": [
+            {
+              "name": "Màu sắc",
+              "value": "Bạc Lưng Hồng"
+            }
+          ],
+          "price": {
+            "amount": "79000",
+            "currencyCode": "VND"
+          },
+          "image": {
+            "url": "/images/products/1786791005142-vn-11134207-820l4-mgtgmao1dv6645.webp",
+            "altText": "Bạc Lưng Hồng",
+            "width": 800,
+            "height": 800
+          },
+          "images": [
+            {
+              "url": "/images/products/1786791005142-vn-11134207-820l4-mgtgmao1dv6645.webp",
+              "altText": "Bạc Lưng Hồng",
+              "width": 800,
+              "height": 800
+            }
+          ]
+        },
+        {
+          "id": "var-1786791032245-4",
+          "title": "Vàng lưng đỏ",
+          "availableForSale": true,
+          "selectedOptions": [
+            {
+              "name": "Màu sắc",
+              "value": "Vàng lưng đỏ"
+            }
+          ],
+          "price": {
+            "amount": "79000",
+            "currencyCode": "VND"
+          },
+          "image": {
+            "url": "/images/products/1786791012836-vn-11134207-820l4-mgtgmanuk1sa77.webp",
+            "altText": "Vàng lưng đỏ",
+            "width": 800,
+            "height": 800
+          },
+          "images": [
+            {
+              "url": "/images/products/1786791012836-vn-11134207-820l4-mgtgmanuk1sa77.webp",
+              "altText": "Vàng lưng đỏ",
               "width": 800,
               "height": 800
             }
@@ -245,17 +357,59 @@
           "altText": "Mồi câu cá Barramundi S2",
           "width": 800,
           "height": 800
+        },
+        {
+          "url": "/images/products/1786791024082-vn-11134207-820l4-mgtgmaw8vdvx21.webp",
+          "altText": "Mồi câu cá Barramundi S2",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "url": "/images/products/1786791028143-vn-11134207-820l4-mgtgmawc9lak69.webp",
+          "altText": "Mồi câu cá Barramundi S2",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "url": "/images/products/1786790973788-vn-11134207-820l4-mgtgmanvszyj0e.webp",
+          "altText": "Mồi câu cá Barramundi S2",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "url": "/images/products/1786790988953-vn-11134207-820l4-mgtgnw3zzk7f51.webp",
+          "altText": "Mồi câu cá Barramundi S2",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "url": "/images/products/1786790995875-vn-11134207-820l4-mgtgnzhwl4wba6.webp",
+          "altText": "Mồi câu cá Barramundi S2",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "url": "/images/products/1786791005142-vn-11134207-820l4-mgtgmao1dv6645.webp",
+          "altText": "Mồi câu cá Barramundi S2",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "url": "/images/products/1786791012836-vn-11134207-820l4-mgtgmanuk1sa77.webp",
+          "altText": "Mồi câu cá Barramundi S2",
+          "width": 800,
+          "height": 800
         }
       ],
       "seo": {
         "title": "Mồi câu cá Barramundi S2",
-        "description": "Mồi câu cá Barramundi S2 chất lượng cao, nhạy cá."
+        "description": "Mồi câu cá Barramundi S2 cao cấp, chính hãng, giá tốt, giao hàng toàn quốc nhanh chóng."
       },
       "tags": [
         "moi-cau",
         "shopee-import"
       ],
-      "updatedAt": "2026-08-10T09:16:26.215Z",
+      "updatedAt": "2026-08-15T10:50:32.245Z",
       "collections": [
         "moi-cau"
       ]
