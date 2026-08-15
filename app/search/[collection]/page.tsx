@@ -9,9 +9,11 @@ import SortableProductList from "components/layout/sortable-product-list";
 
 export async function generateStaticParams() {
   const collections = await getCollections();
-  return collections.map((collection) => ({
-    collection: collection.handle,
-  }));
+  return collections
+    .filter((collection) => collection.handle)
+    .map((collection) => ({
+      collection: collection.handle,
+    }));
 }
 
 export async function generateMetadata(props: {

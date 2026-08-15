@@ -1,12 +1,12 @@
 import Footer from "components/layout/footer";
 import { ProductDetailView } from "components/product/product-detail-view";
 import { HIDDEN_PRODUCT_TAG } from "lib/constants";
-import { getProduct, getAllProductsSync } from "lib/local";
+import { getProduct, getProducts, getProductRecommendations } from "lib/local";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
-  const products = getAllProductsSync();
+  const products = await getProducts();
   return products.map((product) => ({
     handle: product.handle,
   }));
@@ -56,6 +56,8 @@ export default async function ProductPage(props: {
   const product = await getProduct(params.handle);
 
   if (!product) return notFound();
+  
+  const relatedProducts = await getProductRecommendations(product.id);
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -82,7 +84,7 @@ export default async function ProductPage(props: {
           __html: JSON.stringify(productJsonLd),
         }}
       />
-      <ProductDetailView initialProduct={product} handle={params.handle} />
+      <ProductDetailView initialProduct={product} relatedProducts={relatedProducts} handle={params.handle} />
       <Footer />
     </>
   );

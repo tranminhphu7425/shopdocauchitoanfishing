@@ -1,13 +1,10 @@
 "use client";
 
 import { createProductAction, updateProductAction } from "app/admin/actions";
-import {
-  saveLocalProductOverride,
-  savePendingImage,
-} from "lib/local/client-store";
 import { getImageCache, useCachedImageUrl } from "lib/local/image-cache";
 import { Product, ProductOption, ProductVariant } from "lib/local/types";
 import { useRouter } from "next/navigation";
+import { supabase } from "lib/supabase/client";
 import { useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -375,17 +372,25 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           .replace(/[\u0300-\u036f]/g, "")
           .replace(/[^a-z0-9.]+/g, "-");
         const filename = `${timestamp}-${cleanFileName}`;
-        const basePath =
-          process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
-        const relativeUrl = `${basePath}/images/products/${filename}`;
 
-        // Compress image to ~150KB Base64
-        const dataUrl = await compressImageFile(file);
+        // Upload to Supabase Storage
+        const { data, error } = await supabase.storage
+          .from("products")
+          .upload(filename, file, {
+            cacheControl: "3600",
+            upsert: false,
+          });
 
-        // Stage file in localStorage pending images list & image cache
-        savePendingImage(filename, dataUrl);
+        if (error) {
+          toast.error(`Lỗi tải ảnh: ${error.message}`);
+          continue;
+        }
 
-        generatedUrls.push(relativeUrl);
+        const { data: publicUrlData } = supabase.storage
+          .from("products")
+          .getPublicUrl(filename);
+
+        generatedUrls.push(publicUrlData.publicUrl);
       }
     }
 
@@ -406,7 +411,7 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
       }
     }
 
-    toast.success(`Đã lưu tạm ${generatedUrls.length} ảnh vào trình duyệt`);
+    toast.success(`Đã tải lên ${generatedUrls.length} ảnh thành công!`);
   };
 
   // Process gallery files
@@ -425,21 +430,31 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           .replace(/[\u0300-\u036f]/g, "")
           .replace(/[^a-z0-9.]+/g, "-");
         const filename = `${timestamp}-${cleanFileName}`;
-        const basePath =
-          process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
-        const relativeUrl = `${basePath}/images/products/${filename}`;
 
-        const dataUrl = await compressImageFile(file);
+        // Upload to Supabase
+        const { data, error } = await supabase.storage
+          .from("products")
+          .upload(filename, file, {
+            cacheControl: "3600",
+            upsert: false,
+          });
 
-        savePendingImage(filename, dataUrl);
+        if (error) {
+          toast.error(`Lỗi tải ảnh: ${error.message}`);
+          continue;
+        }
 
-        generatedUrls.push(relativeUrl);
+        const { data: publicUrlData } = supabase.storage
+          .from("products")
+          .getPublicUrl(filename);
+
+        generatedUrls.push(publicUrlData.publicUrl);
       }
     }
 
     setGalleryImages((prev) => [...prev, ...generatedUrls]);
     toast.success(
-      `Đã lưu tạm ${generatedUrls.length} ảnh bộ sưu tập vào trình duyệt`,
+      `Đã tải lên ${generatedUrls.length} ảnh bộ sưu tập thành công`,
     );
   };
 
@@ -683,8 +698,6 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
         updatedAt: new Date().toISOString(),
       };
 
-      // 1. Save locally to localStorage (Instant Staging)
-      saveLocalProductOverride(productData, initialData?.handle);
       if (initialData) {
         await updateProductAction(initialData.handle, productData);
       } else {
@@ -692,7 +705,7 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
       }
 
       toast.success(
-        `🎉 Đã lưu tạm sản phẩm "${title}" vào trình duyệt! Hãy bấm "Lưu thay đổi" ở trang Admin để cập nhật lên Server.`,
+        `🎉 Đã lưu sản phẩm "${title}" thành công!`,
       );
 
       router.push("/admin");

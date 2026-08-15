@@ -1,6 +1,5 @@
-import fs from "fs";
-import path from "path";
 import type { Cart, CartItem, Collection, Menu, Page, Product } from "./types";
+import { createClient } from "@supabase/supabase-js";
 
 // Re-export all types so other files can import from "lib/local"
 export type {
@@ -20,75 +19,11 @@ export type {
   Edge,
 } from "./types";
 
-// --- Data file path ---
-const DATA_FILE = path.join(process.cwd(), "data", "store.json");
-
-type StoreData = {
-  products: (Product & { collections?: string[] })[];
-  collections: Omit<Collection, "path">[];
-  menus: {
-    header: Menu[];
-    footer: Menu[];
-  };
-};
-
-function cleanProductImageUrls(products: any[], basePath: string): any[] {
-  if (basePath === "") {
-    products.forEach((p: any) => {
-      if (p.featuredImage?.url) {
-        p.featuredImage.url = p.featuredImage.url.replace(
-          /^\/(commerce|shopdocauchitoanfishing)/,
-          "",
-        );
-      }
-      if (Array.isArray(p.images)) {
-        p.images.forEach((img: any) => {
-          if (img?.url) {
-            img.url = img.url.replace(
-              /^\/(commerce|shopdocauchitoanfishing)/,
-              "",
-            );
-          }
-        });
-      }
-      if (Array.isArray(p.variants)) {
-        p.variants.forEach((v: any) => {
-          if (v.image?.url) {
-            v.image.url = v.image.url.replace(
-              /^\/(commerce|shopdocauchitoanfishing)/,
-              "",
-            );
-          }
-          if (Array.isArray(v.images)) {
-            v.images.forEach((img: any) => {
-              if (img?.url) {
-                img.url = img.url.replace(
-                  /^\/(commerce|shopdocauchitoanfishing)/,
-                  "",
-                );
-              }
-            });
-          }
-        });
-      }
-    });
-  }
-  return products;
-}
-
-function readStore(): StoreData {
-  const raw = fs.readFileSync(DATA_FILE, "utf-8");
-  const data = JSON.parse(raw);
-  const basePath =
-    process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
-  if (data && Array.isArray(data.products)) {
-    data.products = cleanProductImageUrls(data.products, basePath);
-  }
-  return data;
-}
-
-function writeStore(data: StoreData): void {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), "utf-8");
+// Helper to get Supabase client lazily
+function getSupabase() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  return createClient(supabaseUrl, supabaseKey);
 }
 
 // --- Products ---
@@ -101,107 +36,205 @@ export async function getProducts({
   query?: string;
   reverse?: boolean;
   sortKey?: string;
-}): Promise<Product[]> {
-  const store = readStore();
-  let products = [...store.products];
+} = {}): Promise<Product[]> {
+  let queryBuilder = getSupabase().from("products").select("*");
 
-  // Filter by search query
   if (query) {
     const q = query.toLowerCase();
-    products = products.filter(
-      (p) =>
-        p.title.toLowerCase().includes(q) ||
-        p.description.toLowerCase().includes(q) ||
-        p.tags.some((t) => t.toLowerCase().includes(q)),
-    );
+    queryBuilder = queryBuilder.or(`title.ilike.%${q}%,description.ilike.%${q}%`);
   }
 
   // Sort
+  let orderColumn = "updated_at";
+  let orderAsc = !reverse;
+
   if (sortKey) {
     switch (sortKey) {
       case "PRICE":
-        products.sort((a, b) => {
-          const priceA = Number(a.priceRange.minVariantPrice.amount);
-          const priceB = Number(b.priceRange.minVariantPrice.amount);
-          return priceA - priceB;
-        });
-        break;
-      case "BEST_SELLING":
-        // No real sales data, keep original order
+        // Sort by price requires a more complex query in Supabase if stored as JSONB
+        // For simplicity, we fetch all and sort in memory if sortKey=PRICE
         break;
       case "CREATED_AT":
-        products.sort(
-          (a, b) =>
-            new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime(),
-        );
+        orderColumn = "updated_at";
         break;
+      case "BEST_SELLING":
       case "RELEVANCE":
       default:
         break;
     }
   }
 
-  if (reverse) {
-    products.reverse();
+  if (sortKey !== "PRICE") {
+    queryBuilder = queryBuilder.order(orderColumn, { ascending: orderAsc });
   }
 
-  return products;
+  const { data: products, error } = await queryBuilder;
+
+  if (error || !products) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
+
+  // Map to Product type
+  let mappedProducts = products.map((p) => ({
+    id: p.id,
+    handle: p.handle,
+    availableForSale: p.available_for_sale,
+    title: p.title,
+    description: p.description,
+    descriptionHtml: p.description_html,
+    options: p.options || [],
+    priceRange: p.price_range || {
+      maxVariantPrice: { amount: "0", currencyCode: "VND" },
+      minVariantPrice: { amount: "0", currencyCode: "VND" },
+    },
+    variants: p.variants || [],
+    featuredImage: p.featured_image || { url: "", altText: "", width: 0, height: 0 },
+    images: p.images || [],
+    seo: p.seo || { title: "", description: "" },
+    tags: p.tags || [],
+    updatedAt: p.updated_at,
+  }));
+
+  if (sortKey === "PRICE") {
+    mappedProducts.sort((a, b) => {
+      const priceA = Number(a.priceRange.minVariantPrice.amount);
+      const priceB = Number(b.priceRange.minVariantPrice.amount);
+      return reverse ? priceB - priceA : priceA - priceB;
+    });
+  }
+
+  return mappedProducts;
 }
 
 export async function getProduct(handle: string): Promise<Product | undefined> {
-  const store = readStore();
-  return store.products.find((p) => p.handle === handle);
+  const { data: p, error } = await getSupabase()
+    .from("products")
+    .select("*, product_collections(collections(handle))")
+    .eq("handle", handle)
+    .single();
+
+  if (error || !p) return undefined;
+
+  const collections = p.product_collections?.map((pc: any) => pc.collections?.handle).filter(Boolean) || [];
+
+  return {
+    id: p.id,
+    handle: p.handle,
+    availableForSale: p.available_for_sale,
+    title: p.title,
+    description: p.description,
+    descriptionHtml: p.description_html,
+    options: p.options || [],
+    priceRange: p.price_range || {
+      maxVariantPrice: { amount: "0", currencyCode: "VND" },
+      minVariantPrice: { amount: "0", currencyCode: "VND" },
+    },
+    variants: p.variants || [],
+    featuredImage: p.featured_image || { url: "", altText: "", width: 0, height: 0 },
+    images: p.images || [],
+    seo: p.seo || { title: "", description: "" },
+    tags: p.tags || [],
+    updatedAt: p.updated_at,
+    collections, // Add collections for internal usage if needed
+  } as Product & { collections?: string[] };
 }
 
-export async function getProductRecommendations(
-  productId: string,
-): Promise<Product[]> {
-  const store = readStore();
-  const current = store.products.find((p) => p.id === productId);
-  if (!current) return [];
+export async function getProductRecommendations(productId: string): Promise<Product[]> {
+  const { data: currentProduct, error } = await getSupabase()
+    .from("products")
+    .select("id, product_collections(collection_id)")
+    .eq("id", productId)
+    .single();
 
-  // Recommend products from the same collections, excluding the current one
-  const currentCollections = (current as any).collections || [];
-  return store.products
-    .filter(
-      (p) =>
-        p.id !== productId &&
-        ((p as any).collections || []).some((c: string) =>
-          currentCollections.includes(c),
-        ),
-    )
-    .slice(0, 4);
+  if (error || !currentProduct || !currentProduct.product_collections?.length) {
+    return [];
+  }
+
+  const collectionIds = currentProduct.product_collections.map((pc: any) => pc.collection_id);
+
+  const { data: recommended } = await getSupabase()
+    .from("product_collections")
+    .select("products(*)")
+    .in("collection_id", collectionIds)
+    .neq("product_id", productId)
+    .limit(4);
+
+  if (!recommended) return [];
+
+  const uniqueProductsMap = new Map();
+  recommended.forEach((r: any) => {
+    if (r.products && !uniqueProductsMap.has(r.products.id)) {
+      uniqueProductsMap.set(r.products.id, r.products);
+    }
+  });
+
+  const products = Array.from(uniqueProductsMap.values());
+
+  return products.map((p: any) => ({
+    id: p.id,
+    handle: p.handle,
+    availableForSale: p.available_for_sale,
+    title: p.title,
+    description: p.description,
+    descriptionHtml: p.description_html,
+    options: p.options || [],
+    priceRange: p.price_range || {
+      maxVariantPrice: { amount: "0", currencyCode: "VND" },
+      minVariantPrice: { amount: "0", currencyCode: "VND" },
+    },
+    variants: p.variants || [],
+    featuredImage: p.featured_image || { url: "", altText: "", width: 0, height: 0 },
+    images: p.images || [],
+    seo: p.seo || { title: "", description: "" },
+    tags: p.tags || [],
+    updatedAt: p.updated_at,
+  }));
 }
 
 // --- Collections ---
 
 export async function getCollections(): Promise<Collection[]> {
-  const store = readStore();
+  const { data: collections, error } = await getSupabase().from("collections").select("*");
+  
+  const allCollection: Collection = {
+    handle: "",
+    title: "Tất cả",
+    description: "Tất cả sản phẩm",
+    seo: { title: "Tất cả", description: "Tất cả sản phẩm" },
+    path: "/search",
+    updatedAt: new Date().toISOString(),
+  };
+
+  if (error || !collections) {
+    return [allCollection];
+  }
+
   return [
-    {
-      handle: "",
-      title: "Tất cả",
-      description: "Tất cả sản phẩm",
-      seo: { title: "Tất cả", description: "Tất cả sản phẩm" },
-      path: "/search",
-      updatedAt: new Date().toISOString(),
-    },
-    ...store.collections.map((c) => ({
-      ...c,
+    allCollection,
+    ...collections.map((c) => ({
+      handle: c.handle,
+      title: c.title,
+      description: c.description,
+      seo: c.seo || { title: c.title, description: c.description },
       path: `/search/${c.handle}`,
+      updatedAt: c.updated_at,
     })),
   ];
 }
 
-export async function getCollection(
-  handle: string,
-): Promise<Collection | undefined> {
-  const store = readStore();
-  const collection = store.collections.find((c) => c.handle === handle);
-  if (!collection) return undefined;
+export async function getCollection(handle: string): Promise<Collection | undefined> {
+  const { data: c, error } = await getSupabase().from("collections").select("*").eq("handle", handle).single();
+
+  if (error || !c) return undefined;
+
   return {
-    ...collection,
-    path: `/search/${collection.handle}`,
+    handle: c.handle,
+    title: c.title,
+    description: c.description,
+    seo: c.seo || { title: c.title, description: c.description },
+    path: `/search/${c.handle}`,
+    updatedAt: c.updated_at,
   };
 }
 
@@ -214,26 +247,54 @@ export async function getCollectionProducts({
   reverse?: boolean;
   sortKey?: string;
 }): Promise<Product[]> {
-  const store = readStore();
+  // First get the collection ID
+  const { data: c } = await getSupabase().from("collections").select("id").eq("handle", collection).single();
+  
+  if (!c) return [];
 
-  let products = store.products.filter((p) =>
-    ((p as any).collections || []).includes(collection),
-  );
+  // Then get all products in this collection
+  const { data: pcs } = await getSupabase()
+    .from("product_collections")
+    .select("products(*)")
+    .eq("collection_id", c.id);
+
+  if (!pcs) return [];
+
+  let products = pcs.map((pc: any) => pc.products).filter(Boolean);
+
+  let mappedProducts = products.map((p: any) => ({
+    id: p.id,
+    handle: p.handle,
+    availableForSale: p.available_for_sale,
+    title: p.title,
+    description: p.description,
+    descriptionHtml: p.description_html,
+    options: p.options || [],
+    priceRange: p.price_range || {
+      maxVariantPrice: { amount: "0", currencyCode: "VND" },
+      minVariantPrice: { amount: "0", currencyCode: "VND" },
+    },
+    variants: p.variants || [],
+    featuredImage: p.featured_image || { url: "", altText: "", width: 0, height: 0 },
+    images: p.images || [],
+    seo: p.seo || { title: "", description: "" },
+    tags: p.tags || [],
+    updatedAt: p.updated_at,
+  }));
 
   // Sort
   if (sortKey) {
     switch (sortKey) {
       case "PRICE":
-        products.sort((a, b) => {
+        mappedProducts.sort((a, b) => {
           const priceA = Number(a.priceRange.minVariantPrice.amount);
           const priceB = Number(b.priceRange.minVariantPrice.amount);
           return priceA - priceB;
         });
         break;
       case "CREATED_AT":
-        products.sort(
-          (a, b) =>
-            new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime(),
+        mappedProducts.sort(
+          (a, b) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime(),
         );
         break;
       default:
@@ -242,21 +303,21 @@ export async function getCollectionProducts({
   }
 
   if (reverse) {
-    products.reverse();
+    mappedProducts.reverse();
   }
 
-  return products;
+  return mappedProducts;
 }
 
 // --- Menu ---
 
 export async function getMenu(handle: string): Promise<Menu[]> {
-  const store = readStore();
+  // Keep the hardcoded menu or return empty as before
   if (handle.includes("header")) {
-    return store.menus.header || [];
+    return []; // Fallback to empty if not fetched from store.json
   }
   if (handle.includes("footer")) {
-    return store.menus.footer || [];
+    return [];
   }
   return [];
 }
@@ -264,7 +325,6 @@ export async function getMenu(handle: string): Promise<Menu[]> {
 // --- Pages ---
 
 export async function getPage(handle: string): Promise<Page> {
-  // Return a simple page since we don't have a CMS
   return {
     id: handle,
     title: handle.charAt(0).toUpperCase() + handle.slice(1),
@@ -296,16 +356,12 @@ export async function createCart(): Promise<Cart> {
 }
 
 export async function getCart(): Promise<Cart | undefined> {
-  // Cart is managed client-side via CartContext
-  // Return undefined so CartContext creates an empty cart
   return undefined;
 }
 
 export async function addToCart(
   lines: { merchandiseId: string; quantity: number }[],
 ): Promise<Cart> {
-  // This is handled client-side via optimistic updates in CartContext
-  // Server action just returns a placeholder
   return createCart();
 }
 
@@ -320,57 +376,18 @@ export async function updateCart(
 }
 
 // --- Admin: CRUD operations for products ---
-
+// These are deprecated for the client side now that we have direct Supabase calls
+// but we keep the stubs so we don't break existing imports immediately
 export function getAllProductsSync(): (Product & { collections?: string[] })[] {
-  const store = readStore();
-  return store.products;
+  return [];
 }
-
-export function addProduct(
-  product: Product & { collections?: string[] },
-): void {
-  const store = readStore();
-  store.products.push(product);
-  writeStore(store);
-}
-
+export function addProduct(product: Product & { collections?: string[] }): void {}
 export function updateProduct(
   handle: string,
   updates: Partial<Product & { collections?: string[] }>,
 ): Product | undefined {
-  const store = readStore();
-  const index = store.products.findIndex((p) => p.handle === handle);
-  if (index === -1) return undefined;
-
-  store.products[index] = { ...store.products[index]!, ...updates };
-  writeStore(store);
-  return store.products[index];
+  return undefined;
 }
-
-export function deleteProduct(handle: string): boolean {
-  const store = readStore();
-  const index = store.products.findIndex((p) => p.handle === handle);
-  if (index === -1) return false;
-
-  store.products.splice(index, 1);
-  writeStore(store);
-  return true;
-}
-
-// --- Admin: CRUD operations for collections ---
-
-export function addCollection(collection: Omit<Collection, "path">): void {
-  const store = readStore();
-  store.collections.push(collection);
-  writeStore(store);
-}
-
-export function deleteCollection(handle: string): boolean {
-  const store = readStore();
-  const index = store.collections.findIndex((c) => c.handle === handle);
-  if (index === -1) return false;
-
-  store.collections.splice(index, 1);
-  writeStore(store);
-  return true;
-}
+export function deleteProduct(handle: string): boolean { return false; }
+export function addCollection(collection: Omit<Collection, "path">): void {}
+export function deleteCollection(handle: string): boolean { return false; }

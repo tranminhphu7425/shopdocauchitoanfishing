@@ -4,7 +4,6 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { Product } from "lib/local/types";
 import { sorting, defaultSort } from "lib/constants";
-import { useDynamicProducts } from "lib/local/client-store";
 import ProductGridItems from "./product-grid-items";
 import Grid from "components/grid";
 import { createUrl } from "lib/utils";
@@ -16,7 +15,6 @@ export default function SortableProductList({
 }: {
   products: Product[];
 }) {
-  const dynamicProducts = useDynamicProducts(products);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -44,7 +42,7 @@ export default function SortableProductList({
   const { sortKey, reverse } =
     sorting.find((item) => item.slug === sort) || defaultSort;
 
-  let processedProducts = [...dynamicProducts];
+  let processedProducts = [...products];
 
   // 1. Client-side filtering for search query
   if (query) {

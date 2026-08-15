@@ -1,10 +1,10 @@
 import { ProductForm } from "components/admin/product-form";
-import { getProduct, getAllProductsSync } from "lib/local";
+import { getProduct, getProducts } from "lib/local";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
-  const products = getAllProductsSync();
+  const products = await getProducts();
   return products.map((product) => ({
     handle: product.handle,
   }));

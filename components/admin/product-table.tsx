@@ -2,13 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Product } from "lib/local";
-import { getGitHubConfig } from "lib/github";
 import { toast } from "sonner";
-import {
-  deleteLocalProductOverride,
-  mergeProductsWithLocalOverride,
-} from "lib/local/client-store";
 import { useCachedImageUrl, getImageCache } from "lib/local/image-cache";
 import { formatImageUrl } from "lib/site-config";
 
@@ -34,29 +28,18 @@ function TableProductImage({ src, alt }: { src: string; alt: string }) {
 export function ProductTable({
   products: initialProducts,
 }: {
-  products: (Product & { collections?: string[] })[];
+  products: any[];
 }) {
-  const [productList, setProductList] = useState(() =>
-    mergeProductsWithLocalOverride(initialProducts),
-  );
+  const [productList, setProductList] = useState(initialProducts);
 
   useEffect(() => {
-    const sync = () => {
-      setProductList(mergeProductsWithLocalOverride(initialProducts));
-    };
-    sync();
-    window.addEventListener("commerce-store-updated", sync);
-    return () => window.removeEventListener("commerce-store-updated", sync);
+    setProductList(initialProducts);
   }, [initialProducts]);
 
   const handleDelete = async (handle: string, title: string) => {
     if (confirm(`Bạn có chắc muốn xóa sản phẩm "${title}"?`)) {
-      // 1. Delete locally & update state immediately (Staged in localStorage)
-      deleteLocalProductOverride(handle);
       setProductList((prev) => prev.filter((p) => p.handle !== handle));
-      toast.success(
-        `🎉 Đã xóa tạm thời sản phẩm "${title}"! Hãy bấm "Lưu thay đổi" để cập nhật lên Server.`,
-      );
+      toast.success(`Đã xóa sản phẩm "${title}"`);
 
       const { deleteProductAction } = await import("app/admin/actions");
       await deleteProductAction(handle);

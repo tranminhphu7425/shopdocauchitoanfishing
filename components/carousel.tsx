@@ -2,7 +2,6 @@
 
 import type { Product } from "lib/local/types";
 import { getCheapestVariantDiscount } from "lib/local/discount";
-import { useDynamicProducts } from "lib/local/client-store";
 import Link from "next/link";
 import { GridTileImage } from "./grid/tile";
 
@@ -11,14 +10,12 @@ export function Carousel({
 }: {
   initialProducts?: Product[];
 }) {
-  const dynamicProducts = useDynamicProducts(initialProducts);
-
-  const featuredProducts = dynamicProducts.filter((p) =>
+  const featuredProducts = initialProducts.filter((p) =>
     ((p as any).collections || []).includes("featured"),
   );
 
   const products =
-    featuredProducts.length > 0 ? featuredProducts : dynamicProducts;
+    featuredProducts.length > 0 ? featuredProducts : initialProducts;
 
   if (!products?.length) return null;
 
