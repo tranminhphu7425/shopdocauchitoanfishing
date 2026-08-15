@@ -18,8 +18,9 @@ export function ProductDetailView({
 }) {
   const dynamicProducts = useDynamicProducts([initialProduct]);
   const currentProduct =
-    dynamicProducts.find((p) => p.handle === handle || p.id === initialProduct.id) ||
-    initialProduct;
+    dynamicProducts.find(
+      (p) => p.handle === handle || p.id === initialProduct.id,
+    ) || initialProduct;
 
   const currentCollections = (currentProduct as any).collections || [];
   const relatedProducts = dynamicProducts
@@ -27,13 +28,15 @@ export function ProductDetailView({
       (p) =>
         p.id !== currentProduct.id &&
         ((p as any).collections || []).some((c: string) =>
-          currentCollections.includes(c)
-        )
+          currentCollections.includes(c),
+        ),
     )
     .slice(0, 4);
 
   // Client-side states for instant UX
-  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
+  const [selectedOptions, setSelectedOptions] = useState<
+    Record<string, string>
+  >({});
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
 
   // Initialize options and image from URL on mount, or fallback to first variant
@@ -52,7 +55,7 @@ export function ProductDetailView({
 
     // Default missing options to the first variant's selected options
     const missingOptions = currentProduct.options.some(
-      (opt) => !initialOpts[opt.name.toLowerCase()]
+      (opt) => !initialOpts[opt.name.toLowerCase()],
     );
     if (missingOptions && currentProduct.variants.length > 0) {
       const firstVariant = currentProduct.variants[0];
@@ -80,12 +83,14 @@ export function ProductDetailView({
     if (currentProduct.variants.length > 0) {
       const activeVariant = currentProduct.variants.find((v) =>
         v.selectedOptions.every(
-          (o) => o.value === initialOpts[o.name.toLowerCase()]
-        )
+          (o) => o.value === initialOpts[o.name.toLowerCase()],
+        ),
       );
       if (activeVariant) {
         const variantImageIndex = currentProduct.images.findIndex(
-          (img) => img.url === activeVariant.images?.[0]?.url || img.url === activeVariant.image?.url
+          (img) =>
+            img.url === activeVariant.images?.[0]?.url ||
+            img.url === activeVariant.image?.url,
         );
         if (variantImageIndex !== -1) {
           setSelectedImageIndex(variantImageIndex);
@@ -97,7 +102,10 @@ export function ProductDetailView({
   }, [currentProduct]);
 
   // Helper to update the browser URL search params without triggering RSC load
-  const updateUrl = (options: Record<string, string>, imageIndex?: number | null) => {
+  const updateUrl = (
+    options: Record<string, string>,
+    imageIndex?: number | null,
+  ) => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams();
     Object.entries(options).forEach(([k, v]) => {
@@ -108,7 +116,11 @@ export function ProductDetailView({
     }
     const queryString = params.toString();
     const newUrl = `${window.location.pathname}${queryString ? `?${queryString}` : ""}`;
-    window.history.replaceState({ ...window.history.state, as: newUrl, url: newUrl }, "", newUrl);
+    window.history.replaceState(
+      { ...window.history.state, as: newUrl, url: newUrl },
+      "",
+      newUrl,
+    );
   };
 
   const handleVariantChange = (name: string, value: string) => {
@@ -120,14 +132,14 @@ export function ProductDetailView({
 
     // Auto switch gallery image to variant's image if available
     const activeVariant = currentProduct.variants.find((v) =>
-      v.selectedOptions.every(
-        (o) => o.value === newOpts[o.name.toLowerCase()]
-      )
+      v.selectedOptions.every((o) => o.value === newOpts[o.name.toLowerCase()]),
     );
     let newImageIndex = selectedImageIndex;
     if (activeVariant) {
       const variantImageIndex = currentProduct.images.findIndex(
-        (img) => img.url === activeVariant.images?.[0]?.url || img.url === activeVariant.image?.url
+        (img) =>
+          img.url === activeVariant.images?.[0]?.url ||
+          img.url === activeVariant.image?.url,
       );
       if (variantImageIndex !== -1) {
         setSelectedImageIndex(variantImageIndex);
@@ -181,7 +193,8 @@ export function ProductDetailView({
           <h2 className="mb-4 text-2xl font-bold">Sản phẩm liên quan</h2>
           <ul className="flex w-full gap-4 overflow-x-auto pt-1">
             {relatedProducts.map((product) => {
-              const { discountPercent, minPrice, compareAtAmount } = getCheapestVariantDiscount(product);
+              const { discountPercent, minPrice, compareAtAmount } =
+                getCheapestVariantDiscount(product);
               return (
                 <li
                   key={product.handle}
@@ -197,7 +210,8 @@ export function ProductDetailView({
                       label={{
                         title: product.title,
                         amount: minPrice,
-                        currencyCode: product.priceRange.minVariantPrice.currencyCode,
+                        currencyCode:
+                          product.priceRange.minVariantPrice.currencyCode,
                         compareAtAmount: compareAtAmount,
                       }}
                       discountPercent={discountPercent}

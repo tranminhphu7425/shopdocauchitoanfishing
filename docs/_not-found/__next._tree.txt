@@ -1,2 +1,2 @@
-:HL["/_next/static/chunks/1t3wtlnl97mml.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"r6cFj9bts3f5r_Q8NlIYc"}
+:HL["/shopdocauchitoanfishing/_next/static/chunks/0jwk0idaq9ni4.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"tP5KYN1b00rpQxFy_5teV"}

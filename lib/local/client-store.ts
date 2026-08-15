@@ -2,7 +2,11 @@
 
 import { useState, useEffect } from "react";
 import type { Product } from "./types";
-import { getGitHubConfig, commitMultipleFilesToGitHub, FileToCommit } from "lib/github";
+import {
+  getGitHubConfig,
+  commitMultipleFilesToGitHub,
+  FileToCommit,
+} from "lib/github";
 import { saveImageCache, getImageCache, extractFilename } from "./image-cache";
 import type { GitHubConfig } from "lib/github";
 
@@ -47,7 +51,9 @@ function extractActiveImageFilenames(products: any[]): Set<string> {
 /**
  * Fetch list of physical image filenames currently on GitHub in public/images/products
  */
-async function getRemoteImageFilenamesOnGitHub(config: GitHubConfig): Promise<string[]> {
+async function getRemoteImageFilenamesOnGitHub(
+  config: GitHubConfig,
+): Promise<string[]> {
   const { owner, repo, token, branch = "main" } = config;
   try {
     const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/public/images/products?ref=${branch}`;
@@ -91,27 +97,32 @@ export interface PendingImage {
 function utf8ToBase64(str: string): string {
   return btoa(
     encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, p1) =>
-      String.fromCharCode(parseInt(p1, 16))
-    )
+      String.fromCharCode(parseInt(p1, 16)),
+    ),
   );
 }
 
 function base64ToUtf8(str: string): string {
   return decodeURIComponent(
     Array.prototype.map
-      .call(atob(str.replace(/\n/g, "")), (c: string) =>
-        "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)
+      .call(
+        atob(str.replace(/\n/g, "")),
+        (c: string) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2),
       )
-      .join("")
+      .join(""),
   );
 }
 
 // --- Product Overrides ---
 
-export function getLocalProductsOverride(): (Product & { collections?: string[] })[] {
+export function getLocalProductsOverride(): (Product & {
+  collections?: string[];
+})[] {
   if (typeof window === "undefined") return [];
   try {
-    const data = localStorage.getItem(OVERRIDE_KEY) || localStorage.getItem(FALLBACK_OVERRIDE_KEY);
+    const data =
+      localStorage.getItem(OVERRIDE_KEY) ||
+      localStorage.getItem(FALLBACK_OVERRIDE_KEY);
     return data ? JSON.parse(data) : [];
   } catch {
     return [];
@@ -120,13 +131,13 @@ export function getLocalProductsOverride(): (Product & { collections?: string[] 
 
 export function saveLocalProductOverride(
   product: Product & { collections?: string[] },
-  oldHandle?: string
+  oldHandle?: string,
 ): void {
   if (typeof window === "undefined") return;
   const list = getLocalProductsOverride();
   const targetHandle = oldHandle || product.handle;
   const index = list.findIndex(
-    (p) => p.handle === targetHandle || p.id === product.id
+    (p) => p.handle === targetHandle || p.id === product.id,
   );
 
   if (index !== -1) {
@@ -146,7 +157,9 @@ export function saveLocalProductOverride(
   } catch (err) {
     console.warn("Could not save products override to localStorage:", err);
   }
-  window.dispatchEvent(new CustomEvent("shopdocauchitoanfishing-store-updated"));
+  window.dispatchEvent(
+    new CustomEvent("shopdocauchitoanfishing-store-updated"),
+  );
   window.dispatchEvent(new CustomEvent("commerce-store-updated"));
 }
 
@@ -159,7 +172,9 @@ export function removeLocalProductOverride(handle: string): void {
   } catch (err) {
     console.warn("Could not save products override to localStorage:", err);
   }
-  window.dispatchEvent(new CustomEvent("shopdocauchitoanfishing-store-updated"));
+  window.dispatchEvent(
+    new CustomEvent("shopdocauchitoanfishing-store-updated"),
+  );
   window.dispatchEvent(new CustomEvent("commerce-store-updated"));
 }
 
@@ -170,7 +185,9 @@ export function deleteLocalProductOverride(handle: string): void {
 export function getDeletedHandles(): string[] {
   if (typeof window === "undefined") return [];
   try {
-    const data = localStorage.getItem(DELETED_HANDLES_KEY) || localStorage.getItem(FALLBACK_DELETED_HANDLES_KEY);
+    const data =
+      localStorage.getItem(DELETED_HANDLES_KEY) ||
+      localStorage.getItem(FALLBACK_DELETED_HANDLES_KEY);
     return data ? JSON.parse(data) : [];
   } catch {
     return [];
@@ -178,7 +195,7 @@ export function getDeletedHandles(): string[] {
 }
 
 export function mergeProductsWithLocalOverride(
-  baseProducts: (Product & { collections?: string[] })[]
+  baseProducts: (Product & { collections?: string[] })[],
 ): (Product & { collections?: string[] })[] {
   if (typeof window === "undefined") return baseProducts;
   const overrides = getLocalProductsOverride();
@@ -189,7 +206,7 @@ export function mergeProductsWithLocalOverride(
   overrides.forEach((override) => {
     if (deletedHandles.includes(override.handle)) return;
     const idx = result.findIndex(
-      (p) => p.handle === override.handle || p.id === override.id
+      (p) => p.handle === override.handle || p.id === override.id,
     );
     if (idx !== -1) {
       result[idx] = { ...result[idx], ...override };
@@ -206,7 +223,9 @@ export function mergeProductsWithLocalOverride(
 export function getPendingImagesMap(): Record<string, string> {
   if (typeof window === "undefined") return {};
   try {
-    const raw = localStorage.getItem(PENDING_IMAGES_KEY) || localStorage.getItem(FALLBACK_PENDING_IMAGES_KEY);
+    const raw =
+      localStorage.getItem(PENDING_IMAGES_KEY) ||
+      localStorage.getItem(FALLBACK_PENDING_IMAGES_KEY);
     return raw ? JSON.parse(raw) : {};
   } catch {
     return {};
@@ -215,9 +234,10 @@ export function getPendingImagesMap(): Record<string, string> {
 
 export function savePendingImage(
   filenameOrPath: string,
-  base64Content: string
+  base64Content: string,
 ): void {
-  if (typeof window === "undefined" || !filenameOrPath || !base64Content) return;
+  if (typeof window === "undefined" || !filenameOrPath || !base64Content)
+    return;
 
   try {
     // Extract clean filename (e.g. 17845-image.jpg)
@@ -225,7 +245,8 @@ export function savePendingImage(
       .replace(/^(public|docs)\/images\/products\//, "")
       .replace(/^\/(commerce|shopdocauchitoanfishing)\/images\/products\//, "");
 
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
+    const basePath =
+      process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
     const relativeUrl = `${basePath}/images/products/${cleanFilename}`;
     saveImageCache(relativeUrl, base64Content);
 
@@ -238,9 +259,14 @@ export function savePendingImage(
     try {
       localStorage.setItem(PENDING_IMAGES_KEY, JSON.stringify(map));
     } catch (quotaErr) {
-      console.warn("Could not save pending image to localStorage (quota reached), RAM cache will serve image preview:", quotaErr);
+      console.warn(
+        "Could not save pending image to localStorage (quota reached), RAM cache will serve image preview:",
+        quotaErr,
+      );
     }
-    window.dispatchEvent(new CustomEvent("shopdocauchitoanfishing-store-updated"));
+    window.dispatchEvent(
+      new CustomEvent("shopdocauchitoanfishing-store-updated"),
+    );
     window.dispatchEvent(new CustomEvent("commerce-store-updated"));
   } catch (err) {
     console.warn("Could not save pending image to localStorage:", err);
@@ -271,7 +297,9 @@ export function clearPendingImages(): void {
   if (typeof window === "undefined") return;
   localStorage.removeItem(PENDING_IMAGES_KEY);
   localStorage.removeItem(FALLBACK_PENDING_IMAGES_KEY);
-  window.dispatchEvent(new CustomEvent("shopdocauchitoanfishing-store-updated"));
+  window.dispatchEvent(
+    new CustomEvent("shopdocauchitoanfishing-store-updated"),
+  );
   window.dispatchEvent(new CustomEvent("commerce-store-updated"));
 }
 
@@ -280,7 +308,9 @@ export function clearAllLocalOverridesAndPending(): void {
   localStorage.removeItem(OVERRIDE_KEY);
   localStorage.removeItem(PENDING_IMAGES_KEY);
   localStorage.removeItem(DELETED_HANDLES_KEY);
-  window.dispatchEvent(new CustomEvent("shopdocauchitoanfishing-store-updated"));
+  window.dispatchEvent(
+    new CustomEvent("shopdocauchitoanfishing-store-updated"),
+  );
   window.dispatchEvent(new CustomEvent("commerce-store-updated"));
 }
 
@@ -315,12 +345,16 @@ export function markHandleDeleted(handle: string): void {
     }
   }
   // Also remove from overrides list if present
-  const overrides = getLocalProductsOverride().filter((p) => p.handle !== handle);
+  const overrides = getLocalProductsOverride().filter(
+    (p) => p.handle !== handle,
+  );
   try {
     localStorage.setItem(OVERRIDE_KEY, JSON.stringify(overrides));
-  } catch { }
+  } catch {}
 
-  window.dispatchEvent(new CustomEvent("shopdocauchitoanfishing-store-updated"));
+  window.dispatchEvent(
+    new CustomEvent("shopdocauchitoanfishing-store-updated"),
+  );
   window.dispatchEvent(new CustomEvent("commerce-store-updated"));
 }
 
@@ -338,24 +372,36 @@ function cleanProductImageUrls(products: any[], basePath: string): any[] {
   if (basePath === "") {
     products.forEach((p: any) => {
       if (p.featuredImage?.url) {
-        p.featuredImage.url = p.featuredImage.url.replace(/^\/(commerce|shopdocauchitoanfishing)/, "");
+        p.featuredImage.url = p.featuredImage.url.replace(
+          /^\/(commerce|shopdocauchitoanfishing)/,
+          "",
+        );
       }
       if (Array.isArray(p.images)) {
         p.images.forEach((img: any) => {
           if (img?.url) {
-            img.url = img.url.replace(/^\/(commerce|shopdocauchitoanfishing)/, "");
+            img.url = img.url.replace(
+              /^\/(commerce|shopdocauchitoanfishing)/,
+              "",
+            );
           }
         });
       }
       if (Array.isArray(p.variants)) {
         p.variants.forEach((v: any) => {
           if (v.image?.url) {
-            v.image.url = v.image.url.replace(/^\/(commerce|shopdocauchitoanfishing)/, "");
+            v.image.url = v.image.url.replace(
+              /^\/(commerce|shopdocauchitoanfishing)/,
+              "",
+            );
           }
           if (Array.isArray(v.images)) {
             v.images.forEach((img: any) => {
               if (img?.url) {
-                img.url = img.url.replace(/^\/(commerce|shopdocauchitoanfishing)/, "");
+                img.url = img.url.replace(
+                  /^\/(commerce|shopdocauchitoanfishing)/,
+                  "",
+                );
               }
             });
           }
@@ -369,11 +415,14 @@ function cleanProductImageUrls(products: any[], basePath: string): any[] {
 /**
  * Fetch latest store.json dynamically from public/data/store.json over HTTP
  */
-export async function fetchRemoteStoreData(): Promise<(Product & { collections?: string[] })[] | null> {
+export async function fetchRemoteStoreData(): Promise<
+  (Product & { collections?: string[] })[] | null
+> {
   if (typeof window === "undefined") return null;
   try {
     const timestamp = Date.now();
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
+    const basePath =
+      process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
     const paths = [
       `${basePath}/data/store.json?t=${timestamp}`,
       `/shopdocauchitoanfishing/data/store.json?t=${timestamp}`,
@@ -405,10 +454,10 @@ export async function fetchRemoteStoreData(): Promise<(Product & { collections?:
  * React hook to get dynamically updated products in Client Components
  */
 export function useDynamicProducts(
-  initialProducts: (Product & { collections?: string[] })[] = []
+  initialProducts: (Product & { collections?: string[] })[] = [],
 ) {
   const [products, setProducts] = useState(() =>
-    mergeProductsWithLocalOverride(initialProducts)
+    mergeProductsWithLocalOverride(initialProducts),
   );
 
   const initialProductIds = initialProducts.map((p) => p.id).join(",");
@@ -495,7 +544,7 @@ export async function commitPendingChangesToGitHub(): Promise<{
     const deleted = getDeletedHandles();
     if (deleted.length > 0) {
       storeJson.products = storeJson.products.filter(
-        (p: any) => !deleted.includes(p.handle)
+        (p: any) => !deleted.includes(p.handle),
       );
     }
 
@@ -503,7 +552,7 @@ export async function commitPendingChangesToGitHub(): Promise<{
     const overrides = getLocalProductsOverride();
     overrides.forEach((override) => {
       const idx = storeJson.products.findIndex(
-        (p: any) => p.handle === override.handle || p.id === override.id
+        (p: any) => p.handle === override.handle || p.id === override.id,
       );
       if (idx !== -1) {
         storeJson.products[idx] = { ...storeJson.products[idx], ...override };
@@ -548,7 +597,9 @@ export async function commitPendingChangesToGitHub(): Promise<{
     // 6. Detect orphaned/unused physical image files on GitHub Repo
     const activeFilenames = extractActiveImageFilenames(storeJson.products);
     const remoteFilenames = await getRemoteImageFilenamesOnGitHub(config);
-    const orphanFilenames = remoteFilenames.filter((fn) => !activeFilenames.has(fn));
+    const orphanFilenames = remoteFilenames.filter(
+      (fn) => !activeFilenames.has(fn),
+    );
 
     let deletedOrphanCount = 0;
     orphanFilenames.forEach((fn) => {
@@ -581,7 +632,8 @@ export async function commitPendingChangesToGitHub(): Promise<{
   } catch (err: any) {
     return {
       success: false,
-      error: err.message || "Lỗi xảy ra trong quá trình đồng bộ dữ liệu lên máy chủ",
+      error:
+        err.message || "Lỗi xảy ra trong quá trình đồng bộ dữ liệu lên máy chủ",
     };
   }
 }

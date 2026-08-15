@@ -65,7 +65,9 @@ export function VariantSelector({
             // Base option params on current searchParams so we can preserve any other param state.
             const optionParams: Record<string, string> = {};
             if (selectedOptions) {
-              Object.entries(selectedOptions).forEach(([k, v]) => (optionParams[k] = v));
+              Object.entries(selectedOptions).forEach(
+                ([k, v]) => (optionParams[k] = v),
+              );
             } else {
               searchParams.forEach((v, k) => (optionParams[k] = v));
             }

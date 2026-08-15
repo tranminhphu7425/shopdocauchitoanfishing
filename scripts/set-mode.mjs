@@ -25,15 +25,18 @@ let updatedContent = "";
 if (envContent.includes("NEXT_PUBLIC_BASE_PATH=")) {
   updatedContent = envContent.replace(
     /NEXT_PUBLIC_BASE_PATH=.*/g,
-    `NEXT_PUBLIC_BASE_PATH=${newBasePath}`
+    `NEXT_PUBLIC_BASE_PATH=${newBasePath}`,
   );
 } else {
-  updatedContent = envContent.trim() + `\nNEXT_PUBLIC_BASE_PATH=${newBasePath}\n`;
+  updatedContent =
+    envContent.trim() + `\nNEXT_PUBLIC_BASE_PATH=${newBasePath}\n`;
 }
 
 fs.writeFileSync(envLocalPath, updatedContent, "utf-8");
 
 console.log(`\n✅ Đã chuyển đổi chế độ deployment thành thành công!`);
-console.log(`📌 Chế độ: ${mode === "domain" ? "🌐 Tên miền riêng (Custom Domain)" : "🐙 GitHub Pages"}`);
+console.log(
+  `📌 Chế độ: ${mode === "domain" ? "🌐 Tên miền riêng (Custom Domain)" : "🐙 GitHub Pages"}`,
+);
 console.log(`🔗 NEXT_PUBLIC_BASE_PATH = "${newBasePath}"`);
 console.log(`💡 File .env.local đã được cập nhật.\n`);

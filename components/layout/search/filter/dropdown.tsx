@@ -8,7 +8,13 @@ import type { ListItem } from ".";
 import clsx from "clsx";
 import { FilterItem } from "./item";
 
-export default function FilterItemDropdown({ list, title }: { list: ListItem[]; title?: string }) {
+export default function FilterItemDropdown({
+  list,
+  title,
+}: {
+  list: ListItem[];
+  title?: string;
+}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [active, setActive] = useState("");
@@ -46,9 +52,14 @@ export default function FilterItemDropdown({ list, title }: { list: ListItem[]; 
         className="flex w-full items-center justify-between rounded-full border border-neutral-200 bg-neutral-50/50 px-4 py-2.5 text-xs font-medium transition-all hover:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-800/50 dark:hover:bg-neutral-800"
       >
         <div className="truncate pr-2">
-          <span className="text-neutral-400 mr-1 font-normal">{title}:</span> {active || "Tất cả"}
+          <span className="text-neutral-400 mr-1 font-normal">{title}:</span>{" "}
+          {active || "Tất cả"}
         </div>
-        <ChevronDownIcon className={clsx("h-4 w-4 transition-transform duration-200", { "rotate-180": openSelect })} />
+        <ChevronDownIcon
+          className={clsx("h-4 w-4 transition-transform duration-200", {
+            "rotate-180": openSelect,
+          })}
+        />
       </div>
       {openSelect && (
         <div

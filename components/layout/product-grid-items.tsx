@@ -9,7 +9,10 @@ function escapeRegExp(string: string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-function highlightText(text: string, query: string | null | undefined): React.ReactNode {
+function highlightText(
+  text: string,
+  query: string | null | undefined,
+): React.ReactNode {
   if (!query || !query.trim()) return text;
 
   const regex = new RegExp(`(${escapeRegExp(query)})`, "gi");
@@ -27,7 +30,7 @@ function highlightText(text: string, query: string | null | undefined): React.Re
           </mark>
         ) : (
           part
-        )
+        ),
       )}
     </>
   );
@@ -40,7 +43,9 @@ function getDescriptionSnippet(description: string, query: string): string {
   const index = cleanDescription.toLowerCase().indexOf(query.toLowerCase());
 
   if (index === -1) {
-    return cleanDescription.length > 60 ? cleanDescription.substring(0, 60) + "..." : cleanDescription;
+    return cleanDescription.length > 60
+      ? cleanDescription.substring(0, 60) + "..."
+      : cleanDescription;
   }
 
   const start = Math.max(0, index - 25);
@@ -63,8 +68,11 @@ export default function ProductGridItems({
   return (
     <>
       {products.map((product) => {
-        const hasSnippet = query && product.description.toLowerCase().includes(query.toLowerCase());
-        const { discountPercent, minPrice, compareAtAmount } = getCheapestVariantDiscount(product);
+        const hasSnippet =
+          query &&
+          product.description.toLowerCase().includes(query.toLowerCase());
+        const { discountPercent, minPrice, compareAtAmount } =
+          getCheapestVariantDiscount(product);
 
         return (
           <Grid.Item key={product.handle} className="animate-fadeIn">
@@ -86,8 +94,6 @@ export default function ProductGridItems({
                 fill
                 sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
               />
-
-             
             </Link>
           </Grid.Item>
         );

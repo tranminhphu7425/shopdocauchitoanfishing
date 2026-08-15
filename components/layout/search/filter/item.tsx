@@ -47,10 +47,7 @@ function SortFilterItem({ item }: { item: SortFilterItem }) {
   );
 
   return (
-    <li
-      className="flex text-sm text-black dark:text-white"
-      key={item.title}
-    >
+    <li className="flex text-sm text-black dark:text-white" key={item.title}>
       {active ? (
         <p className="w-full px-4 py-2 text-sm bg-neutral-100 font-bold dark:bg-neutral-800 rounded-lg">
           {item.title}

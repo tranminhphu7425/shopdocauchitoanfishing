@@ -50,7 +50,9 @@ export function BatchCommitBar() {
     }
 
     setIsCommitting(true);
-    const toastId = toast.loading("Đang chuẩn bị dữ liệu và đồng bộ lên Server...");
+    const toastId = toast.loading(
+      "Đang chuẩn bị dữ liệu và đồng bộ lên Server...",
+    );
 
     try {
       const res = await commitPendingChangesToGitHub();
@@ -58,11 +60,13 @@ export function BatchCommitBar() {
       if (res.success) {
         toast.success(
           "🎉 Đã lưu thành công tất cả thay đổi! Hệ thống đang tự động cập nhật lại giao diện trang web.",
-          { id: toastId, duration: 6000 }
+          { id: toastId, duration: 6000 },
         );
         refreshCounts();
       } else {
-        toast.error(`❌ Lỗi cập nhật lên Server: ${res.error}`, { id: toastId });
+        toast.error(`❌ Lỗi cập nhật lên Server: ${res.error}`, {
+          id: toastId,
+        });
       }
     } catch (err: any) {
       toast.error(`❌ Lỗi kết nối: ${err.message || err}`, { id: toastId });
@@ -72,7 +76,11 @@ export function BatchCommitBar() {
   };
 
   const handleDiscard = () => {
-    if (confirm("Bạn có chắc chắn muốn HỦY TẤT CẢ các thay đổi chưa lưu? Tất cả thông tin chỉnh sửa tạm thời sẽ bị khôi phục về trạng thái ban đầu.")) {
+    if (
+      confirm(
+        "Bạn có chắc chắn muốn HỦY TẤT CẢ các thay đổi chưa lưu? Tất cả thông tin chỉnh sửa tạm thời sẽ bị khôi phục về trạng thái ban đầu.",
+      )
+    ) {
       clearAllLocalOverridesAndPending();
       toast.info("Đã hủy bỏ tất cả thay đổi lưu tạm.");
       refreshCounts();
@@ -166,9 +174,7 @@ export function BatchCommitBar() {
                 Đang lưu thay đổi...
               </>
             ) : (
-              <>
-                Lưu thay đổi
-              </>
+              <>Lưu thay đổi</>
             )}
           </button>
         </div>

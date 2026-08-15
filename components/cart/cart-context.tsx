@@ -1,17 +1,13 @@
 "use client";
 
-import type {
-  Cart,
-  Product,
-  ProductVariant,
-} from "lib/local/types";
+import type { Cart, Product, ProductVariant } from "lib/local/types";
 import { useCartStore } from "lib/cart/store";
 import React, {
   createContext,
   useContext,
   useMemo,
   useEffect,
-  useState
+  useState,
 } from "react";
 
 type UpdateType = "plus" | "minus" | "delete";
@@ -39,14 +35,17 @@ export function CartProvider({
   }, []);
 
   const updateCartItem = (merchandiseId: string, updateType: UpdateType) => {
-    const line = cart.lines.find((l: { merchandise: { id: string; }; }) => l.merchandise.id === merchandiseId);
+    const line = cart.lines.find(
+      (l: { merchandise: { id: string } }) =>
+        l.merchandise.id === merchandiseId,
+    );
     if (!line) return;
 
-    if (updateType === 'delete') {
+    if (updateType === "delete") {
       removeItem(line.id!);
-    } else if (updateType === 'plus') {
+    } else if (updateType === "plus") {
       updateQuantity(line.id!, line.quantity + 1);
-    } else if (updateType === 'minus') {
+    } else if (updateType === "minus") {
       updateQuantity(line.id!, line.quantity - 1);
     }
   };
@@ -61,14 +60,10 @@ export function CartProvider({
       updateCartItem,
       addCartItem,
     }),
-    [cart, mounted]
+    [cart, mounted],
   );
 
-  return (
-    <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
 export function useCart() {

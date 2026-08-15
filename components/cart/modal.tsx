@@ -79,7 +79,9 @@ export default function CartModal() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
                   </span>
-                  <p className="text-lg font-bold tracking-tight">Giỏ hàng của tôi</p>
+                  <p className="text-lg font-bold tracking-tight">
+                    Giỏ hàng của tôi
+                  </p>
                 </div>
                 <button aria-label="Close cart" onClick={closeCart}>
                   <CloseCart />
@@ -95,7 +97,8 @@ export default function CartModal() {
                     Giỏ hàng của bạn trống
                   </h3>
                   <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-400 max-w-[220px] leading-relaxed">
-                    Hãy lấp đầy giỏ hàng bằng những mồi câu và phụ kiện chất lượng từ Chí Toàn Fishing nhé!
+                    Hãy lấp đầy giỏ hàng bằng những mồi câu và phụ kiện chất
+                    lượng từ Chí Toàn Fishing nhé!
                   </p>
                   <button
                     onClick={closeCart}
@@ -215,10 +218,14 @@ export default function CartModal() {
                   <div className="border-t border-neutral-200 dark:border-neutral-800 pt-4 pb-2 text-xs text-neutral-700 dark:text-neutral-400">
                     <div className="mb-2.5 flex items-center justify-between">
                       <p className="font-medium">Phí vận chuyển</p>
-                      <p className="text-right text-green-500 font-semibold">Miễn phí giao hàng</p>
+                      <p className="text-right text-green-500 font-semibold">
+                        Miễn phí giao hàng
+                      </p>
                     </div>
                     <div className="mb-4 flex items-center justify-between">
-                      <p className="font-bold text-sm text-neutral-900 dark:text-neutral-100">Tổng cộng</p>
+                      <p className="font-bold text-sm text-neutral-900 dark:text-neutral-100">
+                        Tổng cộng
+                      </p>
                       <Price
                         className="text-right text-base font-extrabold text-orange-600 dark:text-orange-500"
                         amount={cart.cost.totalAmount.amount}
@@ -226,11 +233,16 @@ export default function CartModal() {
                       />
                     </div>
                   </div>
-                  
-                  <div onClick={() => {
-                    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
-                    window.location.href = `${basePath}/checkout`;
-                  }} className="pb-2">
+
+                  <div
+                    onClick={() => {
+                      const basePath =
+                        process.env.NEXT_PUBLIC_BASE_PATH ??
+                        "/shopdocauchitoanfishing";
+                      window.location.href = `${basePath}/checkout`;
+                    }}
+                    className="pb-2"
+                  >
                     <CheckoutButton />
                   </div>
                 </div>

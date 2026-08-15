@@ -30,14 +30,15 @@ const Label = ({
           {title}
         </h3>
         <div className="flex flex-col sm:flex-row items-end sm:items-center gap-1 flex-none rounded-xl bg-orange-600 px-3.5 py-2 text-white">
-          {compareAtAmount && parseFloat(compareAtAmount) > parseFloat(amount) && (
-            <Price
-              className="text-[10px] sm:text-xs text-orange-200 line-through font-medium"
-              amount={compareAtAmount}
-              currencyCode={currencyCode}
-              currencyCodeClassName="hidden"
-            />
-          )}
+          {compareAtAmount &&
+            parseFloat(compareAtAmount) > parseFloat(amount) && (
+              <Price
+                className="text-[10px] sm:text-xs text-orange-200 line-through font-medium"
+                amount={compareAtAmount}
+                currencyCode={currencyCode}
+                currencyCodeClassName="hidden"
+              />
+            )}
           <Price
             className="text-lg md:text-sm font-extrabold tracking-tight"
             amount={amount}

@@ -101,7 +101,6 @@ export type ShopifyCart = {
   cost: {
     subtotalAmount: Money;
     totalAmount: Money;
-   
   };
   lines: Connection<CartItem>;
   totalQuantity: number;

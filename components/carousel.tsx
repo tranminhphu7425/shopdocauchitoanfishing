@@ -6,14 +6,19 @@ import { useDynamicProducts } from "lib/local/client-store";
 import Link from "next/link";
 import { GridTileImage } from "./grid/tile";
 
-export function Carousel({ initialProducts = [] }: { initialProducts?: Product[] }) {
+export function Carousel({
+  initialProducts = [],
+}: {
+  initialProducts?: Product[];
+}) {
   const dynamicProducts = useDynamicProducts(initialProducts);
 
   const featuredProducts = dynamicProducts.filter((p) =>
-    ((p as any).collections || []).includes("featured")
+    ((p as any).collections || []).includes("featured"),
   );
 
-  const products = featuredProducts.length > 0 ? featuredProducts : dynamicProducts;
+  const products =
+    featuredProducts.length > 0 ? featuredProducts : dynamicProducts;
 
   if (!products?.length) return null;
 
@@ -24,7 +29,8 @@ export function Carousel({ initialProducts = [] }: { initialProducts?: Product[]
     <div className="w-full overflow-x-auto pb-6 pt-1">
       <ul className="flex animate-carousel gap-4">
         {carouselProducts.map((product, i) => {
-          const { discountPercent, minPrice, compareAtAmount } = getCheapestVariantDiscount(product);
+          const { discountPercent, minPrice, compareAtAmount } =
+            getCheapestVariantDiscount(product);
           return (
             <li
               key={`${product.handle}${i}`}
@@ -39,7 +45,8 @@ export function Carousel({ initialProducts = [] }: { initialProducts?: Product[]
                   label={{
                     title: product.title,
                     amount: minPrice,
-                    currencyCode: product.priceRange.minVariantPrice.currencyCode,
+                    currencyCode:
+                      product.priceRange.minVariantPrice.currencyCode,
                     compareAtAmount: compareAtAmount,
                   }}
                   discountPercent={discountPercent}

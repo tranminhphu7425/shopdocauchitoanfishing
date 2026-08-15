@@ -11,7 +11,5 @@ export const dynamic = "force-static";
 export default async function SearchPage() {
   const products = await getProducts({});
 
-  return (
-    <SortableProductList products={products} />
-  );
+  return <SortableProductList products={products} />;
 }

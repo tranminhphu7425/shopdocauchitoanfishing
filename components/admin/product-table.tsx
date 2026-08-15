@@ -5,7 +5,10 @@ import Link from "next/link";
 import { Product } from "lib/local";
 import { getGitHubConfig } from "lib/github";
 import { toast } from "sonner";
-import { deleteLocalProductOverride, mergeProductsWithLocalOverride } from "lib/local/client-store";
+import {
+  deleteLocalProductOverride,
+  mergeProductsWithLocalOverride,
+} from "lib/local/client-store";
 import { useCachedImageUrl, getImageCache } from "lib/local/image-cache";
 import { formatImageUrl } from "lib/site-config";
 
@@ -28,8 +31,14 @@ function TableProductImage({ src, alt }: { src: string; alt: string }) {
   );
 }
 
-export function ProductTable({ products: initialProducts }: { products: (Product & { collections?: string[] })[] }) {
-  const [productList, setProductList] = useState(() => mergeProductsWithLocalOverride(initialProducts));
+export function ProductTable({
+  products: initialProducts,
+}: {
+  products: (Product & { collections?: string[] })[];
+}) {
+  const [productList, setProductList] = useState(() =>
+    mergeProductsWithLocalOverride(initialProducts),
+  );
 
   useEffect(() => {
     const sync = () => {
@@ -46,7 +55,7 @@ export function ProductTable({ products: initialProducts }: { products: (Product
       deleteLocalProductOverride(handle);
       setProductList((prev) => prev.filter((p) => p.handle !== handle));
       toast.success(
-        `🎉 Đã xóa tạm thời sản phẩm "${title}"! Hãy bấm "Lưu thay đổi" để cập nhật lên Server.`
+        `🎉 Đã xóa tạm thời sản phẩm "${title}"! Hãy bấm "Lưu thay đổi" để cập nhật lên Server.`,
       );
 
       const { deleteProductAction } = await import("app/admin/actions");

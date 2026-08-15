@@ -11,7 +11,6 @@ import shopeeIcon from "public/images/icons/shopee.jpg";
 import tiktokIcon from "public/images/icons/tiktokshop.jpg";
 import zaloIcon from "public/images/icons/zalo.jpg";
 
-
 const { COMPANY_NAME, SITE_NAME } = process.env;
 
 export default async function Footer() {
@@ -21,7 +20,13 @@ export default async function Footer() {
     "w-full h-6 animate-pulse rounded-sm bg-neutral-200 dark:bg-neutral-700";
   const menu = await getMenu("next-js-frontend-footer-menu");
   const copyrightName = COMPANY_NAME || SITE_NAME || "";
-  const { phone: phoneNumber, zalo: zaloNumber, messenger: messengerId, shopee, tiktok } = CONTACT_INFO;
+  const {
+    phone: phoneNumber,
+    zalo: zaloNumber,
+    messenger: messengerId,
+    shopee,
+    tiktok,
+  } = CONTACT_INFO;
 
   return (
     <footer className="text-sm text-neutral-700 dark:text-neutral-400 bg-neutral-50/50 dark:bg-neutral-950/20 border-t border-neutral-200 dark:border-neutral-800">
@@ -33,10 +38,14 @@ export default async function Footer() {
             href="/"
           >
             <LogoSquare size="sm" />
-            <span className="font-bold uppercase tracking-wider text-sm">{SITE_NAME}</span>
+            <span className="font-bold uppercase tracking-wider text-sm">
+              {SITE_NAME}
+            </span>
           </Link>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-sm">
-            Chí Toàn Fishing Shop - Điểm đến tin cậy của các cần thủ chuyên nghiệp. Chuyên cung cấp cần câu, máy câu, mồi lure và phụ kiện câu cá chất lượng cao từ các thương hiệu hàng đầu thế giới.
+            Chí Toàn Fishing Shop - Điểm đến tin cậy của các cần thủ chuyên
+            nghiệp. Chuyên cung cấp cần câu, máy câu, mồi lure và phụ kiện câu
+            cá chất lượng cao từ các thương hiệu hàng đầu thế giới.
           </p>
         </div>
 
@@ -83,7 +92,15 @@ export default async function Footer() {
                   />
                 </svg>
               </div>
-              <span>Hotline: <a href={`tel:${phoneNumber}`} className="font-bold text-neutral-800 dark:text-neutral-200 hover:text-orange-600 transition-colors">{phoneNumber}</a></span>
+              <span>
+                Hotline:{" "}
+                <a
+                  href={`tel:${phoneNumber}`}
+                  className="font-bold text-neutral-800 dark:text-neutral-200 hover:text-orange-600 transition-colors"
+                >
+                  {phoneNumber}
+                </a>
+              </span>
             </div>
 
             {/* Zalo */}
@@ -97,7 +114,17 @@ export default async function Footer() {
                   className="h-full w-full object-cover"
                 />
               </div>
-              <span>Zalo: <a href={`https://zalo.me/${zaloNumber}`} target="_blank" rel="noopener noreferrer" className="font-bold text-neutral-800 dark:text-neutral-200 hover:text-orange-600 transition-colors">{zaloNumber}</a></span>
+              <span>
+                Zalo:{" "}
+                <a
+                  href={`https://zalo.me/${zaloNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-neutral-800 dark:text-neutral-200 hover:text-orange-600 transition-colors"
+                >
+                  {zaloNumber}
+                </a>
+              </span>
             </div>
 
             {/* Messenger / Facebook */}
@@ -112,7 +139,17 @@ export default async function Footer() {
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
               </div>
-              <span>Facebook: <a href={`https://facebook.com/${messengerId}`} target="_blank" rel="noopener noreferrer" className="font-bold text-neutral-800 dark:text-neutral-200 hover:text-orange-600 transition-colors">Chí Toàn Fishing</a></span>
+              <span>
+                Facebook:{" "}
+                <a
+                  href={`https://facebook.com/${messengerId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-neutral-800 dark:text-neutral-200 hover:text-orange-600 transition-colors"
+                >
+                  Chí Toàn Fishing
+                </a>
+              </span>
             </div>
 
             {/* Shopee Shop */}
@@ -127,7 +164,17 @@ export default async function Footer() {
                     className="h-full w-full object-cover"
                   />
                 </div>
-                <span>Shopee: <a href={shopee} target="_blank" rel="noopener noreferrer" className="font-bold text-neutral-800 dark:text-neutral-200 hover:text-orange-600 transition-colors">Chí Toàn Fishing Shop</a></span>
+                <span>
+                  Shopee:{" "}
+                  <a
+                    href={shopee}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-neutral-800 dark:text-neutral-200 hover:text-orange-600 transition-colors"
+                  >
+                    Chí Toàn Fishing Shop
+                  </a>
+                </span>
               </div>
             )}
 
@@ -143,13 +190,23 @@ export default async function Footer() {
                     className="h-full w-full object-cover"
                   />
                 </div>
-                <span>TikTok Shop: <a href={tiktok} target="_blank" rel="noopener noreferrer" className="font-bold text-neutral-800 dark:text-neutral-200 hover:text-orange-600 transition-colors">@chi_toan_fishing_</a></span>
+                <span>
+                  TikTok Shop:{" "}
+                  <a
+                    href={tiktok}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-neutral-800 dark:text-neutral-200 hover:text-orange-600 transition-colors"
+                  >
+                    @chi_toan_fishing_
+                  </a>
+                </span>
               </div>
             )}
           </div>
         </div>
       </div>
-      
+
       {/* Bottom Copyright Bar */}
       <div className="border-t border-neutral-200 py-6 text-xs dark:border-neutral-800">
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-2 px-4 sm:flex-row sm:gap-0 md:px-4 min-[1320px]:px-0">

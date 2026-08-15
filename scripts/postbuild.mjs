@@ -36,7 +36,9 @@ try {
   }
 
   fs.writeFileSync(path.join(docsDir, ".nojekyll"), "");
-  console.log(" Cross-platform postbuild complete: out -> docs & .nojekyll created");
+  console.log(
+    " Cross-platform postbuild complete: out -> docs & .nojekyll created",
+  );
 } catch (err) {
   console.error("Error in postbuild script:", err);
   process.exit(1);

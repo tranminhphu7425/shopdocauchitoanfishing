@@ -9,7 +9,7 @@ import { useCart } from "./cart-context";
 function SubmitButton({
   availableForSale,
   selectedVariantId,
-  onClick
+  onClick,
 }: {
   availableForSale: boolean;
   selectedVariantId: string | undefined;
@@ -75,7 +75,7 @@ export function AddToCart({
         ? selectedOptions[option.name.toLowerCase()]
         : searchParams.get(option.name.toLowerCase());
       return option.value === val;
-    })
+    }),
   );
   const defaultVariantId = variants.length === 1 ? variants[0]?.id : undefined;
   const selectedVariantId = variant?.id || defaultVariantId;

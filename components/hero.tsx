@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { formatImageUrl } from 'lib/site-config';
+import Image from "next/image";
+import Link from "next/link";
+import { formatImageUrl } from "lib/site-config";
 
 const Hero = () => {
   return (
@@ -14,12 +14,10 @@ const Hero = () => {
         className="object-cover object-center"
       />
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
-      
+
       {/* Content */}
       <div className="relative flex h-full items-center px-4 md:px-12 lg:px-24">
         <div className="max-w-2xl text-white">
-          
-
           <span className="mb-3 inline-block rounded-full bg-orange-600 px-4 py-1 text-xs sm:text-sm font-bold tracking-wider uppercase">
             Chính Hãng & Uy Tín
           </span>
@@ -28,8 +26,8 @@ const Hero = () => {
             <span className="text-orange-500">Câu Cá Của Bạn</span>
           </h1>
           <p className="mb-6 md:mb-10 text-sm sm:text-lg text-neutral-300 md:text-xl">
-            Khám phá bộ sưu tập đồ câu chuyên nghiệp từ các thương hiệu hàng đầu thế giới. 
-            Đồng hành cùng bạn trong mọi chuyến săn hàng.
+            Khám phá bộ sưu tập đồ câu chuyên nghiệp từ các thương hiệu hàng đầu
+            thế giới. Đồng hành cùng bạn trong mọi chuyến săn hàng.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link

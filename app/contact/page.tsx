@@ -33,7 +33,7 @@ export default function ContactPage() {
   const [copied, setCopied] = useState(false);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -41,7 +41,11 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.phone.trim() || !formData.message.trim()) {
+    if (
+      !formData.name.trim() ||
+      !formData.phone.trim() ||
+      !formData.message.trim()
+    ) {
       toast.error("Vui lòng điền đầy đủ tất cả thông tin!");
       return;
     }
@@ -51,7 +55,9 @@ export default function ContactPage() {
     // Simulate API submission
     setTimeout(() => {
       setIsSubmitting(false);
-      toast.success("Gửi lời nhắn thành công! Chúng tôi sẽ phản hồi sớm nhất có thể.");
+      toast.success(
+        "Gửi lời nhắn thành công! Chúng tôi sẽ phản hồi sớm nhất có thể.",
+      );
       setFormData({ name: "", phone: "", message: "" });
     }, 1200);
   };
@@ -71,7 +77,8 @@ export default function ContactPage() {
           Liên hệ với chúng tôi
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base text-neutral-500 dark:text-neutral-400">
-          Có câu hỏi hoặc cần hỗ trợ về sản phẩm? Hãy gửi tin nhắn hoặc kết nối với chúng tôi qua các kênh liên lạc dưới đây.
+          Có câu hỏi hoặc cần hỗ trợ về sản phẩm? Hãy gửi tin nhắn hoặc kết nối
+          với chúng tôi qua các kênh liên lạc dưới đây.
         </p>
       </div>
 
@@ -83,7 +90,7 @@ export default function ContactPage() {
             <h2 className="text-lg font-bold text-neutral-900 dark:text-white mb-4">
               {name}
             </h2>
-            
+
             <div className="space-y-4">
               {/* Call Hotline */}
               <a
@@ -107,7 +114,9 @@ export default function ContactPage() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-xs text-neutral-400 font-medium">Hotline gọi trực tiếp</div>
+                  <div className="text-xs text-neutral-400 font-medium">
+                    Hotline gọi trực tiếp
+                  </div>
                   <div className="text-sm font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-green-600 transition-colors">
                     {phone}
                   </div>
@@ -122,10 +131,18 @@ export default function ContactPage() {
                 className="flex items-center gap-3.5 p-3 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors group"
               >
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg overflow-hidden border border-neutral-100 dark:border-neutral-800">
-                  <Image src={zaloIcon} alt="Zalo" width={44} height={44} className="h-full w-full object-cover" />
+                  <Image
+                    src={zaloIcon}
+                    alt="Zalo"
+                    width={44}
+                    height={44}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
                 <div>
-                  <div className="text-xs text-neutral-400 font-medium">Hỗ trợ nhanh qua Zalo</div>
+                  <div className="text-xs text-neutral-400 font-medium">
+                    Hỗ trợ nhanh qua Zalo
+                  </div>
                   <div className="text-sm font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-orange-600 transition-colors">
                     Chat Zalo: {zalo}
                   </div>
@@ -140,10 +157,18 @@ export default function ContactPage() {
                 className="flex items-center gap-3.5 p-3 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors group"
               >
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg overflow-hidden border border-neutral-100 dark:border-neutral-800">
-                  <Image src={messengerIcon} alt="Messenger" width={44} height={44} className="h-full w-full object-cover" />
+                  <Image
+                    src={messengerIcon}
+                    alt="Messenger"
+                    width={44}
+                    height={44}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
                 <div>
-                  <div className="text-xs text-neutral-400 font-medium">Facebook Messenger</div>
+                  <div className="text-xs text-neutral-400 font-medium">
+                    Facebook Messenger
+                  </div>
                   <div className="text-sm font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-blue-600 transition-colors">
                     Facebook.com/{messenger}
                   </div>
@@ -166,7 +191,13 @@ export default function ContactPage() {
                   className="flex flex-col items-center justify-center p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:border-orange-500 hover:bg-orange-500/5 dark:hover:bg-orange-500/10 transition-all text-center group"
                 >
                   <div className="h-12 w-12 rounded-full overflow-hidden mb-2 shadow-sm">
-                    <Image src={shopeeIcon} alt="Shopee" width={48} height={48} className="h-full w-full object-cover" />
+                    <Image
+                      src={shopeeIcon}
+                      alt="Shopee"
+                      width={48}
+                      height={48}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
                   <span className="text-xs font-bold text-neutral-700 dark:text-neutral-300 group-hover:text-orange-500">
                     Shopee Shop
@@ -181,7 +212,13 @@ export default function ContactPage() {
                   className="flex flex-col items-center justify-center p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:border-neutral-900 dark:hover:border-white hover:bg-neutral-900/5 dark:hover:bg-white/10 transition-all text-center group"
                 >
                   <div className="h-12 w-12 rounded-full overflow-hidden mb-2 shadow-sm">
-                    <Image src={tiktokIcon} alt="TikTok" width={48} height={48} className="h-full w-full object-cover" />
+                    <Image
+                      src={tiktokIcon}
+                      alt="TikTok"
+                      width={48}
+                      height={48}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
                   <span className="text-xs font-bold text-neutral-700 dark:text-neutral-300 group-hover:text-neutral-900 dark:group-hover:text-white">
                     TikTok Shop
@@ -198,11 +235,14 @@ export default function ContactPage() {
             <h2 className="text-xl font-bold text-neutral-900 dark:text-white mb-6">
               Gửi lời nhắn cho chúng tôi
             </h2>
-            
+
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Fullname */}
               <div>
-                <label htmlFor="name" className="block text-xs font-bold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-xs font-bold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider mb-2"
+                >
                   Họ và tên của bạn *
                 </label>
                 <input
@@ -219,7 +259,10 @@ export default function ContactPage() {
 
               {/* Phone number */}
               <div>
-                <label htmlFor="phone" className="block text-xs font-bold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider mb-2">
+                <label
+                  htmlFor="phone"
+                  className="block text-xs font-bold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider mb-2"
+                >
                   Số điện thoại liên hệ *
                 </label>
                 <input
@@ -236,7 +279,10 @@ export default function ContactPage() {
 
               {/* Message */}
               <div>
-                <label htmlFor="message" className="block text-xs font-bold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider mb-2">
+                <label
+                  htmlFor="message"
+                  className="block text-xs font-bold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider mb-2"
+                >
                   Lời nhắn / Nội dung cần hỗ trợ *
                 </label>
                 <textarea
@@ -259,16 +305,43 @@ export default function ContactPage() {
               >
                 {isSubmitting ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
                     </svg>
                     Đang gửi...
                   </>
                 ) : (
                   <>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-5 w-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                      />
                     </svg>
                     Gửi lời nhắn
                   </>

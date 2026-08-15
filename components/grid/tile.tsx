@@ -41,7 +41,8 @@ export function GridTileImage({
         "group relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border bg-white transition-all duration-300 dark:bg-neutral-900",
         {
           "border-orange-500 ring-1 ring-orange-500 shadow-md": active,
-          "border-neutral-200 hover:border-orange-500/50 hover:shadow-lg dark:border-neutral-800 dark:hover:border-orange-500/50": !active,
+          "border-neutral-200 hover:border-orange-500/50 hover:shadow-lg dark:border-neutral-800 dark:hover:border-orange-500/50":
+            !active,
         },
       )}
     >

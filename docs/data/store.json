@@ -11,11 +11,7 @@
         {
           "id": "opt-42710507117",
           "name": "Kích Cỡ",
-          "values": [
-            "Số 4",
-            "Số 6",
-            "Số 8"
-          ]
+          "values": ["Số 4", "Số 6", "Số 8"]
         }
       ],
       "priceRange": {
@@ -159,14 +155,9 @@
         "title": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng",
         "description": "( Combo 10 lưỡi BKK ) Lưỡi BKK 6066 4X ba tiêu câu cá số 4,6,8 chính hãng chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:26.056Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-52351040992",
@@ -179,9 +170,7 @@
         {
           "id": "opt-52351040992",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -251,14 +240,9 @@
         "title": "Mồi câu cá Barramundi S2",
         "description": "Mồi câu cá Barramundi S2 chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:26.215Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-42372749715",
@@ -271,9 +255,7 @@
         {
           "id": "opt-42372749715",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -343,14 +325,9 @@
         "title": "Mồi câu cá Barramundi S1",
         "description": "Mồi câu cá Barramundi S1 chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:26.468Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-26136045599",
@@ -363,9 +340,7 @@
         {
           "id": "opt-26136045599",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -435,14 +410,9 @@
         "title": "[ Megabarra ] Mồi mềm câu cá Fish Candy chính hãng",
         "description": "[ Megabarra ] Mồi mềm câu cá Fish Candy chính hãng chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:26.545Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-29936038731",
@@ -455,9 +425,7 @@
         {
           "id": "opt-29936038731",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -527,14 +495,9 @@
         "title": "Dây câu cá Pe 8X CTF Premium Megabarra chính hãng",
         "description": "Dây câu cá Pe 8X CTF Premium Megabarra chính hãng chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:26.697Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-45964848942",
@@ -547,11 +510,7 @@
         {
           "id": "opt-45964848942",
           "name": "Kích Thước",
-          "values": [
-            "7CM",
-            "9CM",
-            "11CM"
-          ]
+          "values": ["7CM", "9CM", "11CM"]
         }
       ],
       "priceRange": {
@@ -695,14 +654,9 @@
         "title": "[ CTF ] MỒI CÂU CÁ R.FISH 7CM 9CM 11CM CHÍNH HÃNG MEKONG PRIDE fishing lure",
         "description": "[ CTF ] MỒI CÂU CÁ R.FISH 7CM 9CM 11CM CHÍNH HÃNG MEKONG PRIDE fishing lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:26.780Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-41159929409",
@@ -715,11 +669,7 @@
         {
           "id": "opt-41159929409",
           "name": "Trọng Lượng",
-          "values": [
-            "6.5g",
-            "9g",
-            "13g"
-          ]
+          "values": ["6.5g", "9g", "13g"]
         }
       ],
       "priceRange": {
@@ -863,14 +813,9 @@
         "title": "Mồi gỗ CTF thủ công 6.5gam 9gam 13gam chính hãng bắt cá",
         "description": "Mồi gỗ CTF thủ công 6.5gam 9gam 13gam chính hãng bắt cá chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:26.940Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-27336034908",
@@ -883,9 +828,7 @@
         {
           "id": "opt-27336034908",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -955,14 +898,9 @@
         "title": "Dây câu cá Pe 8X Snakehead SHX 100m Megabarra chính hãng",
         "description": "Dây câu cá Pe 8X Snakehead SHX 100m Megabarra chính hãng chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:27.009Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-42053943074",
@@ -975,9 +913,7 @@
         {
           "id": "opt-42053943074",
           "name": "Phân Loại",
-          "values": [
-            "11cm - 12gam"
-          ]
+          "values": ["11cm - 12gam"]
         }
       ],
       "priceRange": {
@@ -1047,14 +983,9 @@
         "title": "Mồi câu cá chẽm Mekong Pride R.Fish 11cm 12gam bắt cá",
         "description": "Mồi câu cá chẽm Mekong Pride R.Fish 11cm 12gam bắt cá chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:27.087Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-40053560202",
@@ -1067,9 +998,7 @@
         {
           "id": "opt-40053560202",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -1139,14 +1068,9 @@
         "title": "Dây Pe câu cá 4X CTF Camo Brown chính hãng",
         "description": "Dây Pe câu cá 4X CTF Camo Brown chính hãng chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:27.215Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-52452057501",
@@ -1159,9 +1083,7 @@
         {
           "id": "opt-52452057501",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -1231,14 +1153,9 @@
         "title": "[CTF] Cần câu lure CTF chính hãng Megabarra bắt cá fishing",
         "description": "[CTF] Cần câu lure CTF chính hãng Megabarra bắt cá fishing chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:27.364Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-29386040793",
@@ -1251,9 +1168,7 @@
         {
           "id": "opt-29386040793",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -1323,14 +1238,9 @@
         "title": "Máy câu cá SH.X Limited Megabarra chính hãng",
         "description": "Máy câu cá SH.X Limited Megabarra chính hãng chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:27.476Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-26489222564",
@@ -1343,9 +1253,7 @@
         {
           "id": "opt-26489222564",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -1415,14 +1323,9 @@
         "title": "Máy đứng câu cá Titan Special chính hãng Megabarra",
         "description": "Máy đứng câu cá Titan Special chính hãng Megabarra chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:27.652Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-25444973926",
@@ -1435,9 +1338,7 @@
         {
           "id": "opt-25444973926",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -1507,14 +1408,9 @@
         "title": "Dây câu cá Pe 8X Barramundi Megabarra chính hãng",
         "description": "Dây câu cá Pe 8X Barramundi Megabarra chính hãng chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:27.701Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-45614849268",
@@ -1545,11 +1441,7 @@
         {
           "id": "opt-1786608090411",
           "name": "Size",
-          "values": [
-            "Doom 75 Shad 8.8g",
-            "Doom 75 Slim 7g",
-            "Doom 95 8g"
-          ]
+          "values": ["Doom 75 Shad 8.8g", "Doom 75 Slim 7g", "Doom 95 8g"]
         }
       ],
       "priceRange": {
@@ -2266,14 +2158,9 @@
         "title": "[ CTF ] MỒI CÂU CÁ DOOM 75 VÀ DOOM 95 CHÍNH HÃNG MEGABARRA fishing lure",
         "description": "[ CTF ] MỒI CÂU CÁ DOOM 75 VÀ DOOM 95 CHÍNH HÃNG MEGABARRA fishing lure cao cấp, chính hãng, giá tốt, giao hàng toàn quốc nhanh chóng."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-13T08:04:08.852Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-48407290190",
@@ -2286,9 +2173,7 @@
         {
           "id": "opt-48407290190",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -2358,14 +2243,9 @@
         "title": "[ CTF ] DÂY LEADER CÂU CÁ SEAGUAR CHÍNH HÃNG 15m đi câu cá fishing lure",
         "description": "[ CTF ] DÂY LEADER CÂU CÁ SEAGUAR CHÍNH HÃNG 15m đi câu cá fishing lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:27.953Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-27536038896",
@@ -2378,9 +2258,7 @@
         {
           "id": "opt-27536038896",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -2450,14 +2328,9 @@
         "title": "Combo 4 món mồi mềm Fish Candy ( màu ngẫu nhiên ) + lưỡi độ và leader khoá\r\n                                            lure câu lóc chẽm",
         "description": "Combo 4 món mồi mềm Fish Candy ( màu ngẫu nhiên ) + lưỡi độ và leader khoá\r\n                                            lure câu lóc chẽm chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:27.993Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-29943541594",
@@ -2470,9 +2343,7 @@
         {
           "id": "opt-29943541594",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -2542,14 +2413,9 @@
         "title": "Mồi câu cá Doom 95 chính hãng Megabarra",
         "description": "Mồi câu cá Doom 95 chính hãng Megabarra chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:28.099Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-52503301990",
@@ -2562,9 +2428,7 @@
         {
           "id": "opt-52503301990",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -2634,14 +2498,9 @@
         "title": "[ CTF ] Lưỡi độ mồi mềm thủ công ( được bảo hành ) câu cá bắt cá fishing",
         "description": "[ CTF ] Lưỡi độ mồi mềm thủ công ( được bảo hành ) câu cá bắt cá fishing chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:28.366Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-28889063569",
@@ -2654,9 +2513,7 @@
         {
           "id": "opt-28889063569",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -2726,14 +2583,9 @@
         "title": "Cần đa năng Chuppy X chính hãng Megabarra bắt cá lure",
         "description": "Cần đa năng Chuppy X chính hãng Megabarra bắt cá lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:28.526Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-50560507119",
@@ -2746,9 +2598,7 @@
         {
           "id": "opt-50560507119",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -2818,14 +2668,9 @@
         "title": "[CTF] CẦN CÂU TINY TITAN 2 CHÍNH HÃNG MEGABARRA fishing lure",
         "description": "[CTF] CẦN CÂU TINY TITAN 2 CHÍNH HÃNG MEGABARRA fishing lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:28.583Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-26689213923",
@@ -2838,9 +2683,7 @@
         {
           "id": "opt-26689213923",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -2910,14 +2753,9 @@
         "title": "Máy đứng câu cá M63 chính hãng Mekong Pride",
         "description": "Máy đứng câu cá M63 chính hãng Mekong Pride chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:28.791Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-28436029987",
@@ -2930,9 +2768,7 @@
         {
           "id": "opt-28436029987",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -3002,14 +2838,9 @@
         "title": "Dây câu cá Pe 8X Giant Toman 150m Megabarra chính hãng",
         "description": "Dây câu cá Pe 8X Giant Toman 150m Megabarra chính hãng chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:28.992Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-29936217897",
@@ -3022,9 +2853,7 @@
         {
           "id": "opt-29936217897",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -3094,14 +2923,9 @@
         "title": "Cần câu cá Titan Special 2 Megabarra chính hãng",
         "description": "Cần câu cá Titan Special 2 Megabarra chính hãng chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:29.144Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-43203529807",
@@ -3114,9 +2938,7 @@
         {
           "id": "opt-43203529807",
           "name": "Phân Loại",
-          "values": [
-            "3.5cm - 9gam"
-          ]
+          "values": ["3.5cm - 9gam"]
         }
       ],
       "priceRange": {
@@ -3186,14 +3008,9 @@
         "title": "Mồi câu cá lóc Nhái Lắc CTF 3.5cm 9gam nhạy cá",
         "description": "Mồi câu cá lóc Nhái Lắc CTF 3.5cm 9gam nhạy cá chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:29.248Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-50206973508",
@@ -3206,9 +3023,7 @@
         {
           "id": "opt-50206973508",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -3278,14 +3093,9 @@
         "title": "[ CTF ] NGỌN CẦN CTF ĐỨNG VÀ NGANG CHÍNH HÃNG fishing lure",
         "description": "[ CTF ] NGỌN CẦN CTF ĐỨNG VÀ NGANG CHÍNH HÃNG fishing lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:29.315Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-44453530181",
@@ -3298,9 +3108,7 @@
         {
           "id": "opt-44453530181",
           "name": "Phân Loại",
-          "values": [
-            "4.2cm - 11gam"
-          ]
+          "values": ["4.2cm - 11gam"]
         }
       ],
       "priceRange": {
@@ -3370,14 +3178,9 @@
         "title": "Mồi câu lóc Nhái Lắc CTF 4.2cm 11gam nhạy cá",
         "description": "Mồi câu lóc Nhái Lắc CTF 4.2cm 11gam nhạy cá chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:29.455Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-48914836120",
@@ -3390,9 +3193,7 @@
         {
           "id": "opt-48914836120",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -3462,14 +3263,9 @@
         "title": "[ CTF ] MỒI CÂU CÁ POP S5 fishing lure",
         "description": "[ CTF ] MỒI CÂU CÁ POP S5 fishing lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:29.547Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-52851009182",
@@ -3482,9 +3278,7 @@
         {
           "id": "opt-52851009182",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -3554,14 +3348,9 @@
         "title": "Mồi câu cá Doom 75 chính hãng Megabarra",
         "description": "Mồi câu cá Doom 75 chính hãng Megabarra chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:29.612Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-43580882086",
@@ -3574,9 +3363,7 @@
         {
           "id": "opt-43580882086",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -3646,14 +3433,9 @@
         "title": "[CTF] CẦN CÂU LURE CTF PRO CHÍNH HÃNG MEGABARRA fishing lure",
         "description": "[CTF] CẦN CÂU LURE CTF PRO CHÍNH HÃNG MEGABARRA fishing lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:29.717Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-1786697488480-8380",
@@ -3666,9 +3448,7 @@
         {
           "id": "opt-44453530181",
           "name": "Phân Loại",
-          "values": [
-            "4.2cm - 11gam"
-          ]
+          "values": ["4.2cm - 11gam"]
         }
       ],
       "priceRange": {
@@ -3738,14 +3518,9 @@
         "title": "Mồi câu lóc Nhái Lắc CTF 4.2cm 11gam nhạy cá",
         "description": "Mồi câu lóc Nhái Lắc CTF 4.2cm 11gam nhạy cá chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:29.754Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-1786697488480-1099",
@@ -3758,9 +3533,7 @@
         {
           "id": "opt-28889063569",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -3830,14 +3603,9 @@
         "title": "Cần đa năng Chuppy X chính hãng Megabarra bắt cá lure",
         "description": "Cần đa năng Chuppy X chính hãng Megabarra bắt cá lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:29.788Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-1786697488480-7869",
@@ -3850,9 +3618,7 @@
         {
           "id": "opt-50206973508",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -3922,14 +3688,9 @@
         "title": "[ CTF ] NGỌN CẦN CTF ĐỨNG VÀ NGANG CHÍNH HÃNG fishing lure",
         "description": "[ CTF ] NGỌN CẦN CTF ĐỨNG VÀ NGANG CHÍNH HÃNG fishing lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:29.817Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-1786697488480-9497",
@@ -3942,9 +3703,7 @@
         {
           "id": "opt-43580882086",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -4014,14 +3773,9 @@
         "title": "[CTF] CẦN CÂU LURE CTF PRO CHÍNH HÃNG MEGABARRA fishing lure",
         "description": "[CTF] CẦN CÂU LURE CTF PRO CHÍNH HÃNG MEGABARRA fishing lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:29.863Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-1786697488480-6653",
@@ -4034,9 +3788,7 @@
         {
           "id": "opt-29936217897",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -4106,14 +3858,9 @@
         "title": "Cần câu cá Titan Special 2 Megabarra chính hãng",
         "description": "Cần câu cá Titan Special 2 Megabarra chính hãng chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:29.880Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-1786697488480-6899",
@@ -4126,9 +3873,7 @@
         {
           "id": "opt-26689213923",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -4198,14 +3943,9 @@
         "title": "Máy đứng câu cá M63 chính hãng Mekong Pride",
         "description": "Máy đứng câu cá M63 chính hãng Mekong Pride chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:29.926Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-40760914513",
@@ -4218,9 +3958,7 @@
         {
           "id": "opt-40760914513",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -4290,14 +4028,9 @@
         "title": "Máy đứng câu cá Yamato chính hãng Megabarra",
         "description": "Máy đứng câu cá Yamato chính hãng Megabarra chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:30.105Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-50503421148",
@@ -4310,9 +4043,7 @@
         {
           "id": "opt-50503421148",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -4382,14 +4113,9 @@
         "title": "Cần câu SH.X Limited I chính hãng Megabarra",
         "description": "Cần câu SH.X Limited I chính hãng Megabarra chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:30.152Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-50200329530",
@@ -4402,9 +4128,7 @@
         {
           "id": "opt-50200329530",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -4474,14 +4198,9 @@
         "title": "KÌM CÁ VÀ KẸP CÁ TIỆN DỤNG CHUYÊN LURE bắt cá fishing lure",
         "description": "KÌM CÁ VÀ KẸP CÁ TIỆN DỤNG CHUYÊN LURE bắt cá fishing lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:30.291Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-47013440142",
@@ -4494,9 +4213,7 @@
         {
           "id": "opt-47013440142",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -4566,14 +4283,9 @@
         "title": "[ CTF ] CẦN CÂU SHORE WALKER 5E CHÍNH HÃNG MEGABARRA fishing lure",
         "description": "[ CTF ] CẦN CÂU SHORE WALKER 5E CHÍNH HÃNG MEGABARRA fishing lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:30.355Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-44421217568",
@@ -4586,9 +4298,7 @@
         {
           "id": "opt-44421217568",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -4658,14 +4368,9 @@
         "title": "Kìm cá và kẹp cá tiện dụng chuyên lure bắt cá fishing lure",
         "description": "Kìm cá và kẹp cá tiện dụng chuyên lure bắt cá fishing lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:30.438Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-49002063883",
@@ -4678,9 +4383,7 @@
         {
           "id": "opt-49002063883",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -4750,14 +4453,9 @@
         "title": "Máy câu cá Doom X chính hãng Megabarra",
         "description": "Máy câu cá Doom X chính hãng Megabarra chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:30.715Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-53306701008",
@@ -4770,9 +4468,7 @@
         {
           "id": "opt-53306701008",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -4842,14 +4538,9 @@
         "title": "[ CTF ] MÁY NGANG CÂU CÁ SH.X DC CHÍNH HÃNG - KHÁNG MẶN MEGABARRA fishing\r\n                                            lure",
         "description": "[ CTF ] MÁY NGANG CÂU CÁ SH.X DC CHÍNH HÃNG - KHÁNG MẶN MEGABARRA fishing\r\n                                            lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:30.877Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-41325893853",
@@ -4862,9 +4553,7 @@
         {
           "id": "opt-41325893853",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -4934,14 +4623,9 @@
         "title": "Cần cây lóc máy đứng size H giá rẻ",
         "description": "Cần cây lóc máy đứng size H giá rẻ chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "phu-kien",
-        "shopee-import"
-      ],
+      "tags": ["phu-kien", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:31.073Z",
-      "collections": [
-        "phu-kien"
-      ]
+      "collections": ["phu-kien"]
     },
     {
       "id": "prod-49863436794",
@@ -4954,9 +4638,7 @@
         {
           "id": "opt-49863436794",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -5026,14 +4708,9 @@
         "title": "[ CTF ] MÁY ĐỨNG CÂU CÁ RAIGYO CHÍNH HÃNG MEGABARRA fishing lure",
         "description": "[ CTF ] MÁY ĐỨNG CÂU CÁ RAIGYO CHÍNH HÃNG MEGABARRA fishing lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:31.287Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-27439209184",
@@ -5046,9 +4723,7 @@
         {
           "id": "opt-27439209184",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -5118,14 +4793,9 @@
         "title": "Máy đứng câu cá Shore Walker chính hãng Megabarra",
         "description": "Máy đứng câu cá Shore Walker chính hãng Megabarra chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:31.464Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-43225898562",
@@ -5138,9 +4808,7 @@
         {
           "id": "opt-43225898562",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -5210,14 +4878,9 @@
         "title": "Máy ngang câu cá C1",
         "description": "Máy ngang câu cá C1 chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:31.642Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-53450324612",
@@ -5230,9 +4893,7 @@
         {
           "id": "opt-53450324612",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -5302,14 +4963,9 @@
         "title": "Máy đứng câu cá Tundra chính hãng",
         "description": "Máy đứng câu cá Tundra chính hãng chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:31.779Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-47700334548",
@@ -5322,9 +4978,7 @@
         {
           "id": "opt-47700334548",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -5394,14 +5048,9 @@
         "title": "Máy đứng câu cá Lates X chính hãng",
         "description": "Máy đứng câu cá Lates X chính hãng chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:31.948Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-41522753370",
@@ -5414,9 +5063,7 @@
         {
           "id": "opt-41522753370",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -5486,14 +5133,9 @@
         "title": "Máy câu đứng giá rẻ chuyên lure lóc chẽm 9+1 bạc đạn 5.2.1 fishing",
         "description": "Máy câu đứng giá rẻ chuyên lure lóc chẽm 9+1 bạc đạn 5.2.1 fishing chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:32.108Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-42482985016",
@@ -5506,9 +5148,7 @@
         {
           "id": "opt-42482985016",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -5578,14 +5218,9 @@
         "title": "[ CTF ] MÁY ĐỨNG CAO CẤP DOGGY CHÍNH HÃNG MEGABARRA - KHÁNG MẶN fishing lure",
         "description": "[ CTF ] MÁY ĐỨNG CAO CẤP DOGGY CHÍNH HÃNG MEGABARRA - KHÁNG MẶN fishing lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:32.312Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-47450344423",
@@ -5598,9 +5233,7 @@
         {
           "id": "opt-47450344423",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -5670,14 +5303,9 @@
         "title": "Máy ngang Yamato 150 chính hãng",
         "description": "Máy ngang Yamato 150 chính hãng chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:32.534Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     },
     {
       "id": "prod-53264806719",
@@ -5690,9 +5318,7 @@
         {
           "id": "opt-53264806719",
           "name": "Phân Loại",
-          "values": [
-            "Mặc định"
-          ]
+          "values": ["Mặc định"]
         }
       ],
       "priceRange": {
@@ -5762,14 +5388,9 @@
         "title": "[ CTF ] MÁY ĐỨNG CAO CẤP SERRAX - KHÁNG MẶN CHÍNH HÃNG MEGABARRA fishing\r\n                                            lure",
         "description": "[ CTF ] MÁY ĐỨNG CAO CẤP SERRAX - KHÁNG MẶN CHÍNH HÃNG MEGABARRA fishing\r\n                                            lure chất lượng cao, nhạy cá."
       },
-      "tags": [
-        "moi-cau",
-        "shopee-import"
-      ],
+      "tags": ["moi-cau", "shopee-import"],
       "updatedAt": "2026-08-10T09:16:32.709Z",
-      "collections": [
-        "moi-cau"
-      ]
+      "collections": ["moi-cau"]
     }
   ],
   "collections": [

@@ -1,7 +1,10 @@
 "use client";
 
 import { createProductAction, updateProductAction } from "app/admin/actions";
-import { saveLocalProductOverride, savePendingImage } from "lib/local/client-store";
+import {
+  saveLocalProductOverride,
+  savePendingImage,
+} from "lib/local/client-store";
 import { getImageCache, useCachedImageUrl } from "lib/local/image-cache";
 import { Product, ProductOption, ProductVariant } from "lib/local/types";
 import { useRouter } from "next/navigation";
@@ -43,7 +46,7 @@ function DropZone({
     if (disabled) return;
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       const filesArr = Array.from(e.dataTransfer.files).filter((f) =>
-        f.type.startsWith("image/")
+        f.type.startsWith("image/"),
       );
       if (filesArr.length > 0) {
         onFilesSelected(filesArr);
@@ -65,12 +68,13 @@ function DropZone({
       onDragLeave={handleDrag}
       onDrop={handleDrop}
       onClick={() => !disabled && inputRef.current?.click()}
-      className={`relative flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-xl transition-all cursor-pointer text-center ${disabled
+      className={`relative flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-xl transition-all cursor-pointer text-center ${
+        disabled
           ? "opacity-50 cursor-not-allowed border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800"
           : isDragOver
             ? "border-orange-500 bg-orange-50 dark:bg-orange-950/30 scale-[0.99]"
             : "border-neutral-300 dark:border-neutral-700 hover:border-orange-400 bg-neutral-50/50 dark:bg-neutral-900/50 hover:bg-orange-50/30 dark:hover:bg-orange-950/10"
-        }`}
+      }`}
     >
       <input
         ref={inputRef}
@@ -82,12 +86,27 @@ function DropZone({
         className="hidden"
       />
       <div className="w-10 h-10 mb-2 rounded-full bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400 flex items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-5 h-5"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
+          />
         </svg>
       </div>
-      <p className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">{label}</p>
-      {sublabel && <p className="text-[11px] text-neutral-400 mt-1">{sublabel}</p>}
+      <p className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">
+        {label}
+      </p>
+      {sublabel && (
+        <p className="text-[11px] text-neutral-400 mt-1">{sublabel}</p>
+      )}
     </div>
   );
 }
@@ -115,7 +134,9 @@ function FormImagePreview({
   const displaySrc = fallbackSrc || cachedSrc || getImageCache(src) || src;
 
   return (
-    <div className={`relative group overflow-hidden rounded-xl border transition-all ${isFeatured ? "border-orange-500 ring-2 ring-orange-500/30" : "border-neutral-200 dark:border-neutral-700"}`}>
+    <div
+      className={`relative group overflow-hidden rounded-xl border transition-all ${isFeatured ? "border-orange-500 ring-2 ring-orange-500/30" : "border-neutral-200 dark:border-neutral-700"}`}
+    >
       <img
         src={displaySrc}
         alt={alt || "Preview"}
@@ -188,7 +209,7 @@ const compressImageFile = (
   file: File,
   maxWidth = 1200,
   maxHeight = 1200,
-  quality = 0.82
+  quality = 0.82,
 ): Promise<string> => {
   return new Promise((resolve) => {
     if (file.type === "image/svg+xml") {
@@ -251,7 +272,9 @@ const cartesian = (arrays: string[][]): string[][] => {
 };
 
 // Helper to format number string with dots as thousand separators
-const formatNumberString = (value: string | number | undefined | null): string => {
+const formatNumberString = (
+  value: string | number | undefined | null,
+): string => {
   if (value === undefined || value === null) return "";
   const str = typeof value === "number" ? value.toString() : value;
   const clean = str.replace(/\D/g, "");
@@ -273,26 +296,36 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
   // Basic info
   const [title, setTitle] = useState(initialData?.title || "");
   const [handle, setHandle] = useState(initialData?.handle || "");
-  const [description, setDescription] = useState(initialData?.description || "");
-  const [imageUrl, setImageUrl] = useState(initialData?.featuredImage?.url || "");
+  const [description, setDescription] = useState(
+    initialData?.description || "",
+  );
+  const [imageUrl, setImageUrl] = useState(
+    initialData?.featuredImage?.url || "",
+  );
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {
     if (!initialData?.images) return [];
     const featUrl = initialData.featuredImage?.url;
-    return initialData.images.map((img) => img.url).filter((url) => url !== featUrl);
+    return initialData.images
+      .map((img) => img.url)
+      .filter((url) => url !== featUrl);
   });
   const [availableForSale, setAvailableForSale] = useState(
-    initialData?.availableForSale ?? true
+    initialData?.availableForSale ?? true,
   );
 
   // Options
-  const [options, setOptions] = useState<{ id: string; name: string; valuesStr: string }[]>(
-    initialData?.options && initialData.options.length > 0 && initialData.options[0]?.name !== "Title"
+  const [options, setOptions] = useState<
+    { id: string; name: string; valuesStr: string }[]
+  >(
+    initialData?.options &&
+      initialData.options.length > 0 &&
+      initialData.options[0]?.name !== "Title"
       ? initialData.options.map((o, i) => ({
-        id: o.id || `opt-${i}`,
-        name: o.name,
-        valuesStr: o.values.join(", "),
-      }))
-      : []
+          id: o.id || `opt-${i}`,
+          name: o.name,
+          valuesStr: o.values.join(", "),
+        }))
+      : [],
   );
 
   // Variants
@@ -304,7 +337,8 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           price: v.price?.amount || "",
           compareAtPrice: v.compareAtPrice?.amount || "",
           importPrice: v.importPrice?.amount || "",
-          images: v.images?.map((img) => img.url) || (v.image ? [v.image.url] : []),
+          images:
+            v.images?.map((img) => img.url) || (v.image ? [v.image.url] : []),
         };
       });
     }
@@ -341,7 +375,8 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           .replace(/[\u0300-\u036f]/g, "")
           .replace(/[^a-z0-9.]+/g, "-");
         const filename = `${timestamp}-${cleanFileName}`;
-        const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
+        const basePath =
+          process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
         const relativeUrl = `${basePath}/images/products/${filename}`;
 
         // Compress image to ~150KB Base64
@@ -390,7 +425,8 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           .replace(/[\u0300-\u036f]/g, "")
           .replace(/[^a-z0-9.]+/g, "-");
         const filename = `${timestamp}-${cleanFileName}`;
-        const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
+        const basePath =
+          process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
         const relativeUrl = `${basePath}/images/products/${filename}`;
 
         const dataUrl = await compressImageFile(file);
@@ -402,7 +438,9 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
     }
 
     setGalleryImages((prev) => [...prev, ...generatedUrls]);
-    toast.success(`Đã lưu tạm ${generatedUrls.length} ảnh bộ sưu tập vào trình duyệt`);
+    toast.success(
+      `Đã lưu tạm ${generatedUrls.length} ảnh bộ sưu tập vào trình duyệt`,
+    );
   };
 
   const removeGalleryImage = (index: number) => {
@@ -427,7 +465,10 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
   };
 
   const addOption = () => {
-    setOptions([...options, { id: `opt-${Date.now()}`, name: "", valuesStr: "" }]);
+    setOptions([
+      ...options,
+      { id: `opt-${Date.now()}`, name: "", valuesStr: "" },
+    ]);
   };
 
   const removeOption = (index: number) => {
@@ -436,7 +477,11 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
     setOptions(newOptions);
   };
 
-  const updateOption = (index: number, field: "name" | "valuesStr", value: string) => {
+  const updateOption = (
+    index: number,
+    field: "name" | "valuesStr",
+    value: string,
+  ) => {
     const newOptions = [...options];
     if (newOptions[index]) {
       newOptions[index][field] = value;
@@ -446,7 +491,7 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
 
   const variantList = useMemo(() => {
     const validOptions = options.filter(
-      (o) => o.name.trim() !== "" && o.valuesStr.trim() !== ""
+      (o) => o.name.trim() !== "" && o.valuesStr.trim() !== "",
     );
     if (validOptions.length === 0) return [];
 
@@ -454,7 +499,7 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
       o.valuesStr
         .split(",")
         .map((v) => v.trim())
-        .filter(Boolean)
+        .filter(Boolean),
     );
     const isAnyEmpty = arrays.some((a) => a.length === 0);
     if (isAnyEmpty) return [];
@@ -505,26 +550,26 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
 
     try {
       const validOptions = options.filter(
-        (o) => o.name.trim() !== "" && o.valuesStr.trim() !== ""
+        (o) => o.name.trim() !== "" && o.valuesStr.trim() !== "",
       );
 
       const finalOptions: ProductOption[] =
         validOptions.length > 0
           ? validOptions.map((o) => ({
-            id: o.id,
-            name: o.name.trim(),
-            values: o.valuesStr
-              .split(",")
-              .map((v) => v.trim())
-              .filter(Boolean),
-          }))
+              id: o.id,
+              name: o.name.trim(),
+              values: o.valuesStr
+                .split(",")
+                .map((v) => v.trim())
+                .filter(Boolean),
+            }))
           : [
-            {
-              id: `opt-default`,
-              name: "Title",
-              values: ["Default Title"],
-            },
-          ];
+              {
+                id: `opt-default`,
+                name: "Title",
+                values: ["Default Title"],
+              },
+            ];
 
       const variantsToSave: ProductVariant[] = [];
       let minPrice = Infinity;
@@ -647,7 +692,7 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
       }
 
       toast.success(
-        `🎉 Đã lưu tạm sản phẩm "${title}" vào trình duyệt! Hãy bấm "Lưu thay đổi" ở trang Admin để cập nhật lên Server.`
+        `🎉 Đã lưu tạm sản phẩm "${title}" vào trình duyệt! Hãy bấm "Lưu thay đổi" ở trang Admin để cập nhật lên Server.`,
       );
 
       router.push("/admin");
@@ -687,10 +732,11 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
             <div className="w-10 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-empty after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
           </div>
           <span
-            className={`text-xs font-bold w-16 ${availableForSale
+            className={`text-xs font-bold w-16 ${
+              availableForSale
                 ? "text-green-600 dark:text-green-400"
                 : "text-neutral-400"
-              }`}
+            }`}
           >
             {availableForSale ? "✓ Hiển thị" : "Đã ẩn"}
           </span>
@@ -764,7 +810,8 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                 Bộ Sưu Tập Hình Ảnh
               </h2>
               <p className="text-xs text-neutral-700 dark:text-neutral-400">
-                Kéo thả file để tải ảnh lên. Nhấp vào ảnh bất kỳ để đặt làm **Ảnh Bìa Chính**.
+                Kéo thả file để tải ảnh lên. Nhấp vào ảnh bất kỳ để đặt làm
+                **Ảnh Bìa Chính**.
               </p>
             </div>
           </div>
@@ -787,7 +834,8 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
         {(imageUrl || galleryImages.length > 0) && (
           <div className="space-y-3 pt-2">
             <label className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
-              Danh sách ảnh đã tải ({(imageUrl ? 1 : 0) + galleryImages.length} ảnh)
+              Danh sách ảnh đã tải ({(imageUrl ? 1 : 0) + galleryImages.length}{" "}
+              ảnh)
             </label>
             <div className="flex flex-wrap gap-4">
               {/* Featured Main Cover Image */}
@@ -838,7 +886,8 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                 Phân Loại Sản Phẩm (Options)
               </h2>
               <p className="text-xs text-neutral-700 dark:text-neutral-400">
-                Tạo các tùy chọn như Kích cỡ (S, M, L) hoặc Màu sắc (Đỏ, Xanh) để sinh ra biến thể.
+                Tạo các tùy chọn như Kích cỡ (S, M, L) hoặc Màu sắc (Đỏ, Xanh)
+                để sinh ra biến thể.
               </p>
             </div>
           </div>
@@ -877,7 +926,9 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                   type="text"
                   className="w-full p-2.5 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-sm"
                   value={opt.valuesStr}
-                  onChange={(e) => updateOption(idx, "valuesStr", e.target.value)}
+                  onChange={(e) =>
+                    updateOption(idx, "valuesStr", e.target.value)
+                  }
                   placeholder="VD: 3000, 4000, 5000"
                 />
                 <OptionPillTags valuesStr={opt.valuesStr} />
@@ -907,9 +958,12 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           ))}
           {options.length === 0 && (
             <div className="p-6 text-center border-2 border-dashed border-neutral-200 dark:border-neutral-800 rounded-2xl text-neutral-700 dark:text-neutral-400 text-xs space-y-2">
-              <p className="font-semibold">Sản phẩm chưa có phân loại (Ví dụ: Size, Màu sắc).</p>
+              <p className="font-semibold">
+                Sản phẩm chưa có phân loại (Ví dụ: Size, Màu sắc).
+              </p>
               <p className="text-neutral-400">
-                Nếu sản phẩm có nhiều biến thể, hãy nhấn nút <strong>"+ Thêm phân loại"</strong> ở trên.
+                Nếu sản phẩm có nhiều biến thể, hãy nhấn nút{" "}
+                <strong>"+ Thêm phân loại"</strong> ở trên.
               </p>
             </div>
           )}
@@ -936,7 +990,9 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                   <th className="px-4 py-3.5 min-w-[130px]">Giá nhập (VND)</th>
                   <th className="px-4 py-3.5 min-w-[130px]">Giá bán (VND) *</th>
                   <th className="px-4 py-3.5 min-w-[130px]">Giá gốc (VND)</th>
-                  <th className="px-4 py-3.5 min-w-[200px]">Ảnh riêng cho biến thể</th>
+                  <th className="px-4 py-3.5 min-w-[200px]">
+                    Ảnh riêng cho biến thể
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
@@ -957,7 +1013,11 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                           className="w-full p-2.5 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-xs"
                           value={formatNumberString(vData.importPrice || "")}
                           onChange={(e) =>
-                            handleVariantChange(v.title, "importPrice", cleanPriceInput(e.target.value))
+                            handleVariantChange(
+                              v.title,
+                              "importPrice",
+                              cleanPriceInput(e.target.value),
+                            )
                           }
                           placeholder="Giá nhập"
                         />
@@ -970,7 +1030,11 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                           className="w-full p-2.5 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-xs font-semibold focus:border-orange-500"
                           value={formatNumberString(vData.price || "")}
                           onChange={(e) =>
-                            handleVariantChange(v.title, "price", cleanPriceInput(e.target.value))
+                            handleVariantChange(
+                              v.title,
+                              "price",
+                              cleanPriceInput(e.target.value),
+                            )
                           }
                           placeholder="Giá bán *"
                         />
@@ -985,7 +1049,7 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                             handleVariantChange(
                               v.title,
                               "compareAtPrice",
-                              cleanPriceInput(e.target.value)
+                              cleanPriceInput(e.target.value),
                             )
                           }
                           placeholder="Giá gốc"
@@ -1003,24 +1067,26 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                           />
                           {vData.images && vData.images.length > 0 && (
                             <div className="flex flex-wrap gap-2 pt-1">
-                              {vData.images.map((imgUrl: string, imgIdx: number) => (
-                                <div key={imgIdx} className="relative group">
-                                  <FormImagePreview
-                                    src={imgUrl}
-                                    className="w-12 h-12 object-cover rounded-lg border border-neutral-200 dark:border-neutral-700"
-                                    alt=""
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      removeVariantImage(v.title, imgIdx)
-                                    }
-                                    className="absolute -top-1 -right-1 bg-red-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition-opacity shadow"
-                                  >
-                                    ✕
-                                  </button>
-                                </div>
-                              ))}
+                              {vData.images.map(
+                                (imgUrl: string, imgIdx: number) => (
+                                  <div key={imgIdx} className="relative group">
+                                    <FormImagePreview
+                                      src={imgUrl}
+                                      className="w-12 h-12 object-cover rounded-lg border border-neutral-200 dark:border-neutral-700"
+                                      alt=""
+                                    />
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        removeVariantImage(v.title, imgIdx)
+                                      }
+                                      className="absolute -top-1 -right-1 bg-red-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition-opacity shadow"
+                                    >
+                                      ✕
+                                    </button>
+                                  </div>
+                                ),
+                              )}
                             </div>
                           )}
                         </div>
@@ -1034,7 +1100,8 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
         ) : (
           <div className="bg-neutral-50 dark:bg-neutral-800/50 p-6 rounded-2xl border border-neutral-200 dark:border-neutral-700/60">
             <p className="text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-4">
-              Sản phẩm chưa có phân loại. Vui lòng nhập giá bán cho sản phẩm mặc định:
+              Sản phẩm chưa có phân loại. Vui lòng nhập giá bán cho sản phẩm mặc
+              định:
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl">
               <div>
@@ -1045,9 +1112,15 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                   type="text"
                   inputMode="numeric"
                   className="w-full mt-1.5 p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-sm"
-                  value={formatNumberString(variantsData["Default Title"]?.importPrice || "")}
+                  value={formatNumberString(
+                    variantsData["Default Title"]?.importPrice || "",
+                  )}
                   onChange={(e) =>
-                    handleVariantChange("Default Title", "importPrice", cleanPriceInput(e.target.value))
+                    handleVariantChange(
+                      "Default Title",
+                      "importPrice",
+                      cleanPriceInput(e.target.value),
+                    )
                   }
                   placeholder="0"
                 />
@@ -1061,9 +1134,15 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                   type="text"
                   inputMode="numeric"
                   className="w-full mt-1.5 p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-sm font-bold text-orange-600 dark:text-orange-400 focus:border-orange-500"
-                  value={formatNumberString(variantsData["Default Title"]?.price || "")}
+                  value={formatNumberString(
+                    variantsData["Default Title"]?.price || "",
+                  )}
                   onChange={(e) =>
-                    handleVariantChange("Default Title", "price", cleanPriceInput(e.target.value))
+                    handleVariantChange(
+                      "Default Title",
+                      "price",
+                      cleanPriceInput(e.target.value),
+                    )
                   }
                   placeholder="0"
                 />
@@ -1076,12 +1155,14 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                   type="text"
                   inputMode="numeric"
                   className="w-full mt-1.5 p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-sm"
-                  value={formatNumberString(variantsData["Default Title"]?.compareAtPrice || "")}
+                  value={formatNumberString(
+                    variantsData["Default Title"]?.compareAtPrice || "",
+                  )}
                   onChange={(e) =>
                     handleVariantChange(
                       "Default Title",
                       "compareAtPrice",
-                      cleanPriceInput(e.target.value)
+                      cleanPriceInput(e.target.value),
                     )
                   }
                   placeholder="0"

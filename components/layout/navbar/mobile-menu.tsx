@@ -51,7 +51,10 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
             leaveFrom="opacity-100 backdrop-blur-sm"
             leaveTo="opacity-0 backdrop-blur-none"
           >
-            <div className="fixed inset-0 bg-neutral-900/40" aria-hidden="true" />
+            <div
+              className="fixed inset-0 bg-neutral-900/40"
+              aria-hidden="true"
+            />
           </Transition.Child>
           <Transition.Child
             as={Fragment}
@@ -117,7 +120,11 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                                 : "text-neutral-400 group-hover:translate-x-0.5"
                             }`}
                           >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                            />
                           </svg>
                         </Link>
                       </li>

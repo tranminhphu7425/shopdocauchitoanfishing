@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { Cart, CartItem, Product, ProductVariant } from '../local/types';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { Cart, CartItem, Product, ProductVariant } from "../local/types";
 
 interface CartState {
   cart: Cart;
@@ -11,15 +11,14 @@ interface CartState {
 }
 
 const createEmptyCart = (): Cart => ({
-  id: 'local-cart',
-  checkoutUrl: '',
+  id: "local-cart",
+  checkoutUrl: "",
   cost: {
-    subtotalAmount: { amount: '0', currencyCode: 'VND' },
-    totalAmount: { amount: '0', currencyCode: 'VND' },
-   
+    subtotalAmount: { amount: "0", currencyCode: "VND" },
+    totalAmount: { amount: "0", currencyCode: "VND" },
   },
   lines: [],
-  totalQuantity: 0
+  totalQuantity: 0,
 });
 
 export const useCartStore = create<CartState>()(
@@ -30,7 +29,7 @@ export const useCartStore = create<CartState>()(
       addItem: (product, variant) => {
         const { cart } = get();
         const existingLineIndex = cart.lines.findIndex(
-          (line) => line.merchandise.id === variant.id
+          (line) => line.merchandise.id === variant.id,
         );
 
         let newLines = [...cart.lines];
@@ -43,19 +42,19 @@ export const useCartStore = create<CartState>()(
             cost: {
               totalAmount: {
                 amount: (
-                  parseFloat(existingLine.cost.totalAmount.amount) + 
+                  parseFloat(existingLine.cost.totalAmount.amount) +
                   parseFloat(variant.price.amount)
                 ).toString(),
-                currencyCode: 'VND'
-              }
-            }
+                currencyCode: "VND",
+              },
+            },
           };
         } else {
           const newLine: CartItem = {
             id: `line-${Date.now()}`,
             quantity: 1,
             cost: {
-              totalAmount: variant.price
+              totalAmount: variant.price,
             },
             merchandise: {
               id: variant.id,
@@ -65,18 +64,23 @@ export const useCartStore = create<CartState>()(
                 id: product.id,
                 handle: product.handle,
                 title: product.title,
-                featuredImage: product.featuredImage
-              }
-            }
+                featuredImage: product.featuredImage,
+              },
+            },
           };
           newLines.push(newLine);
         }
 
-        const totalQuantity = newLines.reduce((acc, line) => acc + line.quantity, 0);
-        const totalAmount = newLines.reduce(
-          (acc, line) => acc + parseFloat(line.cost.totalAmount.amount), 
-          0
-        ).toString();
+        const totalQuantity = newLines.reduce(
+          (acc, line) => acc + line.quantity,
+          0,
+        );
+        const totalAmount = newLines
+          .reduce(
+            (acc, line) => acc + parseFloat(line.cost.totalAmount.amount),
+            0,
+          )
+          .toString();
 
         set({
           cart: {
@@ -85,22 +89,27 @@ export const useCartStore = create<CartState>()(
             totalQuantity,
             cost: {
               ...cart.cost,
-              subtotalAmount: { amount: totalAmount, currencyCode: 'VND' },
-              totalAmount: { amount: totalAmount, currencyCode: 'VND' }
-            }
-          }
+              subtotalAmount: { amount: totalAmount, currencyCode: "VND" },
+              totalAmount: { amount: totalAmount, currencyCode: "VND" },
+            },
+          },
         });
       },
 
       removeItem: (lineId) => {
         const { cart } = get();
         const newLines = cart.lines.filter((line) => line.id !== lineId);
-        
-        const totalQuantity = newLines.reduce((acc, line) => acc + line.quantity, 0);
-        const totalAmount = newLines.reduce(
-          (acc, line) => acc + parseFloat(line.cost.totalAmount.amount), 
-          0
-        ).toString();
+
+        const totalQuantity = newLines.reduce(
+          (acc, line) => acc + line.quantity,
+          0,
+        );
+        const totalAmount = newLines
+          .reduce(
+            (acc, line) => acc + parseFloat(line.cost.totalAmount.amount),
+            0,
+          )
+          .toString();
 
         set({
           cart: {
@@ -109,10 +118,10 @@ export const useCartStore = create<CartState>()(
             totalQuantity,
             cost: {
               ...cart.cost,
-              subtotalAmount: { amount: totalAmount, currencyCode: 'VND' },
-              totalAmount: { amount: totalAmount, currencyCode: 'VND' }
-            }
-          }
+              subtotalAmount: { amount: totalAmount, currencyCode: "VND" },
+              totalAmount: { amount: totalAmount, currencyCode: "VND" },
+            },
+          },
         });
       },
 
@@ -125,26 +134,32 @@ export const useCartStore = create<CartState>()(
 
         const newLines = cart.lines.map((line) => {
           if (line.id === lineId) {
-            const unitPrice = parseFloat(line.cost.totalAmount.amount) / line.quantity;
+            const unitPrice =
+              parseFloat(line.cost.totalAmount.amount) / line.quantity;
             return {
               ...line,
               quantity,
               cost: {
                 totalAmount: {
                   amount: (unitPrice * quantity).toString(),
-                  currencyCode: 'VND'
-                }
-              }
+                  currencyCode: "VND",
+                },
+              },
             };
           }
           return line;
         });
 
-        const totalQuantity = newLines.reduce((acc, line) => acc + line.quantity, 0);
-        const totalAmount = newLines.reduce(
-          (acc, line) => acc + parseFloat(line.cost.totalAmount.amount), 
-          0
-        ).toString();
+        const totalQuantity = newLines.reduce(
+          (acc, line) => acc + line.quantity,
+          0,
+        );
+        const totalAmount = newLines
+          .reduce(
+            (acc, line) => acc + parseFloat(line.cost.totalAmount.amount),
+            0,
+          )
+          .toString();
 
         set({
           cart: {
@@ -153,17 +168,17 @@ export const useCartStore = create<CartState>()(
             totalQuantity,
             cost: {
               ...cart.cost,
-              subtotalAmount: { amount: totalAmount, currencyCode: 'VND' },
-              totalAmount: { amount: totalAmount, currencyCode: 'VND' }
-            }
-          }
+              subtotalAmount: { amount: totalAmount, currencyCode: "VND" },
+              totalAmount: { amount: totalAmount, currencyCode: "VND" },
+            },
+          },
         });
       },
 
-      clearCart: () => set({ cart: createEmptyCart() })
+      clearCart: () => set({ cart: createEmptyCart() }),
     }),
     {
-      name: 'fishing-cart-storage'
-    }
-  )
+      name: "fishing-cart-storage",
+    },
+  ),
 );

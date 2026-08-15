@@ -11,7 +11,11 @@ import { createUrl } from "lib/utils";
 
 const PRODUCTS_PER_PAGE = 9;
 
-export default function SortableProductList({ products }: { products: Product[] }) {
+export default function SortableProductList({
+  products,
+}: {
+  products: Product[];
+}) {
   const dynamicProducts = useDynamicProducts(products);
   const router = useRouter();
   const pathname = usePathname();
@@ -37,7 +41,8 @@ export default function SortableProductList({ products }: { products: Product[] 
     setMaxInput(maxPriceParam || "");
   }, [minPriceParam, maxPriceParam]);
 
-  const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
+  const { sortKey, reverse } =
+    sorting.find((item) => item.slug === sort) || defaultSort;
 
   let processedProducts = [...dynamicProducts];
 
@@ -55,12 +60,12 @@ export default function SortableProductList({ products }: { products: Product[] 
   // 2. Client-side filtering for price range
   if (minPrice !== undefined) {
     processedProducts = processedProducts.filter(
-      (p) => Number(p.priceRange.minVariantPrice.amount) >= minPrice
+      (p) => Number(p.priceRange.minVariantPrice.amount) >= minPrice,
     );
   }
   if (maxPrice !== undefined) {
     processedProducts = processedProducts.filter(
-      (p) => Number(p.priceRange.minVariantPrice.amount) <= maxPrice
+      (p) => Number(p.priceRange.minVariantPrice.amount) <= maxPrice,
     );
   }
 
@@ -101,7 +106,7 @@ export default function SortableProductList({ products }: { products: Product[] 
       nextParams.delete("page");
     }
     router.push(createUrl(pathname, nextParams), { scroll: false });
-    
+
     // Smooth scroll list container into view
     if (listRef.current) {
       listRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -133,10 +138,30 @@ export default function SortableProductList({ products }: { products: Product[] 
   const isFiltered = !!(minPriceParam || maxPriceParam);
 
   const presets = [
-    { label: "Tất cả", min: null, max: null, active: !minPriceParam && !maxPriceParam },
-    { label: "Dưới 200.000₫", min: null, max: "200000", active: !minPriceParam && maxPriceParam === "200000" },
-    { label: "200.000₫ - 500.000₫", min: "200000", max: "500000", active: minPriceParam === "200000" && maxPriceParam === "500000" },
-    { label: "Trên 500.000₫", min: "500000", max: null, active: minPriceParam === "500000" && !maxPriceParam },
+    {
+      label: "Tất cả",
+      min: null,
+      max: null,
+      active: !minPriceParam && !maxPriceParam,
+    },
+    {
+      label: "Dưới 200.000₫",
+      min: null,
+      max: "200000",
+      active: !minPriceParam && maxPriceParam === "200000",
+    },
+    {
+      label: "200.000₫ - 500.000₫",
+      min: "200000",
+      max: "500000",
+      active: minPriceParam === "200000" && maxPriceParam === "500000",
+    },
+    {
+      label: "Trên 500.000₫",
+      min: "500000",
+      max: null,
+      active: minPriceParam === "500000" && !maxPriceParam,
+    },
   ];
 
   return (
@@ -146,7 +171,9 @@ export default function SortableProductList({ products }: { products: Product[] 
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           {/* Preset Buttons */}
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Khoảng giá:</span>
+            <span className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+              Khoảng giá:
+            </span>
             <div className="flex flex-wrap gap-1.5">
               {presets.map((preset, idx) => (
                 <button
@@ -165,8 +192,13 @@ export default function SortableProductList({ products }: { products: Product[] 
           </div>
 
           {/* Custom Range Input Form */}
-          <form onSubmit={handleCustomPriceSubmit} className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Tùy chọn (₫):</span>
+          <form
+            onSubmit={handleCustomPriceSubmit}
+            className="flex items-center gap-2 flex-wrap"
+          >
+            <span className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+              Tùy chọn (₫):
+            </span>
             <input
               type="number"
               value={minInput}
@@ -212,38 +244,52 @@ export default function SortableProductList({ products }: { products: Product[] 
           {totalPages > 1 && (
             <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-neutral-200 dark:border-neutral-800 pt-6 sm:flex-row">
               <span className="text-xs text-neutral-500 dark:text-neutral-400">
-                Hiển thị <strong className="font-semibold text-neutral-900 dark:text-neutral-100">{startIndex + 1} - {endIndex}</strong> trên tổng số <strong className="font-semibold text-neutral-900 dark:text-neutral-100">{totalProducts}</strong> sản phẩm
+                Hiển thị{" "}
+                <strong className="font-semibold text-neutral-900 dark:text-neutral-100">
+                  {startIndex + 1} - {endIndex}
+                </strong>{" "}
+                trên tổng số{" "}
+                <strong className="font-semibold text-neutral-900 dark:text-neutral-100">
+                  {totalProducts}
+                </strong>{" "}
+                sản phẩm
               </span>
 
               <div className="flex items-center gap-1.5">
                 {/* Prev Button */}
                 <button
                   disabled={currentPage === 1}
-                  onClick={() => setFilterParams({ page: String(currentPage - 1) })}
+                  onClick={() =>
+                    setFilterParams({ page: String(currentPage - 1) })
+                  }
                   className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                   ‹ Trước
                 </button>
 
                 {/* Page Numbers */}
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pNum) => (
-                  <button
-                    key={pNum}
-                    onClick={() => setFilterParams({ page: String(pNum) })}
-                    className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                      pNum === currentPage
-                        ? "bg-orange-600 text-white shadow-md shadow-orange-600/10"
-                        : "bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700"
-                    }`}
-                  >
-                    {pNum}
-                  </button>
-                ))}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (pNum) => (
+                    <button
+                      key={pNum}
+                      onClick={() => setFilterParams({ page: String(pNum) })}
+                      className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                        pNum === currentPage
+                          ? "bg-orange-600 text-white shadow-md shadow-orange-600/10"
+                          : "bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700"
+                      }`}
+                    >
+                      {pNum}
+                    </button>
+                  ),
+                )}
 
                 {/* Next Button */}
                 <button
                   disabled={currentPage === totalPages}
-                  onClick={() => setFilterParams({ page: String(currentPage + 1) })}
+                  onClick={() =>
+                    setFilterParams({ page: String(currentPage + 1) })
+                  }
                   className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                   Sau ›

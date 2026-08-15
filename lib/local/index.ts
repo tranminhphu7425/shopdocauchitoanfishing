@@ -1,13 +1,6 @@
 import fs from "fs";
 import path from "path";
-import type {
-  Cart,
-  CartItem,
-  Collection,
-  Menu,
-  Page,
-  Product,
-} from "./types";
+import type { Cart, CartItem, Collection, Menu, Page, Product } from "./types";
 
 // Re-export all types so other files can import from "lib/local"
 export type {
@@ -43,24 +36,36 @@ function cleanProductImageUrls(products: any[], basePath: string): any[] {
   if (basePath === "") {
     products.forEach((p: any) => {
       if (p.featuredImage?.url) {
-        p.featuredImage.url = p.featuredImage.url.replace(/^\/(commerce|shopdocauchitoanfishing)/, "");
+        p.featuredImage.url = p.featuredImage.url.replace(
+          /^\/(commerce|shopdocauchitoanfishing)/,
+          "",
+        );
       }
       if (Array.isArray(p.images)) {
         p.images.forEach((img: any) => {
           if (img?.url) {
-            img.url = img.url.replace(/^\/(commerce|shopdocauchitoanfishing)/, "");
+            img.url = img.url.replace(
+              /^\/(commerce|shopdocauchitoanfishing)/,
+              "",
+            );
           }
         });
       }
       if (Array.isArray(p.variants)) {
         p.variants.forEach((v: any) => {
           if (v.image?.url) {
-            v.image.url = v.image.url.replace(/^\/(commerce|shopdocauchitoanfishing)/, "");
+            v.image.url = v.image.url.replace(
+              /^\/(commerce|shopdocauchitoanfishing)/,
+              "",
+            );
           }
           if (Array.isArray(v.images)) {
             v.images.forEach((img: any) => {
               if (img?.url) {
-                img.url = img.url.replace(/^\/(commerce|shopdocauchitoanfishing)/, "");
+                img.url = img.url.replace(
+                  /^\/(commerce|shopdocauchitoanfishing)/,
+                  "",
+                );
               }
             });
           }
@@ -74,7 +79,8 @@ function cleanProductImageUrls(products: any[], basePath: string): any[] {
 function readStore(): StoreData {
   const raw = fs.readFileSync(DATA_FILE, "utf-8");
   const data = JSON.parse(raw);
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
+  const basePath =
+    process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
   if (data && Array.isArray(data.products)) {
     data.products = cleanProductImageUrls(data.products, basePath);
   }
@@ -142,9 +148,7 @@ export async function getProducts({
   return products;
 }
 
-export async function getProduct(
-  handle: string,
-): Promise<Product | undefined> {
+export async function getProduct(handle: string): Promise<Product | undefined> {
   const store = readStore();
   return store.products.find((p) => p.handle === handle);
 }
@@ -287,7 +291,6 @@ export async function createCart(): Promise<Cart> {
     cost: {
       subtotalAmount: { amount: "0", currencyCode: "VND" },
       totalAmount: { amount: "0", currencyCode: "VND" },
-     
     },
   };
 }
@@ -356,9 +359,7 @@ export function deleteProduct(handle: string): boolean {
 
 // --- Admin: CRUD operations for collections ---
 
-export function addCollection(
-  collection: Omit<Collection, "path">,
-): void {
+export function addCollection(collection: Omit<Collection, "path">): void {
   const store = readStore();
   store.collections.push(collection);
   writeStore(store);

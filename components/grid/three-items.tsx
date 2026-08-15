@@ -15,7 +15,8 @@ function ThreeItemGridItem({
   size: "full" | "half";
   priority?: boolean;
 }) {
-  const { discountPercent, minPrice, compareAtAmount } = getCheapestVariantDiscount(item);
+  const { discountPercent, minPrice, compareAtAmount } =
+    getCheapestVariantDiscount(item);
 
   return (
     <div
@@ -55,15 +56,20 @@ function ThreeItemGridItem({
   );
 }
 
-export function ThreeItemGrid({ initialProducts = [] }: { initialProducts?: Product[] }) {
+export function ThreeItemGrid({
+  initialProducts = [],
+}: {
+  initialProducts?: Product[];
+}) {
   const dynamicProducts = useDynamicProducts(initialProducts);
 
   // Filter products by collection "featured" or take top products
   const homepageItems = dynamicProducts.filter((p) =>
-    ((p as any).collections || []).includes("featured")
+    ((p as any).collections || []).includes("featured"),
   );
 
-  const displayItems = homepageItems.length >= 3 ? homepageItems : dynamicProducts;
+  const displayItems =
+    homepageItems.length >= 3 ? homepageItems : dynamicProducts;
 
   if (!displayItems[0] || !displayItems[1] || !displayItems[2]) return null;
 

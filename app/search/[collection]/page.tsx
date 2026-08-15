@@ -1,4 +1,8 @@
-import { getCollection, getCollectionProducts, getCollections } from "lib/local";
+import {
+  getCollection,
+  getCollectionProducts,
+  getCollections,
+} from "lib/local";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import SortableProductList from "components/layout/sortable-product-list";

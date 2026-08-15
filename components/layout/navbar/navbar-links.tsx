@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-import { Menu as MenuType } from 'lib/local/types';
-import CategoryDropdown from './category-dropdown';
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { Menu as MenuType } from "lib/local/types";
+import CategoryDropdown from "./category-dropdown";
 
 export default function NavbarLinks({ menu }: { menu: MenuType[] }) {
   const pathname = usePathname();
-  const isSearchActive = pathname === '/search';
+  const isSearchActive = pathname === "/search";
 
   return (
     <ul className="hidden gap-6 text-sm md:flex md:items-center whitespace-nowrap">
@@ -25,7 +25,9 @@ export default function NavbarLinks({ menu }: { menu: MenuType[] }) {
         </Link>
       </li>
       <li>
-        <CategoryDropdown menu={menu.filter(item => item.path !== '/search')} />
+        <CategoryDropdown
+          menu={menu.filter((item) => item.path !== "/search")}
+        />
       </li>
     </ul>
   );

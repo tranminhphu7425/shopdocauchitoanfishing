@@ -1,31 +1,37 @@
 "use client";
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import { CONTACT_INFO } from 'lib/constants';
-import shopeeIcon from 'public/images/icons/shopee.jpg';
-import tiktokIcon from 'public/images/icons/tiktokshop.jpg';
-import zaloIcon from 'public/images/icons/zalo.jpg';
-import messengerIcon from 'public/images/icons/messenger.png';
+import React, { useState } from "react";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { CONTACT_INFO } from "lib/constants";
+import shopeeIcon from "public/images/icons/shopee.jpg";
+import tiktokIcon from "public/images/icons/tiktokshop.jpg";
+import zaloIcon from "public/images/icons/zalo.jpg";
+import messengerIcon from "public/images/icons/messenger.png";
 
 const ContactButtons = () => {
   const pathname = usePathname();
-  const { phone: phoneNumber, zalo: zaloNumber, messenger: messengerId, shopee, tiktok } = CONTACT_INFO;
+  const {
+    phone: phoneNumber,
+    zalo: zaloNumber,
+    messenger: messengerId,
+    shopee,
+    tiktok,
+  } = CONTACT_INFO;
   const [isExpanded, setIsExpanded] = useState(false);
 
-  if (pathname?.startsWith('/admin')) {
+  if (pathname?.startsWith("/admin")) {
     return null;
   }
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-4 animate-fadeIn items-end">
       {/* Danh sách các nút liên hệ (Hiệu ứng mở rộng mượt mà bằng CSS transitions) */}
-      <div 
+      <div
         className={`flex flex-col gap-4 transition-all duration-300 ease-out origin-bottom ${
-          isExpanded 
-            ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' 
-            : 'opacity-0 translate-y-6 scale-90 pointer-events-none'
+          isExpanded
+            ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
+            : "opacity-0 translate-y-6 scale-90 pointer-events-none"
         }`}
       >
         {/* Nút Shopee */}
@@ -144,7 +150,9 @@ const ContactButtons = () => {
         className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-600 text-white shadow-lg transition-all hover:scale-110 active:scale-95 z-10 cursor-pointer"
         title="Liên hệ với chúng tôi"
       >
-        <div className={`transition-transform duration-300 ${isExpanded ? 'rotate-90' : 'rotate-0'}`}>
+        <div
+          className={`transition-transform duration-300 ${isExpanded ? "rotate-90" : "rotate-0"}`}
+        >
           {isExpanded ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -154,7 +162,11 @@ const ContactButtons = () => {
               stroke="currentColor"
               className="h-6 w-6"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           ) : (
             <svg
