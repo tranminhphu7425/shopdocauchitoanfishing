@@ -27,12 +27,16 @@ export function ProductPrice({
   const selectedVariant = variant || defaultVariant;
 
   const amount =
-    selectedVariant?.price.amount || product.priceRange.maxVariantPrice.amount;
+    selectedVariant?.price.amount || product.priceRange.minVariantPrice.amount;
   const currencyCode =
     selectedVariant?.price.currencyCode ||
-    product.priceRange.maxVariantPrice.currencyCode;
+    product.priceRange.minVariantPrice.currencyCode;
 
-  const compareAtAmount = selectedVariant?.compareAtPrice?.amount;
+  const compareAtAmount = selectedVariant
+    ? selectedVariant.compareAtPrice?.amount
+    : (product.priceRange.maxVariantPrice.amount !== product.priceRange.minVariantPrice.amount
+        ? product.priceRange.maxVariantPrice.amount
+        : undefined);
 
   // Calculate discount percentage if applicable
   let discountPercentage = 0;

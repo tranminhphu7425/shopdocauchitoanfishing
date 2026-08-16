@@ -973,6 +973,16 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           })),
       ];
 
+      // Find the cheapest variant based on selling price (price.amount)
+      let cheapestVar = variantsToSave[0];
+      if (variantsToSave.length > 1) {
+        variantsToSave.forEach((v) => {
+          if (parseFloat(v.price.amount) < parseFloat(cheapestVar.price.amount)) {
+            cheapestVar = v;
+          }
+        });
+      }
+
       const productData: Product & { collections?: string[] } = {
         id: initialData?.id || `prod-${Date.now()}`,
         handle: handle,
@@ -988,8 +998,16 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           : "",
         options: finalOptions,
         priceRange: {
-          minVariantPrice: { amount: minPrice.toString(), currencyCode: "VND" },
-          maxVariantPrice: { amount: maxPrice.toString(), currencyCode: "VND" },
+          minVariantPrice: {
+            amount: cheapestVar ? cheapestVar.price.amount : "0",
+            currencyCode: "VND",
+          },
+          maxVariantPrice: {
+            amount: cheapestVar
+              ? cheapestVar.compareAtPrice?.amount || cheapestVar.price.amount
+              : "0",
+            currencyCode: "VND",
+          },
         },
         variants: variantsToSave,
         featuredImage: featuredImageObj,

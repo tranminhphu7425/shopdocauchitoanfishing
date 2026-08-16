@@ -8,6 +8,20 @@ export async function createProductAction(
     // Insert product
     const { collections, id, ...productData } = product;
     
+    let calculatedPriceRange = product.priceRange;
+    if (product.variants && product.variants.length > 0) {
+      let cheapestVar = product.variants[0];
+      product.variants.forEach((v) => {
+        if (parseFloat(v.price.amount) < parseFloat(cheapestVar.price.amount)) {
+          cheapestVar = v;
+        }
+      });
+      calculatedPriceRange = {
+        minVariantPrice: { amount: cheapestVar.price.amount, currencyCode: "VND" },
+        maxVariantPrice: { amount: cheapestVar.compareAtPrice?.amount || cheapestVar.price.amount, currencyCode: "VND" },
+      };
+    }
+
     const { data: insertedProduct, error: insertError } = await supabase
       .from("products")
       .insert({
@@ -16,7 +30,7 @@ export async function createProductAction(
         description: product.description,
         description_html: product.descriptionHtml,
         available_for_sale: product.availableForSale,
-        price_range: product.priceRange,
+        price_range: calculatedPriceRange,
         featured_image: product.featuredImage,
         images: product.images,
         options: product.options,
@@ -67,10 +81,25 @@ export async function updateProductAction(
     if (updateData.descriptionHtml !== undefined) mappedUpdates.description_html = updateData.descriptionHtml;
     if (updateData.availableForSale !== undefined) mappedUpdates.available_for_sale = updateData.availableForSale;
     if (updateData.priceRange !== undefined) mappedUpdates.price_range = updateData.priceRange;
+    if (updateData.variants !== undefined) {
+      mappedUpdates.variants = updateData.variants;
+      if (updateData.variants.length > 0) {
+        let cheapestVar = updateData.variants[0];
+        updateData.variants.forEach((v) => {
+          if (parseFloat(v.price.amount) < parseFloat(cheapestVar.price.amount)) {
+            cheapestVar = v;
+          }
+        });
+        mappedUpdates.price_range = {
+          minVariantPrice: { amount: cheapestVar.price.amount, currencyCode: "VND" },
+          maxVariantPrice: { amount: cheapestVar.compareAtPrice?.amount || cheapestVar.price.amount, currencyCode: "VND" },
+        };
+      }
+    }
     if (updateData.featuredImage !== undefined) mappedUpdates.featured_image = updateData.featuredImage;
     if (updateData.images !== undefined) mappedUpdates.images = updateData.images;
     if (updateData.options !== undefined) mappedUpdates.options = updateData.options;
-    if (updateData.variants !== undefined) mappedUpdates.variants = updateData.variants;
+    // Removed old variants line as it is handled above
     if (updateData.seo !== undefined) mappedUpdates.seo = updateData.seo;
     if (updateData.tags !== undefined) mappedUpdates.tags = updateData.tags;
 
