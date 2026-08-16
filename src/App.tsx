@@ -11,6 +11,7 @@ import SearchPage from './pages/SearchPage';
 import CollectionPage from './pages/CollectionPage';
 import ProductPage from './pages/ProductPage';
 import CheckoutPage from './pages/CheckoutPage';
+import ContactPage from './pages/ContactPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import EditProductPage from './pages/admin/EditProductPage';
 import NewProductPage from './pages/admin/NewProductPage';
@@ -43,6 +44,7 @@ export default function App() {
           <Route path="/search/:collection" element={<CollectionPage />} />
           <Route path="/product/:handle" element={<ProductPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           
           <Route
             path="/admin"

@@ -25,8 +25,8 @@ const Label = ({
         },
       )}
     >
-      <div className="flex w-full items-center sm:flex-col sm:gap-2 xl:flex-row xl:gap-0 rounded-2xl border bg-white/80 p-2 text-sm font-semibold text-black backdrop-blur-md dark:border-neutral-800 dark:bg-black/85 dark:text-white shadow-md">
-        <h3 className="mr-3 line-clamp-3 grow pl-2 text-lg md:text-sm font-bold leading-tight tracking-tight text-neutral-800 dark:text-neutral-100">
+      <div className="flex w-full items-center flex-col gap-2 sm:flex-col sm:gap-2 xl:flex-row xl:gap-0 rounded-2xl border bg-white/80 p-2 text-sm font-semibold text-black backdrop-blur-md dark:border-neutral-800 dark:bg-black/85 dark:text-white shadow-md">
+        <h3 className="mr-3 line-clamp-3 grow pl-2 text-md sm:text-sm font-bold leading-tight tracking-tight text-neutral-800 dark:text-neutral-100">
           {title}
         </h3>
         <div className="flex flex-col sm:flex-row items-end sm:items-center gap-1 flex-none rounded-xl bg-orange-600 px-3.5 py-2 text-white">
@@ -40,7 +40,7 @@ const Label = ({
               />
             )}
           <Price
-            className="text-lg md:text-sm font-extrabold tracking-tight"
+            className="text-md md:text-sm font-extrabold tracking-tight"
             amount={amount}
             currencyCode={currencyCode}
             currencyCodeClassName="hidden @[275px]/label:inline"

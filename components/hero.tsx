@@ -32,13 +32,13 @@ const Hero = () => {
               to="/search"
               className="rounded-full bg-white px-6 py-3 sm:px-8 sm:py-4 text-xs sm:text-sm font-bold text-black transition-all hover:bg-orange-500 hover:text-white"
             >
-              Mua Ngay
+              Xem tất cả
             </Link>
             <Link
-              to="/search/moi-cau"
+              to="/contact"
               className="rounded-full border border-white/50 bg-white/10 px-6 py-3 sm:px-8 sm:py-4 text-xs sm:text-sm font-bold text-white backdrop-blur-md transition-all hover:bg-white/20"
             >
-              Xem Mồi Câu
+              Liên hệ
             </Link>
           </div>
         </div>
