@@ -1,37 +1,23 @@
 "use client";
 
 import { Suspense, useState, useEffect } from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import type { Product, Image } from "lib/local/types";
 import { getCheapestVariantDiscount } from "lib/local/discount";
-import { useDynamicProducts } from "lib/local/client-store";
 import { Gallery } from "components/product/gallery";
 import { ProductDescription } from "components/product/product-description";
 import { GridTileImage } from "components/grid/tile";
 
 export function ProductDetailView({
   initialProduct,
+  relatedProducts,
   handle,
 }: {
   initialProduct: Product;
+  relatedProducts: Product[];
   handle: string;
 }) {
-  const dynamicProducts = useDynamicProducts([initialProduct]);
-  const currentProduct =
-    dynamicProducts.find(
-      (p) => p.handle === handle || p.id === initialProduct.id,
-    ) || initialProduct;
-
-  const currentCollections = (currentProduct as any).collections || [];
-  const relatedProducts = dynamicProducts
-    .filter(
-      (p) =>
-        p.id !== currentProduct.id &&
-        ((p as any).collections || []).some((c: string) =>
-          currentCollections.includes(c),
-        ),
-    )
-    .slice(0, 4);
+  const currentProduct = initialProduct;
 
   // Client-side states for instant UX
   const [selectedOptions, setSelectedOptions] = useState<
@@ -202,8 +188,7 @@ export function ProductDetailView({
                 >
                   <Link
                     className="relative h-full w-full"
-                    href={`/product/${product.handle}`}
-                    prefetch={true}
+                    to={`/product/${product.handle}`}
                   >
                     <GridTileImage
                       alt={product.title}

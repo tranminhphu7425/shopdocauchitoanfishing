@@ -1,6 +1,6 @@
-import Image from "next/image";
+
 import clsx from "clsx";
-import avatarUrl from "public/images/logo.jpg";
+const avatarUrl = "/images/logo.jpg";
 
 export default function LogoSquare({ size }: { size?: "sm" | undefined }) {
   return (
@@ -13,7 +13,7 @@ export default function LogoSquare({ size }: { size?: "sm" | undefined }) {
         },
       )}
     >
-      <Image
+      <img
         src={avatarUrl}
         alt="Chí Toàn Fishing Shop Logo"
         width={size === "sm" ? 40 : 50}

@@ -1,37 +1,38 @@
-import clsx from "clsx";
-import { Suspense } from "react";
+"use client";
 
+import { useEffect, useState } from "react";
 import { getCollections } from "lib/local";
 import FilterList from "./filter";
-
-async function CollectionList() {
-  const collections = await getCollections();
-  return <FilterList list={collections} title="Danh mục" />;
-}
-
-const skeleton = "mb-3 h-4 w-5/6 animate-pulse rounded-sm";
-const activeAndTitles = "bg-neutral-800 dark:bg-neutral-300";
-const items = "bg-neutral-400 dark:bg-neutral-700";
+import type { Collection } from "lib/local/types";
 
 export default function Collections() {
-  return (
-    <Suspense
-      fallback={
-        <div className="col-span-2 hidden h-[400px] w-full flex-none py-4 lg:block">
-          <div className={clsx(skeleton, activeAndTitles)} />
-          <div className={clsx(skeleton, activeAndTitles)} />
-          <div className={clsx(skeleton, items)} />
-          <div className={clsx(skeleton, items)} />
-          <div className={clsx(skeleton, items)} />
-          <div className={clsx(skeleton, items)} />
-          <div className={clsx(skeleton, items)} />
-          <div className={clsx(skeleton, items)} />
-          <div className={clsx(skeleton, items)} />
-          <div className={clsx(skeleton, items)} />
-        </div>
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const data = await getCollections();
+        setCollections(data);
+      } catch (error) {
+        console.error("Error loading collections:", error);
+      } finally {
+        setLoading(false);
       }
-    >
-      <CollectionList />
-    </Suspense>
-  );
+    }
+    loadData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="col-span-2 hidden h-[400px] w-full flex-none py-4 lg:block">
+        <div className="mb-3 h-4 w-5/6 animate-pulse rounded-sm bg-neutral-200 dark:bg-neutral-800" />
+        <div className="mb-3 h-4 w-5/6 animate-pulse rounded-sm bg-neutral-200 dark:bg-neutral-800" />
+        <div className="mb-3 h-4 w-5/6 animate-pulse rounded-sm bg-neutral-300 dark:bg-neutral-700" />
+        <div className="mb-3 h-4 w-5/6 animate-pulse rounded-sm bg-neutral-300 dark:bg-neutral-700" />
+      </div>
+    );
+  }
+
+  return <FilterList list={collections} title="Danh mục" />;
 }

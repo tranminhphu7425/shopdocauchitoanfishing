@@ -3,7 +3,7 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { Product, ProductVariant } from "lib/local/types";
-import { useSearchParams } from "next/navigation";
+import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
 import { useCart } from "./cart-context";
 
 function SubmitButton({
@@ -67,7 +67,7 @@ export function AddToCart({
 }) {
   const { variants } = product;
   const { addCartItem } = useCart();
-  const searchParams = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const variant = variants.find((variant: ProductVariant) =>
     variant.selectedOptions.every((option) => {

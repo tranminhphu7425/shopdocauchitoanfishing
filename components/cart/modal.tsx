@@ -7,8 +7,8 @@ import LoadingDots from "components/loading-dots";
 import Price from "components/price";
 import { DEFAULT_OPTION } from "lib/constants";
 import { createUrl } from "lib/utils";
-import Image from "next/image";
-import Link from "next/link";
+
+import { Link } from "react-router-dom";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { createCartAndSetCookie, redirectToCheckout } from "./actions";
@@ -151,7 +151,7 @@ export default function CartModal() {
                               <div className="flex flex-row items-center gap-3">
                                 {/* Product Image */}
                                 <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50 p-1 dark:border-neutral-800 dark:bg-neutral-950">
-                                  <Image
+                                  <img
                                     className="h-full w-full object-contain"
                                     width={64}
                                     height={64}
@@ -169,7 +169,7 @@ export default function CartModal() {
                                 {/* Title & Option */}
                                 <div className="flex flex-col max-w-[150px] sm:max-w-[170px]">
                                   <Link
-                                    href={merchandiseUrl}
+                                    to={merchandiseUrl}
                                     onClick={closeCart}
                                     className="text-xs font-bold text-neutral-800 leading-tight hover:text-orange-500 dark:text-neutral-200 dark:hover:text-orange-400 transition-colors line-clamp-2"
                                   >
@@ -234,16 +234,14 @@ export default function CartModal() {
                     </div>
                   </div>
 
-                  <div
-                    onClick={() => {
-                      const basePath =
-                        process.env.NEXT_PUBLIC_BASE_PATH ??
-                        "/shopdocauchitoanfishing";
-                      window.location.href = `${basePath}/checkout`;
-                    }}
-                    className="pb-2"
-                  >
-                    <CheckoutButton />
+                  <div className="pb-2">
+                    <Link
+                      to="/checkout"
+                      onClick={closeCart}
+                      className="block w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 p-3.5 text-center text-sm font-bold text-white shadow-md hover:shadow-lg hover:shadow-orange-500/20 active:scale-[0.98] transition-all"
+                    >
+                      TIẾN HÀNH THANH TOÁN
+                    </Link>
                   </div>
                 </div>
               )}
@@ -265,19 +263,5 @@ function CloseCart({ className }: { className?: string }) {
         )}
       />
     </div>
-  );
-}
-
-function CheckoutButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      className="block w-full rounded-full bg-gradient-to-r from-orange-500 to-red-600 p-3.5 text-center text-sm font-bold text-white shadow-md hover:shadow-lg hover:shadow-orange-500/20 active:scale-[0.98] transition-all disabled:opacity-50"
-      type="submit"
-      disabled={pending}
-    >
-      {pending ? <LoadingDots className="bg-white" /> : "TIẾN HÀNH THANH TOÁN"}
-    </button>
   );
 }

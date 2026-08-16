@@ -6,7 +6,7 @@ export async function removeItem() {}
 export async function updateItemQuantity() {}
 export async function redirectToCheckout() {
   const basePath =
-    process.env.NEXT_PUBLIC_BASE_PATH ?? "/shopdocauchitoanfishing";
+    import.meta.env.VITE_BASE_PATH ?? "/shopdocauchitoanfishing";
   window.location.href = `${basePath}/checkout`;
 }
 export async function createCartAndSetCookie() {}

@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
+import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
@@ -15,8 +15,8 @@ export default function FilterItemDropdown({
   list: ListItem[];
   title?: string;
 }) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const pathname = (useLocation().pathname);
+  const [searchParams] = useSearchParams();
   const [active, setActive] = useState("");
   const [openSelect, setOpenSelect] = useState(false);
   const ref = useRef<HTMLDivElement>(null);

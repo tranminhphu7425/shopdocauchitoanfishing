@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { ProductOption, ProductVariant } from "lib/local/types";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
 
 type Combination = {
   id: string;
@@ -21,8 +21,8 @@ export function VariantSelector({
   selectedOptions?: Record<string, string>;
   onOptionChange?: (name: string, value: string) => void;
 }) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const router = useNavigate();
+  const [searchParams] = useSearchParams();
   const hasNoOptionsOrJustOneOption =
     !options.length ||
     (options.length === 1 && options[0]?.values.length === 1);
@@ -50,7 +50,7 @@ export function VariantSelector({
       const params = new URLSearchParams(searchParams.toString());
       params.set(name, value);
       params.delete("image");
-      router.replace(`?${params.toString()}`, { scroll: false });
+      router(`?${params.toString()}`, { replace: true });
     }
   };
 

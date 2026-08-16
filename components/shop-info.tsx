@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 
 const ShopInfo = ({ totalProducts = 47 }: { totalProducts?: number }) => {
   const shopData = {

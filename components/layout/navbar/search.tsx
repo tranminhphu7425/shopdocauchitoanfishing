@@ -1,15 +1,27 @@
 "use client";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import Form from "next/form";
-import { useSearchParams } from "next/navigation";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function Search() {
-  const searchParams = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const val = e.currentTarget.q.value;
+    const newParams = new URLSearchParams(searchParams);
+    if (val) {
+      newParams.set("q", val);
+    } else {
+      newParams.delete("q");
+    }
+    navigate(`/search?${newParams.toString()}`);
+  }
 
   return (
-    <Form
-      action="/search"
+    <form
+      onSubmit={handleSubmit}
       className="w-max-[550px] relative w-full lg:w-80 xl:w-full"
     >
       <input
@@ -24,7 +36,7 @@ export default function Search() {
       <div className="absolute right-0 top-0 mr-3 flex h-full items-center">
         <MagnifyingGlassIcon className="h-4" />
       </div>
-    </Form>
+    </form>
   );
 }
 

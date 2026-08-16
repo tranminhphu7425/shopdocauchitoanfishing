@@ -1,24 +1,37 @@
-import Link from "next/link";
-import Image from "next/image";
+import { Link } from "react-router-dom";
+
 
 import FooterMenu from "components/layout/footer-menu";
 import LogoSquare from "components/logo-square";
 import { getMenu } from "lib/local";
-import { Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { CONTACT_INFO } from "lib/constants";
 
-import shopeeIcon from "public/images/icons/shopee.jpg";
-import tiktokIcon from "public/images/icons/tiktokshop.jpg";
-import zaloIcon from "public/images/icons/zalo.jpg";
+const shopeeIcon = "/images/icons/shopee.jpg";
+const tiktokIcon = "/images/icons/tiktokshop.jpg";
+const zaloIcon = "/images/icons/zalo.jpg";
 
-const { COMPANY_NAME, SITE_NAME } = process.env;
+const COMPANY_NAME = import.meta.env.VITE_COMPANY_NAME;
+const SITE_NAME = import.meta.env.VITE_SITE_NAME;
 
-export default async function Footer() {
+export default function Footer() {
   const currentYear = new Date().getFullYear();
   const copyrightDate = 2023 + (currentYear > 2023 ? `-${currentYear}` : "");
   const skeleton =
     "w-full h-6 animate-pulse rounded-sm bg-neutral-200 dark:bg-neutral-700";
-  const menu = await getMenu("next-js-frontend-footer-menu");
+  const [menu, setMenu] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const data = await getMenu("next-js-frontend-footer-menu");
+        setMenu(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    loadData();
+  }, []);
   const copyrightName = COMPANY_NAME || SITE_NAME || "";
   const {
     phone: phoneNumber,
@@ -35,7 +48,7 @@ export default async function Footer() {
         <div className="md:col-span-4 flex flex-col gap-4">
           <Link
             className="flex items-center gap-2.5 text-black dark:text-white"
-            href="/"
+            to="/"
           >
             <LogoSquare size="sm" />
             <span className="font-bold uppercase tracking-wider text-sm">
@@ -106,7 +119,7 @@ export default async function Footer() {
             {/* Zalo */}
             <div className="flex items-center gap-2.5">
               <div className="h-5 w-5 overflow-hidden rounded-full shadow-sm flex-none">
-                <Image
+                <img
                   src={zaloIcon}
                   alt="Zalo"
                   width={20}
@@ -156,7 +169,7 @@ export default async function Footer() {
             {shopee && (
               <div className="flex items-center gap-2.5">
                 <div className="h-5 w-5 overflow-hidden rounded-full shadow-sm flex-none">
-                  <Image
+                  <img
                     src={shopeeIcon}
                     alt="Shopee"
                     width={20}
@@ -182,7 +195,7 @@ export default async function Footer() {
             {tiktok && (
               <div className="flex items-center gap-2.5">
                 <div className="h-5 w-5 overflow-hidden rounded-full shadow-sm flex-none">
-                  <Image
+                  <img
                     src={tiktokIcon}
                     alt="TikTok Shop"
                     width={20}

@@ -1,15 +1,14 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, useLocation } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 
 import ThemeToggle from "components/theme-toggle";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function AdminMobileMenu() {
-  const pathname = usePathname();
+  const pathname = (useLocation().pathname);
   const [isOpen, setIsOpen] = useState(false);
   const openMobileMenu = () => setIsOpen(true);
   const closeMobileMenu = () => setIsOpen(false);
@@ -150,8 +149,7 @@ export default function AdminMobileMenu() {
                   return (
                     <li key={item.path}>
                       <Link
-                        href={item.path}
-                        prefetch={true}
+                        to={item.path}
                         onClick={closeMobileMenu}
                         className={`flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-xl transition-all ${
                           isActive
@@ -165,6 +163,19 @@ export default function AdminMobileMenu() {
                     </li>
                   );
                 })}
+                <li className="mt-4 pt-4 border-t border-neutral-100 dark:border-neutral-900">
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("ctf_admin_authenticated");
+                      sessionStorage.removeItem("ctf_admin_authenticated");
+                      closeMobileMenu();
+                      window.location.reload();
+                    }}
+                    className="flex w-full items-center gap-3 px-4 py-3 text-sm font-bold text-red-600 bg-red-50 dark:bg-red-950/40 dark:text-red-400 rounded-xl transition-all"
+                  >
+                    <span>🔒 Đăng xuất Quản trị</span>
+                  </button>
+                </li>
               </ul>
             </Dialog.Panel>
           </Transition.Child>

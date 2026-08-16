@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
+
+import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
 import { CONTACT_INFO } from "lib/constants";
-import shopeeIcon from "public/images/icons/shopee.jpg";
-import tiktokIcon from "public/images/icons/tiktokshop.jpg";
-import zaloIcon from "public/images/icons/zalo.jpg";
-import messengerIcon from "public/images/icons/messenger.png";
+import shopeeIcon from "/images/icons/shopee.jpg";
+import tiktokIcon from "/images/icons/tiktokshop.jpg";
+import zaloIcon from "/images/icons/zalo.jpg";
+import messengerIcon from "/images/icons/messenger.png";
 
 const ContactButtons = () => {
-  const pathname = usePathname();
+  const pathname = (useLocation().pathname);
   const {
     phone: phoneNumber,
     zalo: zaloNumber,
@@ -43,7 +43,7 @@ const ContactButtons = () => {
             className="group relative flex h-14 w-14 items-center justify-center rounded-full overflow-hidden shadow-lg transition-all hover:scale-110 active:scale-95"
             title="Ghé cửa hàng Shopee"
           >
-            <Image
+            <img
               src={shopeeIcon}
               alt="Shopee"
               width={56}
@@ -65,7 +65,7 @@ const ContactButtons = () => {
             className="group relative flex h-14 w-14 items-center justify-center rounded-full overflow-hidden shadow-lg transition-all hover:scale-110 active:scale-95"
             title="Ghé cửa hàng TikTok Shop"
           >
-            <Image
+            <img
               src={tiktokIcon}
               alt="TikTok Shop"
               width={56}
@@ -111,7 +111,7 @@ const ContactButtons = () => {
           className="group relative flex h-14 w-14 items-center justify-center rounded-full overflow-hidden shadow-lg transition-all hover:scale-110 active:scale-95"
           title="Chat Zalo"
         >
-          <Image
+          <img
             src={zaloIcon}
             alt="Zalo"
             width={56}
@@ -131,7 +131,7 @@ const ContactButtons = () => {
           className="group relative flex h-14 w-14 items-center justify-center rounded-full overflow-hidden shadow-lg transition-all hover:scale-110 active:scale-95"
           title="Chat Facebook"
         >
-          <Image
+          <img
             src={messengerIcon}
             alt="Messenger"
             width={56}

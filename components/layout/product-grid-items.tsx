@@ -2,7 +2,7 @@ import Grid from "components/grid";
 import { GridTileImage } from "components/grid/tile";
 import { Product } from "lib/local/types";
 import { getCheapestVariantDiscount } from "lib/local/discount";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import React from "react";
 
 function escapeRegExp(string: string) {
@@ -78,8 +78,7 @@ export default function ProductGridItems({
           <Grid.Item key={product.handle} className="animate-fadeIn">
             <Link
               className="relative inline-block h-full w-full group/link"
-              href={`/product/${product.handle}`}
-              prefetch={true}
+              to={`/product/${product.handle}`}
             >
               <GridTileImage
                 alt={product.title}

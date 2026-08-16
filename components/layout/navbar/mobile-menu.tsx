@@ -1,8 +1,8 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { Link } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
 import { Fragment, Suspense, useEffect, useState } from "react";
 
 import ThemeToggle from "components/theme-toggle";
@@ -11,11 +11,12 @@ import { Menu } from "lib/local/types";
 import Search, { SearchSkeleton } from "./search";
 
 export default function MobileMenu({ menu }: { menu: Menu[] }) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const pathname = (useLocation().pathname);
+  const [searchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const openMobileMenu = () => setIsOpen(true);
   const closeMobileMenu = () => setIsOpen(false);
+  const isSearchActive = pathname === "/search";
 
   useEffect(() => {
     const handleResize = () => {
@@ -93,19 +94,46 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
               {/* Navigation Menu Links */}
               {menu.length ? (
                 <ul className="flex w-full flex-col gap-1.5">
+                  <li key="all-products">
+                    <Link
+                      to="/search"
+                      onClick={closeMobileMenu}
+                      className={`flex items-center justify-between px-4 py-3 text-sm font-semibold rounded-xl transition-all ${isSearchActive
+                          ? "bg-orange-50 text-orange-600 dark:bg-orange-950/20 dark:text-orange-500 font-bold border-l-4 border-orange-600 pl-3 shadow-sm"
+                          : "text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100/50 dark:hover:bg-neutral-900/50 hover:text-neutral-900 dark:hover:text-white"
+                        }`}
+                    >
+                      <span>Tất cả sản phẩm</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2.5}
+                        stroke="currentColor"
+                        className={`h-3.5 w-3.5 transition-transform ${isSearchActive
+                            ? "text-orange-600 dark:text-orange-500 translate-x-0.5"
+                            : "text-neutral-400 group-hover:translate-x-0.5"
+                          }`}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                        />
+                      </svg>
+                    </Link>
+                  </li>
                   {menu.map((item: Menu) => {
                     const isActive = pathname === item.path;
                     return (
                       <li key={item.title}>
                         <Link
-                          href={item.path}
-                          prefetch={true}
+                          to={item.path}
                           onClick={closeMobileMenu}
-                          className={`flex items-center justify-between px-4 py-3 text-sm font-semibold rounded-xl transition-all ${
-                            isActive
+                          className={`flex items-center justify-between px-4 py-3 text-sm font-semibold rounded-xl transition-all ${isActive
                               ? "bg-orange-50 text-orange-600 dark:bg-orange-950/20 dark:text-orange-500 font-bold border-l-4 border-orange-600 pl-3 shadow-sm"
                               : "text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100/50 dark:hover:bg-neutral-900/50 hover:text-neutral-900 dark:hover:text-white"
-                          }`}
+                            }`}
                         >
                           <span>{item.title}</span>
                           <svg
@@ -114,11 +142,10 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                             viewBox="0 0 24 24"
                             strokeWidth={2.5}
                             stroke="currentColor"
-                            className={`h-3.5 w-3.5 transition-transform ${
-                              isActive
+                            className={`h-3.5 w-3.5 transition-transform ${isActive
                                 ? "text-orange-600 dark:text-orange-500 translate-x-0.5"
                                 : "text-neutral-400 group-hover:translate-x-0.5"
-                            }`}
+                              }`}
                           >
                             <path
                               strokeLinecap="round"

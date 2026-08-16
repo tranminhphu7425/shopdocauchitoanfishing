@@ -3,8 +3,7 @@
 import { GridTileImage } from "components/grid/tile";
 import type { Product } from "lib/local/types";
 import { getCheapestVariantDiscount } from "lib/local/discount";
-import { useDynamicProducts } from "lib/local/client-store";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 
 function ThreeItemGridItem({
   item,
@@ -28,8 +27,7 @@ function ThreeItemGridItem({
     >
       <Link
         className="relative block aspect-square h-full w-full"
-        href={`/product/${item.handle}`}
-        prefetch={true}
+        to={`/product/${item.handle}`}
       >
         <GridTileImage
           src={item.featuredImage.url}
@@ -61,15 +59,13 @@ export function ThreeItemGrid({
 }: {
   initialProducts?: Product[];
 }) {
-  const dynamicProducts = useDynamicProducts(initialProducts);
-
   // Filter products by collection "featured" or take top products
-  const homepageItems = dynamicProducts.filter((p) =>
+  const homepageItems = initialProducts.filter((p) =>
     ((p as any).collections || []).includes("featured"),
   );
 
   const displayItems =
-    homepageItems.length >= 3 ? homepageItems : dynamicProducts;
+    homepageItems.length >= 3 ? homepageItems : initialProducts;
 
   if (!displayItems[0] || !displayItems[1] || !displayItems[2]) return null;
 

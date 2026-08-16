@@ -3,13 +3,13 @@
 import clsx from "clsx";
 import type { SortFilterItem } from "lib/constants";
 import { createUrl } from "lib/utils";
-import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { Link } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
 import type { ListItem, PathFilterItem } from ".";
 
 function PathFilterItem({ item }: { item: PathFilterItem }) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const pathname = (useLocation().pathname);
+  const [searchParams] = useSearchParams();
   const active = pathname === item.path;
   const newParams = new URLSearchParams(searchParams.toString());
 
@@ -23,7 +23,7 @@ function PathFilterItem({ item }: { item: PathFilterItem }) {
         </p>
       ) : (
         <Link
-          href={createUrl(item.path, newParams)}
+          to={createUrl(item.path, newParams)}
           className="w-full px-4 py-2 text-sm transition-colors rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800/50"
         >
           {item.title}
@@ -34,8 +34,8 @@ function PathFilterItem({ item }: { item: PathFilterItem }) {
 }
 
 function SortFilterItem({ item }: { item: SortFilterItem }) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const pathname = (useLocation().pathname);
+  const [searchParams] = useSearchParams();
   const active = searchParams.get("sort") === item.slug;
   const q = searchParams.get("q");
   const href = createUrl(
@@ -54,8 +54,7 @@ function SortFilterItem({ item }: { item: SortFilterItem }) {
         </p>
       ) : (
         <Link
-          prefetch={false}
-          href={href}
+          to={href}
           className="w-full px-4 py-2 transition-colors rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800/50"
         >
           {item.title}

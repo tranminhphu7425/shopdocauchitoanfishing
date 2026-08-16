@@ -2,8 +2,8 @@
 
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { GridTileImage } from "components/grid/tile";
-import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+
+import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
 import { useCachedImageUrl, getImageCache } from "lib/local/image-cache";
 import { formatImageUrl } from "lib/site-config";
 import { useState } from "react";
@@ -22,8 +22,8 @@ export function Gallery({
   onImageChange?: (index: number) => void;
   selectedOptions?: Record<string, string>;
 }) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const router = useNavigate();
+  const [searchParams] = useSearchParams();
   const [fallbackSrc, setFallbackSrc] = useState<string | null>(null);
 
   let imageIndex = 0;
@@ -69,7 +69,7 @@ export function Gallery({
       setFallbackSrc(null);
       const params = new URLSearchParams(searchParams.toString());
       params.set("image", index);
-      router.replace(`?${params.toString()}`, { scroll: false });
+      router(`?${params.toString()}`, { replace: true });
     }
   };
 
@@ -84,13 +84,11 @@ export function Gallery({
     <form>
       <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
         {images[imageIndex] && (
-          <Image
+          <img
             className="h-full w-full object-contain"
-            fill
             sizes="(min-width: 1024px) 66vw, 100vw"
             alt={images[imageIndex]?.altText as string}
             src={mainImageSrc}
-            priority={true}
             onError={() => {
               const cached = getImageCache(currentImageSrc);
               if (cached && fallbackSrc !== cached) {

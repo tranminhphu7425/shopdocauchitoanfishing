@@ -2,7 +2,7 @@
 
 import Price from "components/price";
 import { Product, ProductVariant } from "lib/local/types";
-import { useSearchParams } from "next/navigation";
+import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
 
 export function ProductPrice({
   product,
@@ -11,7 +11,7 @@ export function ProductPrice({
   product: Product;
   selectedOptions?: Record<string, string>;
 }) {
-  const searchParams = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { variants } = product;
 
   const variant = variants.find((variant: ProductVariant) =>
@@ -27,12 +27,16 @@ export function ProductPrice({
   const selectedVariant = variant || defaultVariant;
 
   const amount =
-    selectedVariant?.price.amount || product.priceRange.maxVariantPrice.amount;
+    selectedVariant?.price.amount || product.priceRange.minVariantPrice.amount;
   const currencyCode =
     selectedVariant?.price.currencyCode ||
-    product.priceRange.maxVariantPrice.currencyCode;
+    product.priceRange.minVariantPrice.currencyCode;
 
-  const compareAtAmount = selectedVariant?.compareAtPrice?.amount;
+  const compareAtAmount = selectedVariant
+    ? selectedVariant.compareAtPrice?.amount
+    : (product.priceRange.maxVariantPrice.amount !== product.priceRange.minVariantPrice.amount
+        ? product.priceRange.maxVariantPrice.amount
+        : undefined);
 
   // Calculate discount percentage if applicable
   let discountPercentage = 0;

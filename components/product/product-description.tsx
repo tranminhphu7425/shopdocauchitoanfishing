@@ -27,9 +27,13 @@ export function ProductDescription({
       />
       {product.descriptionHtml ? (
         <Prose
-          className="mb-6 text-sm leading-tight dark:text-white/[60%]"
+          className="mb-6 text-sm leading-relaxed dark:text-white/[60%]"
           html={product.descriptionHtml}
         />
+      ) : product.description ? (
+        <div className="mb-6 text-sm leading-relaxed whitespace-pre-wrap break-words text-neutral-700 dark:text-neutral-300">
+          {product.description}
+        </div>
       ) : null}
       <AddToCart product={product} selectedOptions={selectedOptions} />
     </>

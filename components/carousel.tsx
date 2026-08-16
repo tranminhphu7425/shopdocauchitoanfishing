@@ -2,8 +2,7 @@
 
 import type { Product } from "lib/local/types";
 import { getCheapestVariantDiscount } from "lib/local/discount";
-import { useDynamicProducts } from "lib/local/client-store";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { GridTileImage } from "./grid/tile";
 
 export function Carousel({
@@ -11,14 +10,12 @@ export function Carousel({
 }: {
   initialProducts?: Product[];
 }) {
-  const dynamicProducts = useDynamicProducts(initialProducts);
-
-  const featuredProducts = dynamicProducts.filter((p) =>
+  const featuredProducts = initialProducts.filter((p) =>
     ((p as any).collections || []).includes("featured"),
   );
 
   const products =
-    featuredProducts.length > 0 ? featuredProducts : dynamicProducts;
+    featuredProducts.length > 0 ? featuredProducts : initialProducts;
 
   if (!products?.length) return null;
 
@@ -37,7 +34,7 @@ export function Carousel({
               className="relative aspect-square h-[30vh] max-h-[275px] w-2/3 max-w-[475px] flex-none md:w-1/3"
             >
               <Link
-                href={`/product/${product.handle}`}
+                to={`/product/${product.handle}`}
                 className="relative h-full w-full"
               >
                 <GridTileImage
