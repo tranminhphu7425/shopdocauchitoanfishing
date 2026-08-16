@@ -139,7 +139,7 @@ export function SkeletonProductForm() {
 
 export function SkeletonThreeItemGrid() {
   return (
-    <section className="mx-auto max-w-screen-2xl px-4 pb-4 w-full">
+    <section className="mt-10 mx-auto max-w-screen-2xl px-4 pb-4 w-full">
       <h2 className="mb-6 text-2xl font-bold text-neutral-800 dark:text-white uppercase tracking-wider">
         Các sản phẩm nổi bật
       </h2>

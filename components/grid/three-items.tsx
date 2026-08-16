@@ -72,7 +72,7 @@ export function ThreeItemGrid({
   const [firstProduct, secondProduct, thirdProduct] = displayItems;
 
   return (
-    <section className="mx-auto max-w-(--breakpoint-2xl) px-4 pb-4">
+    <section className="mt-10 mx-auto max-w-(--breakpoint-2xl) px-4 pb-4">
       <h2 className="mb-6 text-2xl font-bold text-neutral-800 dark:text-white uppercase tracking-wider">
         Các sản phẩm nổi bật
       </h2>
