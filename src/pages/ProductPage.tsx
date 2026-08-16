@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getProduct, getProductRecommendations } from "lib/local";
 import { ProductDetailView } from "components/product/product-detail-view";
 import { HIDDEN_PRODUCT_TAG } from "lib/constants";
+import { SkeletonProductDetail } from "components/skeleton";
 
 export default function ProductPage() {
   const { handle } = useParams<{ handle: string }>();
@@ -44,7 +45,7 @@ export default function ProductPage() {
   }
 
   if (loading || !product) {
-    return <div className="flex justify-center items-center h-64">Loading...</div>;
+    return <SkeletonProductDetail />;
   }
 
   const productJsonLd = {

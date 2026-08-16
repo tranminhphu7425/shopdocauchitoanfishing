@@ -549,6 +549,10 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
   const [tagInput, setTagInput] = useState("");
   const [showMobilePreviewDrawer, setShowMobilePreviewDrawer] = useState(false);
 
+  // Validation States
+  const [titleError, setTitleError] = useState("");
+  const [priceErrors, setPriceErrors] = useState<Record<string, string>>({});
+
   // Unsaved Changes Protection (isDirty)
   const [isDirty, setIsDirty] = useState(false);
 
@@ -861,8 +865,17 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!title.trim()) {
+      setTitleError("Vui lòng nhập tên sản phẩm");
+      toast.error("Vui lòng điền Tên sản phẩm.");
+      scrollToSection("sec-basic");
+      return;
+    }
+
     if (!imageUrl) {
       toast.error("Vui lòng chọn hoặc tải ảnh bìa sản phẩm!");
+      scrollToSection("sec-gallery");
       return;
     }
     setIsSubmitting(true);
@@ -1185,11 +1198,24 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                 <input
                   required
                   type="text"
-                  className="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-sm focus:border-orange-500 focus:outline-none transition-colors"
+                  className={`w-full p-3 rounded-xl border bg-neutral-50 dark:bg-neutral-800 text-sm focus:outline-none transition-colors ${
+                    titleError
+                      ? "border-red-500 focus:border-red-500 ring-1 ring-red-500/20"
+                      : "border-neutral-200 dark:border-neutral-700 focus:border-orange-500"
+                  }`}
                   value={title}
-                  onChange={handleTitleChange}
+                  onChange={(e) => {
+                    handleTitleChange(e);
+                    if (titleError) setTitleError("");
+                  }}
+                  onBlur={() => {
+                    if (!title.trim()) setTitleError("Vui lòng nhập tên sản phẩm");
+                  }}
                   placeholder="Ví dụ: Máy đứng Titan Special 3000"
                 />
+                {titleError && (
+                  <p className="text-red-500 text-xs mt-1.5 font-medium animate-in fade-in slide-in-from-top-1">{titleError}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -1511,7 +1537,11 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                               required
                               type="text"
                               inputMode="numeric"
-                              className="w-full p-2.5 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-xs font-semibold focus:border-orange-500"
+                              className={`w-full p-2.5 rounded-lg border bg-neutral-50 dark:bg-neutral-800 text-xs font-semibold focus:outline-none transition-colors ${
+                                priceErrors[v.title]
+                                  ? "border-red-500 focus:border-red-500 ring-1 ring-red-500/20"
+                                  : "border-neutral-200 dark:border-neutral-700 focus:border-orange-500"
+                              }`}
                               value={formatNumberString(vData.price || "")}
                               onChange={(e) => {
                                 setIsDirty(true);
@@ -1520,9 +1550,20 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                                   "price",
                                   cleanPriceInput(e.target.value),
                                 );
+                                if (priceErrors[v.title]) {
+                                  setPriceErrors(prev => ({ ...prev, [v.title]: "" }));
+                                }
+                              }}
+                              onBlur={(e) => {
+                                if (!e.target.value.trim() || e.target.value.trim() === "0") {
+                                  setPriceErrors(prev => ({ ...prev, [v.title]: "Nhập giá bán" }));
+                                }
                               }}
                               placeholder="Giá bán *"
                             />
+                            {priceErrors[v.title] && (
+                              <p className="text-red-500 text-[10px] mt-1.5 font-medium animate-in fade-in slide-in-from-top-1">{priceErrors[v.title]}</p>
+                            )}
                           </td>
                           <td className="px-4 py-3.5">
                             <input
@@ -1621,7 +1662,11 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                       required
                       type="text"
                       inputMode="numeric"
-                      className="w-full mt-1.5 p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-sm font-bold text-orange-600 dark:text-orange-400 focus:border-orange-500"
+                      className={`w-full mt-1.5 p-3 rounded-xl border bg-white dark:bg-neutral-900 text-sm font-bold text-orange-600 dark:text-orange-400 focus:outline-none transition-colors ${
+                        priceErrors["default"]
+                          ? "border-red-500 focus:border-red-500 ring-1 ring-red-500/20"
+                          : "border-neutral-200 dark:border-neutral-700 focus:border-orange-500"
+                      }`}
                       value={formatNumberString(
                         variantsData["Default Title"]?.price || "",
                       )}
@@ -1632,9 +1677,20 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                           "price",
                           cleanPriceInput(e.target.value),
                         );
+                        if (priceErrors["default"]) {
+                          setPriceErrors(prev => ({ ...prev, "default": "" }));
+                        }
+                      }}
+                      onBlur={(e) => {
+                        if (!e.target.value.trim() || e.target.value.trim() === "0") {
+                          setPriceErrors(prev => ({ ...prev, "default": "Vui lòng nhập giá bán hợp lệ" }));
+                        }
                       }}
                       placeholder="0"
                     />
+                    {priceErrors["default"] && (
+                      <p className="text-red-500 text-xs mt-1.5 font-medium animate-in fade-in slide-in-from-top-1">{priceErrors["default"]}</p>
+                    )}
                   </div>
                   <div>
                     <label className="text-xs font-bold uppercase tracking-wider text-neutral-500">
@@ -1855,26 +1911,26 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
       )}
 
       {/* Floating / Sticky Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border-t border-neutral-200 dark:border-neutral-800 p-4 shadow-xl">
-        <div className="max-w-5xl mx-auto flex justify-between items-center gap-4">
+      <div className="flex justify-center mt-12 pointer-events-none">
+        <div className="bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md border border-neutral-200 dark:border-neutral-700 p-3 px-4 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] rounded-2xl flex items-center justify-between gap-6 md:gap-12 w-full max-w-2xl mx-auto animate-in slide-in-from-bottom-5 pointer-events-auto ring-1 ring-black/5 dark:ring-white/10">
           <button
             type="button"
             onClick={handleCancel}
-            className="px-6 py-2.5 rounded-xl font-bold text-xs text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all cursor-pointer"
+            className="px-5 py-2.5 rounded-xl font-bold text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all cursor-pointer whitespace-nowrap"
           >
-            ← Hủy bỏ
+            Hủy bỏ
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-orange-600 text-white px-8 py-3 rounded-xl font-bold text-xs hover:bg-orange-700 transition-all disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-orange-600/30 cursor-pointer"
+            className="flex-1 bg-orange-600 text-white px-8 py-3 rounded-xl font-bold text-sm hover:bg-orange-700 transition-all disabled:opacity-50 flex justify-center items-center gap-2 shadow-lg shadow-orange-600/30 cursor-pointer"
           >
             {isSubmitting ? (
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
             ) : (
-              <span>✓</span>
+              <span className="text-lg leading-none mt-[-2px]">✓</span>
             )}
-            {initialData ? "Lưu Thay Đổi Sản Phẩm" : "Tạo Sản Phẩm Mới"}
+            {initialData ? "Lưu Thay Đổi" : "Tạo Sản Phẩm Mới"}
           </button>
         </div>
       </div>

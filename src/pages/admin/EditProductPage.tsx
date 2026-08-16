@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getProduct } from "lib/local";
 import { ProductForm } from "components/admin/product-form";
+import { SkeletonProductForm } from "components/skeleton";
 
 export default function EditProductPage() {
   const { handle } = useParams<{ handle: string }>();
@@ -35,7 +36,7 @@ export default function EditProductPage() {
   }
 
   if (loading || !product) {
-    return <div className="p-8">Loading...</div>;
+    return <SkeletonProductForm />;
   }
 
   return (

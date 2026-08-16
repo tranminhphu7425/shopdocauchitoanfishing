@@ -11,6 +11,7 @@ import {
   EyeIcon,
   EyeSlashIcon,
   TrashIcon,
+  PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 
 function TableProductImage({ src, alt }: { src: string; alt: string }) {
@@ -39,6 +40,7 @@ export function ProductTable({
 }) {
   const [productList, setProductList] = useState(initialProducts);
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'hidden'>('all');
   const [selectedHandles, setSelectedHandles] = useState<string[]>([]);
   const [togglingHandle, setTogglingHandle] = useState<string | null>(null);
 
@@ -65,6 +67,9 @@ export function ProductTable({
   };
 
   const filteredProducts = productList.filter((p) => {
+    if (statusFilter === 'active' && p.availableForSale === false) return false;
+    if (statusFilter === 'hidden' && p.availableForSale !== false) return false;
+
     if (!searchQuery.trim()) return true;
     const queryClean = removeAccents(searchQuery.toLowerCase().trim());
     const titleClean = removeAccents((p.title || "").toLowerCase());
@@ -116,8 +121,8 @@ export function ProductTable({
         );
         toast.success(
           newStatus
-            ? "🟢 Sản phẩm đã chuyển sang trạng thái HIỂN THỊ!"
-            : "🔒 Sản phẩm đã chuyển sang trạng thái TẠM ẨN!",
+            ? "Sản phẩm đã chuyển sang trạng thái HIỂN THỊ!"
+            : "Sản phẩm đã chuyển sang trạng thái TẠM ẨN!",
         );
       } else {
         toast.error(res.error || "Lỗi khi cập nhật trạng thái");
@@ -151,8 +156,8 @@ export function ProductTable({
 
       toast.success(
         available
-          ? `🟢 Đã bật hiển thị cho ${successCount} sản phẩm!`
-          : `🔒 Đã tạm ẩn ${successCount} sản phẩm!`,
+          ? `Đã bật hiển thị cho ${successCount} sản phẩm!`
+          : `Đã tạm ẩn ${successCount} sản phẩm!`,
       );
       setSelectedHandles([]);
     } catch (err) {
@@ -220,23 +225,34 @@ export function ProductTable({
     <div className="space-y-4 relative">
       {/* Search Bar & Stats */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-neutral-900 p-4 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs">
-        <div className="relative flex-1 max-w-md">
-          <MagnifyingGlassIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-400" />
-          <input
-            type="text"
-            placeholder="Tìm kiếm sản phẩm theo tên, mô tả..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-xl border border-neutral-200 bg-neutral-50 pl-10 pr-10 py-2.5 text-sm focus:border-orange-500 focus:outline-none dark:border-neutral-800 dark:bg-neutral-950 dark:text-white transition-all"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 dark:hover:text-white p-1 rounded-full"
-            >
-              <XMarkIcon className="h-4 w-4" />
-            </button>
-          )}
+        <div className="flex flex-1 flex-col sm:flex-row gap-3 max-w-xl">
+          <div className="relative flex-1">
+            <MagnifyingGlassIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-400" />
+            <input
+              type="text"
+              placeholder="Tìm kiếm sản phẩm theo tên, mô tả..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full rounded-xl border border-neutral-200 bg-neutral-50 pl-10 pr-10 py-2.5 text-sm focus:border-orange-500 focus:outline-none dark:border-neutral-800 dark:bg-neutral-950 dark:text-white transition-all"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 dark:hover:text-white p-1 rounded-full"
+              >
+                <XMarkIcon className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value as any)}
+            className="w-full sm:w-auto rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-sm focus:border-orange-500 focus:outline-none dark:border-neutral-800 dark:bg-neutral-950 dark:text-white transition-all cursor-pointer font-medium"
+          >
+            <option value="all">Tất cả trạng thái</option>
+            <option value="active">Đang hiển thị</option>
+            <option value="hidden">Đã tạm ẩn</option>
+          </select>
         </div>
         <div className="text-xs font-semibold text-neutral-500 dark:text-neutral-400">
           Hiển thị{" "}
@@ -293,7 +309,133 @@ export function ProductTable({
 
       {/* Main Table */}
       <div className="bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden shadow-xs">
-        <div className="overflow-x-auto">
+        {/* --- MOBILE VIEW: CARDS (< md) --- */}
+        <div className="block md:hidden p-4 space-y-4">
+          {/* Mobile Select All */}
+          {filteredProducts.length > 0 && (
+            <div className="flex items-center gap-3 pb-2 border-b border-neutral-100 dark:border-neutral-800">
+              <input
+                type="checkbox"
+                checked={isAllSelected}
+                onChange={handleSelectAll}
+                className="w-4 h-4 rounded border-neutral-300 text-orange-600 focus:ring-orange-500 cursor-pointer"
+              />
+              <span className="text-sm font-bold text-neutral-700 dark:text-neutral-300">
+                Chọn tất cả ({filteredProducts.length})
+              </span>
+            </div>
+          )}
+
+          {filteredProducts.length === 0 ? (
+            <div className="text-center p-8 text-sm text-neutral-500">
+              {searchQuery ? (
+                <div>
+                  Không tìm thấy sản phẩm nào khớp với từ khóa "
+                  <strong>{searchQuery}</strong>".
+                </div>
+              ) : (
+                "Chưa có sản phẩm nào."
+              )}
+            </div>
+          ) : (
+            filteredProducts.map((product) => {
+              const isChecked = selectedHandles.includes(product.handle);
+              const isAvailable = product.availableForSale !== false;
+              const isTogglingThis = togglingHandle === product.handle;
+
+              return (
+                <div
+                  key={`mobile-${product.id}`}
+                  className={`flex flex-col gap-3 p-4 border rounded-xl transition-colors ${
+                    isChecked
+                      ? "bg-orange-50/50 border-orange-200 dark:bg-orange-950/20 dark:border-orange-900/50"
+                      : "bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800"
+                  }`}
+                >
+                  <div className="flex gap-4 items-start">
+                    {/* Checkbox */}
+                    <div className="pt-1">
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => toggleSelectOne(product.handle)}
+                        className="w-4 h-4 rounded border-neutral-300 text-orange-600 focus:ring-orange-500 cursor-pointer"
+                      />
+                    </div>
+                    {/* Image */}
+                    <div className="flex-none">
+                      <TableProductImage
+                        src={product.featuredImage?.url || ""}
+                        alt={product.title}
+                      />
+                    </div>
+                    {/* Info */}
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-sm text-neutral-900 dark:text-neutral-100 leading-snug line-clamp-2">
+                        {product.title}
+                      </div>
+                      <div className="text-[11px] text-neutral-400 font-mono mt-0.5 truncate">
+                        {product.handle}
+                      </div>
+                      <div className="mt-1 text-sm font-extrabold text-orange-600 dark:text-orange-500">
+                        {new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(Number(product.priceRange.minVariantPrice.amount))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Actions Row */}
+                  <div className="flex items-center justify-between gap-2 pt-3 border-t border-neutral-100 dark:border-neutral-800">
+                    <button
+                      type="button"
+                      disabled={isTogglingThis}
+                      onClick={() => handleToggleStatus(product.handle, isAvailable)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold transition-all border shadow-2xs whitespace-nowrap cursor-pointer flex-1 justify-center ${
+                        isAvailable
+                          ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900/50 hover:bg-emerald-100"
+                          : "bg-neutral-100 text-neutral-600 border-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:border-neutral-700 hover:bg-neutral-200"
+                      } ${isTogglingThis ? "opacity-50 cursor-not-allowed" : ""}`}
+                    >
+                      <span
+                        className={`h-2 w-2 rounded-full ${
+                          isAvailable ? "bg-emerald-500 animate-pulse" : "bg-neutral-400"
+                        }`}
+                      />
+                      <span className="whitespace-nowrap">{isAvailable ? "Hiển thị" : "Tạm ẩn"}</span>
+                    </button>
+                    <div className="flex gap-2">
+                      <Link
+                        to={`/admin/products/${product.handle}/edit`}
+                        className="px-3 py-1.5 rounded-xl bg-orange-50 text-orange-600 hover:bg-orange-100 dark:bg-orange-950/40 dark:text-orange-400 dark:hover:bg-orange-900/60 transition-all text-[11px] font-bold flex items-center gap-1.5"
+                      >
+                        <PencilSquareIcon className="w-3.5 h-3.5" />
+                        <span>Sửa</span>
+                      </Link>
+                      <button
+                        type="button"
+                        className="px-3 py-1.5 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-950/40 dark:text-red-400 dark:hover:bg-red-900/60 transition-all text-[11px] font-bold cursor-pointer flex items-center gap-1.5"
+                        onClick={() =>
+                          setProductToDelete({
+                            handle: product.handle,
+                            title: product.title,
+                          })
+                        }
+                      >
+                        <TrashIcon className="w-3.5 h-3.5" />
+                        <span>Xóa</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* --- DESKTOP VIEW: TABLE (>= md) --- */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[700px]">
             <thead>
               <tr className="bg-neutral-50 dark:bg-neutral-800/80 border-b border-neutral-200 dark:border-neutral-800 text-xs text-neutral-600 dark:text-neutral-400 uppercase tracking-wider">
@@ -411,13 +553,14 @@ export function ProductTable({
                         <div className="flex items-center justify-end gap-2 text-xs font-bold whitespace-nowrap">
                           <Link
                             to={`/admin/products/${product.handle}/edit`}
-                            className="px-3 py-1.5 rounded-xl bg-orange-50 text-orange-600 hover:bg-orange-100 dark:bg-orange-950/40 dark:text-orange-400 dark:hover:bg-orange-900/60 transition-all whitespace-nowrap"
+                            className="px-3 py-1.5 rounded-xl bg-orange-50 text-orange-600 hover:bg-orange-100 dark:bg-orange-950/40 dark:text-orange-400 dark:hover:bg-orange-900/60 transition-all whitespace-nowrap flex items-center gap-1.5"
                           >
-                            Sửa ✏️
+                            <PencilSquareIcon className="w-4 h-4" />
+                            <span>Sửa</span>
                           </Link>
                           <button
                             type="button"
-                            className="px-3 py-1.5 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-950/40 dark:text-red-400 dark:hover:bg-red-900/60 transition-all whitespace-nowrap cursor-pointer"
+                            className="px-3 py-1.5 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-950/40 dark:text-red-400 dark:hover:bg-red-900/60 transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5"
                             onClick={() =>
                               setProductToDelete({
                                 handle: product.handle,
@@ -425,7 +568,8 @@ export function ProductTable({
                               })
                             }
                           >
-                            Xóa 🗑️
+                            <TrashIcon className="w-4 h-4" />
+                            <span>Xóa</span>
                           </button>
                         </div>
                       </td>
@@ -474,9 +618,14 @@ export function ProductTable({
               <button
                 disabled={isProcessing}
                 onClick={confirmSingleDelete}
-                className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-lg shadow-red-600/30 transition-all active:scale-95 disabled:opacity-50"
+                className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-lg shadow-red-600/30 transition-all active:scale-95 disabled:opacity-50 flex items-center gap-2 justify-center"
               >
-                {isProcessing ? "Đang xóa..." : "XÓA VĨNH VIỄN 🗑️"}
+                {isProcessing ? "Đang xóa..." : (
+                  <>
+                    <TrashIcon className="w-4 h-4" />
+                    <span>XÓA VĨNH VIỄN</span>
+                  </>
+                )}
               </button>
             </div>
           </div>

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import SortableProductList from "components/layout/sortable-product-list";
 import SearchLayout from "components/layout/search/layout";
 import { getCollection, getCollectionProducts, getProducts } from "lib/local";
+import { SkeletonGrid } from "components/skeleton";
 
 export default function SearchPage() {
   const { collection } = useParams<{ collection?: string }>();
@@ -52,14 +53,7 @@ export default function SearchPage() {
           Danh mục không tồn tại
         </div>
       ) : loading ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div
-              key={i}
-              className="aspect-square w-full animate-pulse rounded-xl bg-neutral-200 dark:bg-neutral-800"
-            />
-          ))}
-        </div>
+        <SkeletonGrid count={6} />
       ) : (
         <SortableProductList products={products} />
       )}

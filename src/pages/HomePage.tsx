@@ -5,6 +5,7 @@ import { ThreeItemGrid } from "components/grid/three-items";
 import Hero from "components/hero";
 import ShopInfo from "components/shop-info";
 import { getProducts } from "lib/local";
+import { SkeletonThreeItemGrid, SkeletonCarousel } from "components/skeleton";
 
 export default function HomePage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -27,17 +28,21 @@ export default function HomePage() {
     loadData();
   }, []);
 
-  if (loading) {
-    return <div className="flex justify-center items-center h-64">Loading...</div>;
-  }
-
   return (
     <>
       <Hero />
       <ShopInfo totalProducts={products.length} />
       <Features />
-      <ThreeItemGrid initialProducts={products} />
-      <Carousel initialProducts={products} />
+      {loading ? (
+        <SkeletonThreeItemGrid />
+      ) : (
+        <ThreeItemGrid initialProducts={products} />
+      )}
+      {loading ? (
+        <SkeletonCarousel />
+      ) : (
+        <Carousel initialProducts={products} />
+      )}
     </>
   );
 }

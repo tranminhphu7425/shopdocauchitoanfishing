@@ -9,6 +9,7 @@ import {
   FolderIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
+import { SkeletonAdminDashboard } from "components/skeleton";
 
 export default function AdminDashboard() {
   const [products, setProducts] = useState<any[]>([]);
@@ -44,6 +45,10 @@ export default function AdminDashboard() {
     (p) => p.availableForSale === false,
   ).length;
 
+  if (loading) {
+    return <SkeletonAdminDashboard />;
+  }
+
   return (
     <div className="mx-auto max-w-7xl p-4 sm:p-8 space-y-8">
       {/* Page Header */}
@@ -77,7 +82,7 @@ export default function AdminDashboard() {
               Tổng sản phẩm
             </span>
             <span className="text-2xl font-black text-neutral-900 dark:text-white">
-              {loading ? "..." : totalProducts}
+              {totalProducts}
             </span>
           </div>
         </div>
@@ -92,7 +97,7 @@ export default function AdminDashboard() {
               Đang hiển thị bán
             </span>
             <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">
-              {loading ? "..." : activeProducts}
+              {activeProducts}
             </span>
           </div>
         </div>
@@ -107,7 +112,7 @@ export default function AdminDashboard() {
               Đã tạm ẩn
             </span>
             <span className="text-2xl font-black text-neutral-700 dark:text-neutral-300">
-              {loading ? "..." : hiddenProducts}
+              {hiddenProducts}
             </span>
           </div>
         </div>
@@ -122,20 +127,14 @@ export default function AdminDashboard() {
               Danh mục
             </span>
             <span className="text-2xl font-black text-blue-600 dark:text-blue-400">
-              {loading ? "..." : collectionsCount}
+              {collectionsCount}
             </span>
           </div>
         </div>
       </div>
 
       {/* Main Table */}
-      {loading ? (
-        <div className="flex h-64 items-center justify-center text-sm font-semibold text-neutral-500">
-          Đang tải dữ liệu sản phẩm...
-        </div>
-      ) : (
-        <ProductTable products={products} />
-      )}
+      <ProductTable products={products} />
     </div>
   );
 }
