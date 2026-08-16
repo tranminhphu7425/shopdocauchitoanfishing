@@ -3,7 +3,7 @@
 import { GridTileImage } from "components/grid/tile";
 import type { Product } from "lib/local/types";
 import { getCheapestVariantDiscount } from "lib/local/discount";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 
 function ThreeItemGridItem({
   item,
@@ -27,8 +27,7 @@ function ThreeItemGridItem({
     >
       <Link
         className="relative block aspect-square h-full w-full"
-        href={`/product/${item.handle}`}
-        prefetch={true}
+        to={`/product/${item.handle}`}
       >
         <GridTileImage
           src={item.featuredImage.url}

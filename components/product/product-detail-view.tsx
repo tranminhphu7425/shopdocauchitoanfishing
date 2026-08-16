@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useState, useEffect } from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import type { Product, Image } from "lib/local/types";
 import { getCheapestVariantDiscount } from "lib/local/discount";
 import { Gallery } from "components/product/gallery";
@@ -188,8 +188,7 @@ export function ProductDetailView({
                 >
                   <Link
                     className="relative h-full w-full"
-                    href={`/product/${product.handle}`}
-                    prefetch={true}
+                    to={`/product/${product.handle}`}
                   >
                     <GridTileImage
                       alt={product.title}

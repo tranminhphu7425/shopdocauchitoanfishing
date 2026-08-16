@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import Image from "next/image";
+
 import Label from "../label";
 import { useCachedImageUrl, getImageCache } from "lib/local/image-cache";
 import { formatImageUrl } from "lib/site-config";
@@ -13,10 +13,15 @@ export function GridTileImage({
   label,
   size,
   discountPercent,
+  fill,
+  priority,
   ...props
 }: {
   isInteractive?: boolean;
   active?: boolean;
+  fill?: boolean;
+  priority?: boolean;
+  sizes?: string;
   label?: {
     title: string | React.ReactNode;
     amount: string;
@@ -27,7 +32,7 @@ export function GridTileImage({
   };
   discountPercent?: number;
   size?: string;
-} & React.ComponentProps<typeof Image>) {
+} & Omit<React.ImgHTMLAttributes<HTMLImageElement>, "label">) {
   const originalSrc = typeof props.src === "string" ? props.src : "";
   const cachedUrl = useCachedImageUrl(originalSrc);
   const [fallbackSrc, setFallbackSrc] = useState<string | null>(null);
@@ -53,7 +58,7 @@ export function GridTileImage({
       ) : null}
       {props.src ? (
         <div className="relative h-full w-full overflow-hidden bg-neutral-50/30 dark:bg-neutral-950/20 flex items-center justify-center p-2">
-          <Image
+          <img
             className={clsx("h-full w-full object-contain", {
               "transition-transform duration-500 ease-out group-hover:scale-108":
                 isInteractive,

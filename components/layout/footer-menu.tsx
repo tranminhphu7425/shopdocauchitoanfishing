@@ -2,12 +2,12 @@
 
 import clsx from "clsx";
 import { Menu } from "lib/local/types";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export function FooterMenuItem({ item }: { item: Menu }) {
-  const pathname = usePathname();
+  const pathname = (useLocation().pathname);
   const [active, setActive] = useState(pathname === item.path);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export function FooterMenuItem({ item }: { item: Menu }) {
   return (
     <li>
       <Link
-        href={item.path}
+        to={item.path}
         className={clsx(
           "block py-1 text-sm text-neutral-500 dark:text-neutral-400 hover:text-orange-600 dark:hover:text-orange-500 transition-colors duration-200",
           {

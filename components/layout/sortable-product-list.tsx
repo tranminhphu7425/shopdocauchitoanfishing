@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { Product } from "lib/local/types";
 import { sorting, defaultSort } from "lib/constants";
@@ -15,9 +15,9 @@ export default function SortableProductList({
 }: {
   products: Product[];
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const router = useNavigate();
+  const pathname = (useLocation().pathname);
+  const [searchParams] = useSearchParams();
   const listRef = useRef<HTMLDivElement>(null);
 
   const sort = searchParams.get("sort");
@@ -103,7 +103,7 @@ export default function SortableProductList({
     if (!paramsToUpdate.hasOwnProperty("page")) {
       nextParams.delete("page");
     }
-    router.push(createUrl(pathname, nextParams), { scroll: false });
+    router(createUrl(pathname, nextParams));
 
     // Smooth scroll list container into view
     if (listRef.current) {

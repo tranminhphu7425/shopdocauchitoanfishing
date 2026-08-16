@@ -1,5 +1,6 @@
 import type { Cart, CartItem, Collection, Menu, Page, Product } from "./types";
 import { createClient } from "@supabase/supabase-js";
+import storeData from "../../data/store.json";
 
 // Re-export all types so other files can import from "lib/local"
 export type {
@@ -19,11 +20,20 @@ export type {
   Edge,
 } from "./types";
 
-// Helper to get Supabase client lazily
+let cachedSupabase: ReturnType<typeof createClient> | null = null;
+
 function getSupabase() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-  return createClient(supabaseUrl, supabaseKey);
+  if (cachedSupabase) return cachedSupabase;
+  const supabaseUrl =
+    import.meta.env.VITE_SUPABASE_URL ||
+    import.meta.env.NEXT_PUBLIC_SUPABASE_URL ||
+    "https://fiyzxhmtptozexakldxr.supabase.co";
+  const supabaseKey =
+    import.meta.env.VITE_SUPABASE_ANON_KEY ||
+    import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpeXp4aG10cHRvemV4YWtsZHhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ1NDkzNTksImV4cCI6MjEwMDEyNTM1OX0.8bmzve7OpnXwb3mg_rDP0U_GAgVU53aCHlMg5PVZIVQ";
+  cachedSupabase = createClient(supabaseUrl, supabaseKey);
+  return cachedSupabase;
 }
 
 // --- Products ---
@@ -44,18 +54,17 @@ export async function getProducts({
     queryBuilder = queryBuilder.or(`title.ilike.%${q}%,description.ilike.%${q}%`);
   }
 
-  // Sort
+  // Sort by updated_at DESC (newest updated first) by default
   let orderColumn = "updated_at";
-  let orderAsc = !reverse;
+  let orderAsc = reverse ?? false;
 
   if (sortKey) {
     switch (sortKey) {
       case "PRICE":
-        // Sort by price requires a more complex query in Supabase if stored as JSONB
-        // For simplicity, we fetch all and sort in memory if sortKey=PRICE
         break;
       case "CREATED_AT":
         orderColumn = "updated_at";
+        orderAsc = reverse ? true : false;
         break;
       case "BEST_SELLING":
       case "RELEVANCE":
@@ -70,13 +79,35 @@ export async function getProducts({
 
   const { data: products, error } = await queryBuilder;
 
-  if (error || !products) {
-    console.error("Error fetching products:", error);
-    return [];
+  if (error || !products || products.length === 0) {
+    if (error) console.error("Error fetching products from Supabase:", error);
+    let localProducts = (storeData.products || []) as unknown as Product[];
+    if (query) {
+      const q = query.toLowerCase();
+      localProducts = localProducts.filter(
+        (p) =>
+          p.title.toLowerCase().includes(q) ||
+          p.description.toLowerCase().includes(q),
+      );
+    }
+    if (sortKey === "PRICE") {
+      localProducts.sort((a, b) => {
+        const priceA = Number(a.priceRange.minVariantPrice.amount);
+        const priceB = Number(b.priceRange.minVariantPrice.amount);
+        return reverse ? priceB - priceA : priceA - priceB;
+      });
+    } else {
+      localProducts.sort((a, b) => {
+        const timeA = new Date(a.updatedAt || 0).getTime();
+        const timeB = new Date(b.updatedAt || 0).getTime();
+        return reverse ? timeA - timeB : timeB - timeA;
+      });
+    }
+    return localProducts;
   }
 
   // Map to Product type
-  let mappedProducts = products.map((p) => ({
+  let mappedProducts = (products as any[]).map((p: any) => ({
     id: p.id,
     handle: p.handle,
     availableForSale: p.available_for_sale,
@@ -102,13 +133,19 @@ export async function getProducts({
       const priceB = Number(b.priceRange.minVariantPrice.amount);
       return reverse ? priceB - priceA : priceA - priceB;
     });
+  } else {
+    mappedProducts.sort((a, b) => {
+      const timeA = new Date(a.updatedAt || 0).getTime();
+      const timeB = new Date(b.updatedAt || 0).getTime();
+      return reverse ? timeA - timeB : timeB - timeA;
+    });
   }
 
   return mappedProducts;
 }
 
 export async function getProduct(handle: string): Promise<Product | undefined> {
-  const { data: p, error } = await getSupabase()
+  const { data: p, error }: { data: any; error: any } = await getSupabase()
     .from("products")
     .select("*, product_collections(collections(handle))")
     .eq("handle", handle)
@@ -141,7 +178,7 @@ export async function getProduct(handle: string): Promise<Product | undefined> {
 }
 
 export async function getProductRecommendations(productId: string): Promise<Product[]> {
-  const { data: currentProduct, error } = await getSupabase()
+  const { data: currentProduct, error }: { data: any; error: any } = await getSupabase()
     .from("products")
     .select("id, product_collections(collection_id)")
     .eq("id", productId)
@@ -199,20 +236,29 @@ export async function getCollections(): Promise<Collection[]> {
   
   const allCollection: Collection = {
     handle: "",
-    title: "Tất cả",
+    title: "Tất cả sản phẩm",
     description: "Tất cả sản phẩm",
-    seo: { title: "Tất cả", description: "Tất cả sản phẩm" },
+    seo: { title: "Tất cả sản phẩm", description: "Tất cả sản phẩm" },
     path: "/search",
     updatedAt: new Date().toISOString(),
   };
 
-  if (error || !collections) {
-    return [allCollection];
+  if (error || !collections || collections.length === 0) {
+    if (error) console.error("Error fetching collections from Supabase:", error);
+    const localCollections = (storeData.collections || []).map((c: any) => ({
+      handle: c.handle,
+      title: c.title,
+      description: c.description,
+      seo: c.seo || { title: c.title, description: c.description },
+      path: `/search/${c.handle}`,
+      updatedAt: c.updatedAt || new Date().toISOString(),
+    }));
+    return [allCollection, ...localCollections];
   }
 
   return [
     allCollection,
-    ...collections.map((c) => ({
+    ...((collections as any[]) || []).map((c: any) => ({
       handle: c.handle,
       title: c.title,
       description: c.description,
@@ -224,18 +270,21 @@ export async function getCollections(): Promise<Collection[]> {
 }
 
 export async function getCollection(handle: string): Promise<Collection | undefined> {
-  const { data: c, error } = await getSupabase().from("collections").select("*").eq("handle", handle).single();
+  const { data: c, error }: { data: any; error: any } = await getSupabase().from("collections").select("*").eq("handle", handle).single();
 
-  if (error || !c) return undefined;
+  if (c) {
+    return {
+      handle: c.handle,
+      title: c.title,
+      description: c.description,
+      seo: c.seo || { title: c.title, description: c.description },
+      path: `/search/${c.handle}`,
+      updatedAt: c.updated_at,
+    };
+  }
 
-  return {
-    handle: c.handle,
-    title: c.title,
-    description: c.description,
-    seo: c.seo || { title: c.title, description: c.description },
-    path: `/search/${c.handle}`,
-    updatedAt: c.updated_at,
-  };
+  const collections = await getCollections();
+  return collections.find((col) => col.handle === handle);
 }
 
 export async function getCollectionProducts({
@@ -247,79 +296,93 @@ export async function getCollectionProducts({
   reverse?: boolean;
   sortKey?: string;
 }): Promise<Product[]> {
-  // First get the collection ID
-  const { data: c } = await getSupabase().from("collections").select("id").eq("handle", collection).single();
+  if (!collection) return getProducts({ reverse, sortKey });
+
+  // 1. Try Supabase
+  const { data: c }: { data: any } = await getSupabase().from("collections").select("id").eq("handle", collection).single();
   
-  if (!c) return [];
+  if (c) {
+    const { data: pcs } = await getSupabase()
+      .from("product_collections")
+      .select("products(*)")
+      .eq("collection_id", c.id);
 
-  // Then get all products in this collection
-  const { data: pcs } = await getSupabase()
-    .from("product_collections")
-    .select("products(*)")
-    .eq("collection_id", c.id);
+    if (pcs && pcs.length > 0) {
+      let products = pcs.map((pc: any) => pc.products).filter(Boolean);
 
-  if (!pcs) return [];
+      let mappedProducts = products.map((p: any) => ({
+        id: p.id,
+        handle: p.handle,
+        availableForSale: p.available_for_sale,
+        title: p.title,
+        description: p.description,
+        descriptionHtml: p.description_html,
+        options: p.options || [],
+        priceRange: p.price_range || {
+          maxVariantPrice: { amount: "0", currencyCode: "VND" },
+          minVariantPrice: { amount: "0", currencyCode: "VND" },
+        },
+        variants: p.variants || [],
+        featuredImage: p.featured_image || { url: "", altText: "", width: 0, height: 0 },
+        images: p.images || [],
+        seo: p.seo || { title: "", description: "" },
+        tags: p.tags || [],
+        updatedAt: p.updated_at,
+      }));
 
-  let products = pcs.map((pc: any) => pc.products).filter(Boolean);
-
-  let mappedProducts = products.map((p: any) => ({
-    id: p.id,
-    handle: p.handle,
-    availableForSale: p.available_for_sale,
-    title: p.title,
-    description: p.description,
-    descriptionHtml: p.description_html,
-    options: p.options || [],
-    priceRange: p.price_range || {
-      maxVariantPrice: { amount: "0", currencyCode: "VND" },
-      minVariantPrice: { amount: "0", currencyCode: "VND" },
-    },
-    variants: p.variants || [],
-    featuredImage: p.featured_image || { url: "", altText: "", width: 0, height: 0 },
-    images: p.images || [],
-    seo: p.seo || { title: "", description: "" },
-    tags: p.tags || [],
-    updatedAt: p.updated_at,
-  }));
-
-  // Sort
-  if (sortKey) {
-    switch (sortKey) {
-      case "PRICE":
+      // Sort
+      if (sortKey === "PRICE") {
         mappedProducts.sort((a, b) => {
           const priceA = Number(a.priceRange.minVariantPrice.amount);
           const priceB = Number(b.priceRange.minVariantPrice.amount);
-          return priceA - priceB;
+          return reverse ? priceB - priceA : priceA - priceB;
         });
-        break;
-      case "CREATED_AT":
-        mappedProducts.sort(
-          (a, b) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime(),
-        );
-        break;
-      default:
-        break;
+      } else {
+        mappedProducts.sort((a, b) => {
+          const timeA = new Date(a.updatedAt || 0).getTime();
+          const timeB = new Date(b.updatedAt || 0).getTime();
+          return reverse ? timeA - timeB : timeB - timeA;
+        });
+      }
+
+      return mappedProducts;
     }
   }
 
-  if (reverse) {
-    mappedProducts.reverse();
+  // 2. Fallback to storeData
+  const allProducts = (storeData.products || []) as unknown as (Product & { collections?: string[] })[];
+  let filtered = allProducts.filter(
+    (p) =>
+      (p.collections || []).includes(collection) ||
+      p.tags?.includes(collection) ||
+      p.handle.includes(collection),
+  );
+
+  if (sortKey === "PRICE") {
+    filtered.sort((a, b) => {
+      const priceA = Number(a.priceRange.minVariantPrice.amount);
+      const priceB = Number(b.priceRange.minVariantPrice.amount);
+      return priceA - priceB;
+    });
   }
 
-  return mappedProducts;
+  if (reverse) {
+    filtered.reverse();
+  }
+
+  return filtered;
 }
 
 // --- Menu ---
 
 export async function getMenu(handle: string): Promise<Menu[]> {
-  // Keep the hardcoded menu or return empty as before
-  if (handle.includes("header")) {
-    return []; // Fallback to empty if not fetched from store.json
-  }
-  if (handle.includes("footer")) {
-    return [];
-  }
-  return [];
+  const collections = await getCollections();
+  return collections
+    .filter((c) => c.handle !== "")
+    .map((c) => ({
+      title: c.title,
+      path: c.path,
+    }));
 }
 
 // --- Pages ---

@@ -13,9 +13,9 @@ export const CUSTOM_DOMAIN_BASE_PATH = "";
 export function getActiveBasePath(): string {
   if (
     typeof process !== "undefined" &&
-    process.env.NEXT_PUBLIC_BASE_PATH !== undefined
+    import.meta.env.VITE_BASE_PATH !== undefined
   ) {
-    return process.env.NEXT_PUBLIC_BASE_PATH;
+    return import.meta.env.VITE_BASE_PATH;
   }
   return GH_PAGES_BASE_PATH;
 }
