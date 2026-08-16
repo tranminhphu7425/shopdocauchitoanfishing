@@ -37,7 +37,16 @@ export function GridTileImage({
   const cachedUrl = useCachedImageUrl(originalSrc);
   const [fallbackSrc, setFallbackSrc] = useState<string | null>(null);
 
-  const rawSrc = fallbackSrc || cachedUrl || props.src;
+  let rawSrc = fallbackSrc || cachedUrl || props.src;
+  
+  // Ép toàn bộ ảnh ở thư mục dự án trỏ sang Supabase Storage
+  if (typeof rawSrc === "string" && rawSrc.includes("/images/products/")) {
+    const filenameMatch = rawSrc.match(/\/images\/products\/([^/]+)$/);
+    if (filenameMatch && filenameMatch[1]) {
+      rawSrc = `https://fiyzxhmtptozexakldxr.supabase.co/storage/v1/object/public/products/${filenameMatch[1]}`;
+    }
+  }
+
   const finalSrc = typeof rawSrc === "string" ? formatImageUrl(rawSrc) : rawSrc;
 
   return (
