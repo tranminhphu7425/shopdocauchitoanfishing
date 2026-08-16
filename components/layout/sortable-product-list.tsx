@@ -201,6 +201,7 @@ export default function SortableProductList({
               type="number"
               value={minInput}
               onChange={(e) => setMinInput(e.target.value)}
+              min={0}
               placeholder="Từ giá"
               className="w-24 px-2.5 py-1.5 text-xs rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-1 focus:ring-orange-600"
             />
@@ -209,6 +210,7 @@ export default function SortableProductList({
               type="number"
               value={maxInput}
               onChange={(e) => setMaxInput(e.target.value)}
+              min={0}
               placeholder="Đến giá"
               className="w-24 px-2.5 py-1.5 text-xs rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-1 focus:ring-orange-600"
             />
