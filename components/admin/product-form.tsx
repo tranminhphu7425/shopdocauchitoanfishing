@@ -1301,7 +1301,7 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                   </h2>
                   <p className="text-xs text-neutral-700 dark:text-neutral-400">
                     Kéo thả file để tải ảnh lên. Nhấp vào ảnh bất kỳ để đặt làm
-                    **Ảnh Bìa Chính**.
+                    <b> Ảnh Bìa Chính</b>.
                   </p>
                 </div>
               </div>
