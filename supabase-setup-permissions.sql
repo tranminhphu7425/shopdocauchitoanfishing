@@ -56,19 +56,19 @@ USING (true);
 -- 4. PHÂN QUYỀN THÊM, SỬA, XÓA (INSERT / UPDATE / DELETE) CHO TRANG QUẢN TRỊ ADMIN
 -- ----------------------------------------------------------------------------
 -- Bảng Collections (Danh mục)
-CREATE POLICY "Admin collections insert" ON public.collections FOR INSERT TO public WITH CHECK (true);
-CREATE POLICY "Admin collections update" ON public.collections FOR UPDATE TO public USING (true);
-CREATE POLICY "Admin collections delete" ON public.collections FOR DELETE TO public USING (true);
+CREATE POLICY "Admin collections insert" ON public.collections FOR INSERT TO public WITH CHECK (COALESCE(current_setting('request.headers', true), '{}')::json->>'x-admin-password' = '7a1a7e374d4647fc718b303413faf07b0305b56c76a93855ed4eabb2a691d708');
+CREATE POLICY "Admin collections update" ON public.collections FOR UPDATE TO public USING (COALESCE(current_setting('request.headers', true), '{}')::json->>'x-admin-password' = '7a1a7e374d4647fc718b303413faf07b0305b56c76a93855ed4eabb2a691d708');
+CREATE POLICY "Admin collections delete" ON public.collections FOR DELETE TO public USING (COALESCE(current_setting('request.headers', true), '{}')::json->>'x-admin-password' = '7a1a7e374d4647fc718b303413faf07b0305b56c76a93855ed4eabb2a691d708');
 
 -- Bảng Products (Sản phẩm)
-CREATE POLICY "Admin products insert" ON public.products FOR INSERT TO public WITH CHECK (true);
-CREATE POLICY "Admin products update" ON public.products FOR UPDATE TO public USING (true);
-CREATE POLICY "Admin products delete" ON public.products FOR DELETE TO public USING (true);
+CREATE POLICY "Admin products insert" ON public.products FOR INSERT TO public WITH CHECK (COALESCE(current_setting('request.headers', true), '{}')::json->>'x-admin-password' = '7a1a7e374d4647fc718b303413faf07b0305b56c76a93855ed4eabb2a691d708');
+CREATE POLICY "Admin products update" ON public.products FOR UPDATE TO public USING (COALESCE(current_setting('request.headers', true), '{}')::json->>'x-admin-password' = '7a1a7e374d4647fc718b303413faf07b0305b56c76a93855ed4eabb2a691d708');
+CREATE POLICY "Admin products delete" ON public.products FOR DELETE TO public USING (COALESCE(current_setting('request.headers', true), '{}')::json->>'x-admin-password' = '7a1a7e374d4647fc718b303413faf07b0305b56c76a93855ed4eabb2a691d708');
 
 -- Bảng Product_Collections (Liên kết Sản phẩm - Danh mục)
-CREATE POLICY "Admin product_collections insert" ON public.product_collections FOR INSERT TO public WITH CHECK (true);
-CREATE POLICY "Admin product_collections update" ON public.product_collections FOR UPDATE TO public USING (true);
-CREATE POLICY "Admin product_collections delete" ON public.product_collections FOR DELETE TO public USING (true);
+CREATE POLICY "Admin product_collections insert" ON public.product_collections FOR INSERT TO public WITH CHECK (COALESCE(current_setting('request.headers', true), '{}')::json->>'x-admin-password' = '7a1a7e374d4647fc718b303413faf07b0305b56c76a93855ed4eabb2a691d708');
+CREATE POLICY "Admin product_collections update" ON public.product_collections FOR UPDATE TO public USING (COALESCE(current_setting('request.headers', true), '{}')::json->>'x-admin-password' = '7a1a7e374d4647fc718b303413faf07b0305b56c76a93855ed4eabb2a691d708');
+CREATE POLICY "Admin product_collections delete" ON public.product_collections FOR DELETE TO public USING (COALESCE(current_setting('request.headers', true), '{}')::json->>'x-admin-password' = '7a1a7e374d4647fc718b303413faf07b0305b56c76a93855ed4eabb2a691d708');
 
 -- ----------------------------------------------------------------------------
 -- 5. PHÂN QUYỀN BẢO MẬT CHO SUPABASE STORAGE (BUCKET "products")
@@ -94,14 +94,15 @@ USING (bucket_id = 'products');
 CREATE POLICY "Public product image insert"
 ON storage.objects FOR INSERT
 TO public
-WITH CHECK (bucket_id = 'products');
+WITH CHECK (bucket_id = 'products' AND COALESCE(current_setting('request.headers', true), '{}')::json->>'x-admin-password' = '7a1a7e374d4647fc718b303413faf07b0305b56c76a93855ed4eabb2a691d708');
 
 CREATE POLICY "Public product image update"
 ON storage.objects FOR UPDATE
 TO public
-USING (bucket_id = 'products');
+USING (bucket_id = 'products' AND COALESCE(current_setting('request.headers', true), '{}')::json->>'x-admin-password' = '7a1a7e374d4647fc718b303413faf07b0305b56c76a93855ed4eabb2a691d708');
 
 CREATE POLICY "Public product image delete"
 ON storage.objects FOR DELETE
 TO public
-USING (bucket_id = 'products');
+USING (bucket_id = 'products' AND COALESCE(current_setting('request.headers', true), '{}')::json->>'x-admin-password' = '7a1a7e374d4647fc718b303413faf07b0305b56c76a93855ed4eabb2a691d708');
+

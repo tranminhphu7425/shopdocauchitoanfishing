@@ -1190,7 +1190,7 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6">
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
                   Tên sản phẩm *
@@ -1218,29 +1218,14 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                 )}
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
-                  Đường dẫn (URL Handle) *
-                </label>
-                <input
-                  required
-                  type="text"
-                  className="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-sm focus:border-orange-500 focus:outline-none transition-colors"
-                  value={handle}
-                  onChange={(e) => {
-                    setIsDirty(true);
-                    setHandle(e.target.value);
-                  }}
-                  placeholder="may-dung-titan-special-3000"
-                />
-              </div>
 
-              <div className="space-y-2 md:col-span-2">
+
+              <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
                   Mô tả chi tiết sản phẩm
                 </label>
                 <textarea
-                  rows={4}
+                  rows={8}
                   className="w-full p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-sm focus:border-orange-500 focus:outline-none transition-colors"
                   value={description}
                   onChange={(e) => {
