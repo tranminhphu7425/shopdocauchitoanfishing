@@ -38,7 +38,7 @@ export function GridTileImage({
   const [fallbackSrc, setFallbackSrc] = useState<string | null>(null);
 
   let rawSrc = fallbackSrc || cachedUrl || props.src;
-  
+
   // Ép toàn bộ ảnh ở thư mục dự án trỏ sang Supabase Storage
   if (typeof rawSrc === "string" && rawSrc.includes("/images/products/")) {
     const filenameMatch = rawSrc.match(/\/images\/products\/([^/]+)$/);

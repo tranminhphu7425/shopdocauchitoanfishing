@@ -11,11 +11,9 @@ import { GridTileImage } from "components/grid/tile";
 export function ProductDetailView({
   initialProduct,
   relatedProducts,
-  handle,
 }: {
   initialProduct: Product;
   relatedProducts: Product[];
-  handle: string;
 }) {
   const currentProduct = initialProduct;
 
@@ -143,7 +141,7 @@ export function ProductDetailView({
 
   return (
     <div className="mx-auto max-w-(--breakpoint-2xl) px-4">
-      <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8 md:p-12 lg:flex-row lg:gap-8 dark:border-neutral-800 dark:bg-black">
+      <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8 md:p-12 lg:flex-row gap-4 lg:gap-8 dark:border-neutral-800 dark:bg-black">
         <div className="h-full w-full basis-full lg:basis-4/6">
           <Suspense
             fallback={
@@ -184,7 +182,7 @@ export function ProductDetailView({
               return (
                 <li
                   key={product.handle}
-                  className="aspect-square w-full flex-none min-[475px]:w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5"
+                  className="aspect-square w-full flex-none min-[475px]:w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/4"
                 >
                   <Link
                     className="relative h-full w-full"

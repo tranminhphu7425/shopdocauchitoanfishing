@@ -1,5 +1,3 @@
-
-
 const ShopInfo = ({ totalProducts = 47 }: { totalProducts?: number }) => {
   const shopData = {
     shop_name: "Chí Toàn Fishing Shop",

@@ -5,7 +5,7 @@ import { Menu as MenuType } from "lib/local/types";
 import CategoryDropdown from "./category-dropdown";
 
 export default function NavbarLinks({ menu }: { menu: MenuType[] }) {
-  const pathname = (useLocation().pathname);
+  const pathname = useLocation().pathname;
   const isSearchActive = pathname === "/search";
 
   return (

@@ -3,7 +3,12 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { Product, ProductVariant } from "lib/local/types";
-import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useLocation,
+  useSearchParams,
+  useParams,
+} from "react-router-dom";
 import { useCart } from "./cart-context";
 
 function SubmitButton({

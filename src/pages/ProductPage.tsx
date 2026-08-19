@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProduct, getProductRecommendations } from "lib/local";
 import { ProductDetailView } from "components/product/product-detail-view";
-import { HIDDEN_PRODUCT_TAG } from "lib/constants";
 import { SkeletonProductDetail } from "components/skeleton";
 
 export default function ProductPage() {
@@ -24,10 +23,10 @@ export default function ProductPage() {
           setNotFound(true);
           return;
         }
-        
+
         document.title = prod.seo?.title || prod.title;
         setProduct(prod);
-        
+
         const related = await getProductRecommendations(prod.id);
         setRelatedProducts(related);
       } catch (error) {
@@ -36,12 +35,16 @@ export default function ProductPage() {
         setLoading(false);
       }
     }
-    
+
     loadData();
   }, [handle]);
 
   if (notFound) {
-    return <div className="flex justify-center items-center h-64 text-2xl font-bold">Sản phẩm không tồn tại</div>;
+    return (
+      <div className="flex justify-center items-center h-64 text-2xl font-bold">
+        Sản phẩm không tồn tại
+      </div>
+    );
   }
 
   if (loading || !product) {
@@ -73,7 +76,10 @@ export default function ProductPage() {
           __html: JSON.stringify(productJsonLd),
         }}
       />
-      <ProductDetailView initialProduct={product} relatedProducts={relatedProducts} handle={handle!} />
+      <ProductDetailView
+        initialProduct={product}
+        relatedProducts={relatedProducts}
+      />
     </>
   );
 }

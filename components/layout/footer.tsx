@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 
-
 import FooterMenu from "components/layout/footer-menu";
 import LogoSquare from "components/logo-square";
 import { getMenu } from "lib/local";
@@ -231,7 +230,7 @@ export default function Footer() {
             Bản quyền đã được bảo lưu.
           </p>
           <p className="text-[10px] text-neutral-400 dark:text-neutral-600">
-            Thực hiện bởi Chí Toàn Fishing.
+            Thực hiện bởi tranminhphu7425.
           </p>
         </div>
       </div>

@@ -2,7 +2,12 @@
 
 import React, { useState } from "react";
 
-import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useLocation,
+  useSearchParams,
+  useParams,
+} from "react-router-dom";
 import { CONTACT_INFO } from "lib/constants";
 import shopeeIcon from "/images/icons/shopee.jpg";
 import tiktokIcon from "/images/icons/tiktokshop.jpg";
@@ -10,7 +15,7 @@ import zaloIcon from "/images/icons/zalo.jpg";
 import messengerIcon from "/images/icons/messenger.png";
 
 const ContactButtons = () => {
-  const pathname = (useLocation().pathname);
+  const pathname = useLocation().pathname;
   const {
     phone: phoneNumber,
     zalo: zaloNumber,

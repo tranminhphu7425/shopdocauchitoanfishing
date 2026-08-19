@@ -51,7 +51,9 @@ export async function getProducts({
 
   if (query) {
     const q = query.toLowerCase();
-    queryBuilder = queryBuilder.or(`title.ilike.%${q}%,description.ilike.%${q}%`);
+    queryBuilder = queryBuilder.or(
+      `title.ilike.%${q}%,description.ilike.%${q}%`,
+    );
   }
 
   // Sort by updated_at DESC (newest updated first) by default
@@ -120,7 +122,12 @@ export async function getProducts({
       minVariantPrice: { amount: "0", currencyCode: "VND" },
     },
     variants: p.variants || [],
-    featuredImage: p.featured_image || { url: "", altText: "", width: 0, height: 0 },
+    featuredImage: p.featured_image || {
+      url: "",
+      altText: "",
+      width: 0,
+      height: 0,
+    },
     images: p.images || [],
     seo: p.seo || { title: "", description: "" },
     tags: p.tags || [],
@@ -153,7 +160,10 @@ export async function getProduct(handle: string): Promise<Product | undefined> {
 
   if (error || !p) return undefined;
 
-  const collections = p.product_collections?.map((pc: any) => pc.collections?.handle).filter(Boolean) || [];
+  const collections =
+    p.product_collections
+      ?.map((pc: any) => pc.collections?.handle)
+      .filter(Boolean) || [];
 
   return {
     id: p.id,
@@ -168,7 +178,12 @@ export async function getProduct(handle: string): Promise<Product | undefined> {
       minVariantPrice: { amount: "0", currencyCode: "VND" },
     },
     variants: p.variants || [],
-    featuredImage: p.featured_image || { url: "", altText: "", width: 0, height: 0 },
+    featuredImage: p.featured_image || {
+      url: "",
+      altText: "",
+      width: 0,
+      height: 0,
+    },
     images: p.images || [],
     seo: p.seo || { title: "", description: "" },
     tags: p.tags || [],
@@ -177,18 +192,23 @@ export async function getProduct(handle: string): Promise<Product | undefined> {
   } as Product & { collections?: string[] };
 }
 
-export async function getProductRecommendations(productId: string): Promise<Product[]> {
-  const { data: currentProduct, error }: { data: any; error: any } = await getSupabase()
-    .from("products")
-    .select("id, product_collections(collection_id)")
-    .eq("id", productId)
-    .single();
+export async function getProductRecommendations(
+  productId: string,
+): Promise<Product[]> {
+  const { data: currentProduct, error }: { data: any; error: any } =
+    await getSupabase()
+      .from("products")
+      .select("id, product_collections(collection_id)")
+      .eq("id", productId)
+      .single();
 
   if (error || !currentProduct || !currentProduct.product_collections?.length) {
     return [];
   }
 
-  const collectionIds = currentProduct.product_collections.map((pc: any) => pc.collection_id);
+  const collectionIds = currentProduct.product_collections.map(
+    (pc: any) => pc.collection_id,
+  );
 
   const { data: recommended } = await getSupabase()
     .from("product_collections")
@@ -221,7 +241,12 @@ export async function getProductRecommendations(productId: string): Promise<Prod
       minVariantPrice: { amount: "0", currencyCode: "VND" },
     },
     variants: p.variants || [],
-    featuredImage: p.featured_image || { url: "", altText: "", width: 0, height: 0 },
+    featuredImage: p.featured_image || {
+      url: "",
+      altText: "",
+      width: 0,
+      height: 0,
+    },
     images: p.images || [],
     seo: p.seo || { title: "", description: "" },
     tags: p.tags || [],
@@ -232,8 +257,10 @@ export async function getProductRecommendations(productId: string): Promise<Prod
 // --- Collections ---
 
 export async function getCollections(): Promise<Collection[]> {
-  const { data: collections, error } = await getSupabase().from("collections").select("*");
-  
+  const { data: collections, error } = await getSupabase()
+    .from("collections")
+    .select("*");
+
   const allCollection: Collection = {
     handle: "",
     title: "Tất cả sản phẩm",
@@ -244,7 +271,8 @@ export async function getCollections(): Promise<Collection[]> {
   };
 
   if (error || !collections || collections.length === 0) {
-    if (error) console.error("Error fetching collections from Supabase:", error);
+    if (error)
+      console.error("Error fetching collections from Supabase:", error);
     const localCollections = (storeData.collections || []).map((c: any) => ({
       handle: c.handle,
       title: c.title,
@@ -269,8 +297,14 @@ export async function getCollections(): Promise<Collection[]> {
   ];
 }
 
-export async function getCollection(handle: string): Promise<Collection | undefined> {
-  const { data: c, error }: { data: any; error: any } = await getSupabase().from("collections").select("*").eq("handle", handle).single();
+export async function getCollection(
+  handle: string,
+): Promise<Collection | undefined> {
+  const { data: c, error }: { data: any; error: any } = await getSupabase()
+    .from("collections")
+    .select("*")
+    .eq("handle", handle)
+    .single();
 
   if (c) {
     return {
@@ -299,8 +333,12 @@ export async function getCollectionProducts({
   if (!collection) return getProducts({ reverse, sortKey });
 
   // 1. Try Supabase
-  const { data: c }: { data: any } = await getSupabase().from("collections").select("id").eq("handle", collection).single();
-  
+  const { data: c }: { data: any } = await getSupabase()
+    .from("collections")
+    .select("id")
+    .eq("handle", collection)
+    .single();
+
   if (c) {
     const { data: pcs } = await getSupabase()
       .from("product_collections")
@@ -323,7 +361,12 @@ export async function getCollectionProducts({
           minVariantPrice: { amount: "0", currencyCode: "VND" },
         },
         variants: p.variants || [],
-        featuredImage: p.featured_image || { url: "", altText: "", width: 0, height: 0 },
+        featuredImage: p.featured_image || {
+          url: "",
+          altText: "",
+          width: 0,
+          height: 0,
+        },
         images: p.images || [],
         seo: p.seo || { title: "", description: "" },
         tags: p.tags || [],
@@ -350,7 +393,9 @@ export async function getCollectionProducts({
   }
 
   // 2. Fallback to storeData
-  const allProducts = (storeData.products || []) as unknown as (Product & { collections?: string[] })[];
+  const allProducts = (storeData.products || []) as unknown as (Product & {
+    collections?: string[];
+  })[];
   let filtered = allProducts.filter(
     (p) =>
       (p.collections || []).includes(collection) ||
@@ -444,13 +489,19 @@ export async function updateCart(
 export function getAllProductsSync(): (Product & { collections?: string[] })[] {
   return [];
 }
-export function addProduct(product: Product & { collections?: string[] }): void {}
+export function addProduct(
+  product: Product & { collections?: string[] },
+): void {}
 export function updateProduct(
   handle: string,
   updates: Partial<Product & { collections?: string[] }>,
 ): Product | undefined {
   return undefined;
 }
-export function deleteProduct(handle: string): boolean { return false; }
+export function deleteProduct(handle: string): boolean {
+  return false;
+}
 export function addCollection(collection: Omit<Collection, "path">): void {}
-export function deleteCollection(handle: string): boolean { return false; }
+export function deleteCollection(handle: string): boolean {
+  return false;
+}

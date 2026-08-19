@@ -8,7 +8,7 @@ import ThemeToggle from "components/theme-toggle";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function AdminMobileMenu() {
-  const pathname = (useLocation().pathname);
+  const pathname = useLocation().pathname;
   const [isOpen, setIsOpen] = useState(false);
   const openMobileMenu = () => setIsOpen(true);
   const closeMobileMenu = () => setIsOpen(false);

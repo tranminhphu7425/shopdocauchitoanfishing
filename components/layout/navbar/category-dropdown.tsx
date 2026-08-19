@@ -4,11 +4,16 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Menu as MenuType } from "lib/local/types";
 import { Link } from "react-router-dom";
-import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useLocation,
+  useSearchParams,
+  useParams,
+} from "react-router-dom";
 import { Fragment } from "react";
 
 export default function CategoryDropdown({ menu }: { menu: MenuType[] }) {
-  const pathname = (useLocation().pathname);
+  const pathname = useLocation().pathname;
   const isDropdownActive = menu.some((item) => pathname === item.path);
 
   return (

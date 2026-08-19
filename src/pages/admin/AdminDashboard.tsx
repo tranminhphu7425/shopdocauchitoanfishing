@@ -58,7 +58,8 @@ export default function AdminDashboard() {
             Quản Lý Sản Phẩm
           </h1>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-            Tổng quan kho hàng, phân loại và trạng thái hiển thị của cửa hàng Chí Toàn Fishing
+            Tổng quan kho hàng, phân loại và trạng thái hiển thị của cửa hàng
+            Chí Toàn Fishing
           </p>
         </div>
         <Link

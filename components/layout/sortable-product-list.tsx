@@ -1,6 +1,11 @@
 "use client";
 
-import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useLocation,
+  useSearchParams,
+  useParams,
+} from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { Product } from "lib/local/types";
 import { sorting, defaultSort } from "lib/constants";
@@ -16,7 +21,7 @@ export default function SortableProductList({
   products: Product[];
 }) {
   const router = useNavigate();
-  const pathname = (useLocation().pathname);
+  const pathname = useLocation().pathname;
   const [searchParams] = useSearchParams();
   const listRef = useRef<HTMLDivElement>(null);
 

@@ -1,12 +1,12 @@
 "use client";
 
-import { useCart } from 'components/cart/cart-context';
-import Price from 'components/price';
-import { useCartStore } from 'lib/cart/store';
-import { CONTACT_INFO } from 'lib/constants';
-import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { useCart } from "components/cart/cart-context";
+import Price from "components/price";
+import { useCartStore } from "lib/cart/store";
+import { CONTACT_INFO } from "lib/constants";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface ShippingProfile {
   id: string;
@@ -38,28 +38,34 @@ export default function CheckoutPage() {
 
   // Address profiles state
   const [profiles, setProfiles] = useState<ShippingProfile[]>([]);
-  const [activeProfileId, setActiveProfileId] = useState<string>('');
+  const [activeProfileId, setActiveProfileId] = useState<string>("");
   const [isEditingOrAdding, setIsEditingOrAdding] = useState(false);
-  const [formMode, setFormMode] = useState<'add' | 'edit'>('add');
+  const [formMode, setFormMode] = useState<"add" | "edit">("add");
   const [formValues, setFormValues] = useState({
-    name: '',
-    phone: '',
-    street: '',
+    name: "",
+    phone: "",
+    street: "",
     provinceCode: 0,
     wardCode: 0,
-    note: ''
+    note: "",
   });
 
   // Provinces API state
-  const [provinces, setProvinces] = useState<{ code: number; name: string }[]>([]);
+  const [provinces, setProvinces] = useState<{ code: number; name: string }[]>(
+    [],
+  );
   const [wards, setWards] = useState<{ code: number; name: string }[]>([]);
   const [loadingProvinces, setLoadingProvinces] = useState(false);
   const [loadingWards, setLoadingWards] = useState(false);
 
   // Payment method state
-  const [paymentMethod, setPaymentMethod] = useState<'qr' | 'cod'>('cod');
+  const [paymentMethod, setPaymentMethod] = useState<"qr" | "cod">("cod");
 
-  const { bankId: BANK_ID, accountNo: ACCOUNT_NO, accountName: ACCOUNT_NAME } = CONTACT_INFO;
+  const {
+    bankId: BANK_ID,
+    accountNo: ACCOUNT_NO,
+    accountName: ACCOUNT_NAME,
+  } = CONTACT_INFO;
   const TEMPLATE = "compact";
 
   useEffect(() => {
@@ -73,22 +79,23 @@ export default function CheckoutPage() {
         const parsed = JSON.parse(storedProfiles);
         setProfiles(parsed);
         if (parsed.length > 0) {
-          const activeId = storedActiveId && parsed.some((p: any) => p.id === storedActiveId)
-            ? storedActiveId
-            : parsed[0].id;
+          const activeId =
+            storedActiveId && parsed.some((p: any) => p.id === storedActiveId)
+              ? storedActiveId
+              : parsed[0].id;
           setActiveProfileId(activeId);
         } else {
           setIsEditingOrAdding(true);
-          setFormMode('add');
+          setFormMode("add");
         }
       } catch (e) {
         console.error("Error parsing stored profiles", e);
         setIsEditingOrAdding(true);
-        setFormMode('add');
+        setFormMode("add");
       }
     } else {
       setIsEditingOrAdding(true);
-      setFormMode('add');
+      setFormMode("add");
     }
 
     // Fetch provinces list
@@ -118,7 +125,9 @@ export default function CheckoutPage() {
     const fetchWards = async () => {
       setLoadingWards(true);
       try {
-        const res = await fetch(`https://provinces.open-api.vn/api/v2/w/?province=${formValues.provinceCode}`);
+        const res = await fetch(
+          `https://provinces.open-api.vn/api/v2/w/?province=${formValues.provinceCode}`,
+        );
         if (res.ok) {
           const data = await res.json();
           setWards(data || []);
@@ -133,8 +142,16 @@ export default function CheckoutPage() {
   }, [formValues.provinceCode]);
 
   const handleRedirectToFacebook = async () => {
-    const telegramToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN || (typeof process !== "undefined" ? process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN : undefined);
-    const telegramChatId = import.meta.env.VITE_TELEGRAM_CHAT_ID || (typeof process !== "undefined" ? process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID : undefined);
+    const telegramToken =
+      import.meta.env.VITE_TELEGRAM_BOT_TOKEN ||
+      (typeof process !== "undefined"
+        ? process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN
+        : undefined);
+    const telegramChatId =
+      import.meta.env.VITE_TELEGRAM_CHAT_ID ||
+      (typeof process !== "undefined"
+        ? process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID
+        : undefined);
 
     // Send to Telegram only when checkout is confirmed and redirecting
     if (telegramToken && telegramChatId) {
@@ -143,30 +160,30 @@ export default function CheckoutPage() {
         const url = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
 
         await fetch(url, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             chat_id: telegramChatId,
             text: messageHtml,
-            parse_mode: 'HTML',
+            parse_mode: "HTML",
           }),
         });
       } catch (tgError) {
-        console.error('Failed to send Telegram notification:', tgError);
+        console.error("Failed to send Telegram notification:", tgError);
       }
     }
 
     const messengerUrl = `https://m.me/${CONTACT_INFO.messenger}`;
     const pageUrl = `https://facebook.com/${CONTACT_INFO.messenger}`;
-    window.open(messengerUrl, '_blank');
-    window.open(pageUrl, '_blank');
-    
+    window.open(messengerUrl, "_blank");
+    window.open(pageUrl, "_blank");
+
     clearCart();
     setStep(3);
     setShowFacebookModal(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleCloseModal = () => {
@@ -200,15 +217,30 @@ export default function CheckoutPage() {
       return (
         <div className="flex min-h-[60vh] flex-col items-center justify-center p-8 text-center animate-in fade-in duration-500">
           <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-green-100 text-green-600">
-            <svg className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            <svg
+              className="h-12 w-12"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
             </svg>
           </div>
           <h1 className="mb-4 text-3xl font-bold">Đặt hàng thành công!</h1>
           <p className="mb-8 text-neutral-600 dark:text-neutral-400 max-w-md">
-            Cảm ơn bạn đã mua sắm tại {CONTACT_INFO.name}. Chúng tôi đã nhận được thông tin thanh toán và sẽ xử lý đơn hàng của bạn trong thời gian sớm nhất.
+            Cảm ơn bạn đã mua sắm tại {CONTACT_INFO.name}. Chúng tôi đã nhận
+            được thông tin thanh toán và sẽ xử lý đơn hàng của bạn trong thời
+            gian sớm nhất.
           </p>
-          <Link to="/" className="rounded-full bg-orange-600 px-8 py-3 font-bold text-white transition-colors hover:bg-orange-700">
+          <Link
+            to="/"
+            className="rounded-full bg-orange-600 px-8 py-3 font-bold text-white transition-colors hover:bg-orange-700"
+          >
             Tiếp tục mua sắm
           </Link>
         </div>
@@ -218,7 +250,10 @@ export default function CheckoutPage() {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center p-8">
         <h1 className="mb-4 text-2xl font-bold">Giỏ hàng của bạn đang trống</h1>
-        <Link to="/" className="rounded-full bg-orange-600 px-6 py-2 text-white hover:bg-orange-700">
+        <Link
+          to="/"
+          className="rounded-full bg-orange-600 px-6 py-2 text-white hover:bg-orange-700"
+        >
           Quay lại mua sắm
         </Link>
       </div>
@@ -228,10 +263,12 @@ export default function CheckoutPage() {
   const activeProfile = profiles.find((p) => p.id === activeProfileId);
   const displayAddress = activeProfile
     ? `${activeProfile.street}, ${activeProfile.wardName}, ${activeProfile.provinceName}`
-    : '';
+    : "";
 
   // Order code generation
-  const orderId = `CTF${Date.now()}${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
+  const orderId = `CTF${Date.now()}${Math.floor(Math.random() * 10000)
+    .toString()
+    .padStart(4, "0")}`;
   const qrUrl = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-${TEMPLATE}.png?amount=${cart.cost.totalAmount.amount}&addInfo=Thanh toan don hang ${orderId}&accountName=${encodeURIComponent(ACCOUNT_NAME)}`;
 
   const formatCurrency = (amount: string) => {
@@ -246,29 +283,41 @@ export default function CheckoutPage() {
   const generateOrderMessage = (html: boolean = false) => {
     const itemsText = cart.lines
       .map((line) => {
-        const unitPrice = parseFloat(line.cost.totalAmount.amount) / line.quantity;
+        const unitPrice =
+          parseFloat(line.cost.totalAmount.amount) / line.quantity;
         if (html) {
           return `🔹 <b>${line.merchandise.product.title}</b> (${line.merchandise.title}): ${line.quantity} x ${formatCurrency(unitPrice.toString())}`;
         }
         return `- ${line.merchandise.product.title} (${line.merchandise.title}): ${line.quantity} x ${formatCurrency(unitPrice.toString())}`;
       })
-      .join('\n');
+      .join("\n");
 
     const addressStr = activeProfile
       ? `${activeProfile.street}, ${activeProfile.wardName}, ${activeProfile.provinceName}`
-      : '';
-    const nameStr = activeProfile ? activeProfile.name : '';
-    const phoneStr = activeProfile ? activeProfile.phone : '';
-    const noteStr = activeProfile ? (activeProfile.note || 'Không có') : 'Không có';
-    const paymentStr = SKIP_PAYMENT 
-      ? 'Thỏa thuận qua Chat' 
-      : (paymentMethod === 'cod' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản VietQR');
+      : "";
+    const nameStr = activeProfile ? activeProfile.name : "";
+    const phoneStr = activeProfile ? activeProfile.phone : "";
+    const noteStr = activeProfile
+      ? activeProfile.note || "Không có"
+      : "Không có";
+    const paymentStr = SKIP_PAYMENT
+      ? "Thỏa thuận qua Chat"
+      : paymentMethod === "cod"
+        ? "Thanh toán khi nhận hàng (COD)"
+        : "Chuyển khoản VietQR";
 
-    const statusExtra = !SKIP_PAYMENT && paymentMethod === 'qr' ? '\n⚠️ Trạng thái: Em đã chuyển khoản trước rồi ạ!' : '';
-    const statusExtraHtml = !SKIP_PAYMENT && paymentMethod === 'qr' ? '\n⚠️ <b>Trạng thái:</b> Em đã chuyển khoản trước rồi ạ!' : '';
+    const statusExtra =
+      !SKIP_PAYMENT && paymentMethod === "qr"
+        ? "\n⚠️ Trạng thái: Em đã chuyển khoản trước rồi ạ!"
+        : "";
+    const statusExtraHtml =
+      !SKIP_PAYMENT && paymentMethod === "qr"
+        ? "\n⚠️ <b>Trạng thái:</b> Em đã chuyển khoản trước rồi ạ!"
+        : "";
 
     if (html) {
-      return `📦 <b>ĐƠN HÀNG MỚI: ${orderId}</b>\n` +
+      return (
+        `📦 <b>ĐƠN HÀNG MỚI: ${orderId}</b>\n` +
         `---------------------------\n` +
         `👤 <b>Khách hàng:</b> ${nameStr}\n` +
         `📞 <b>Điện thoại:</b> ${phoneStr}\n` +
@@ -278,7 +327,8 @@ export default function CheckoutPage() {
         `---------------------------\n` +
         `🛒 <b>Chi tiết mặt hàng:</b>\n${itemsText}\n` +
         `---------------------------\n` +
-        `💰 <b>Tổng cộng: ${formatCurrency(cart.cost.totalAmount.amount)}</b>${statusExtraHtml}`;
+        `💰 <b>Tổng cộng: ${formatCurrency(cart.cost.totalAmount.amount)}</b>${statusExtraHtml}`
+      );
     }
 
     return `📦 ĐƠN HÀNG MỚI: ${orderId}\n---------------------------\n👤 Khách hàng: ${nameStr}\n📞 Điện thoại: ${phoneStr}\n🏠 Địa chỉ: ${addressStr}\n💵 Thanh toán: ${paymentStr}\n📝 Ghi chú: ${noteStr}\n---------------------------\n🛒 Chi tiết mặt hàng:\n${itemsText}\n---------------------------\n💰 Tổng cộng: ${formatCurrency(cart.cost.totalAmount.amount)}${statusExtra}\n---------------------------\nVui lòng xác nhận đơn hàng giúp em nhé!`;
@@ -286,29 +336,33 @@ export default function CheckoutPage() {
 
   const handleNextStep = () => {
     if (!activeProfile) {
-      toast.error('Vui lòng tạo hoặc chọn địa chỉ giao hàng trước khi tiếp tục');
+      toast.error(
+        "Vui lòng tạo hoặc chọn địa chỉ giao hàng trước khi tiếp tục",
+      );
       return;
     }
     setStep(2);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success('Đã tự động sao chép thông tin đơn hàng!');
+      toast.success("Đã tự động sao chép thông tin đơn hàng!");
     } catch (err) {
-      console.error('Clipboard API error, trying fallback', err);
-      const textarea = document.createElement('textarea');
+      console.error("Clipboard API error, trying fallback", err);
+      const textarea = document.createElement("textarea");
       textarea.value = text;
-      textarea.style.position = 'fixed';
+      textarea.style.position = "fixed";
       document.body.appendChild(textarea);
       textarea.select();
       try {
-        document.execCommand('copy');
-        toast.success('Đã sao chép thông tin đơn hàng!');
+        document.execCommand("copy");
+        toast.success("Đã sao chép thông tin đơn hàng!");
       } catch (e) {
-        toast.error('Không thể sao chép tự động. Vui lòng chọn và sao chép thủ công.');
+        toast.error(
+          "Không thể sao chép tự động. Vui lòng chọn và sao chép thủ công.",
+        );
       }
       document.body.removeChild(textarea);
     }
@@ -323,15 +377,14 @@ export default function CheckoutPage() {
       try {
         await copyToClipboard(messageText);
       } catch (clipErr) {
-        console.error('Error in copyToClipboard:', clipErr);
+        console.error("Error in copyToClipboard:", clipErr);
       }
 
-      toast.success('Thông tin đơn hàng đã sẵn sàng!');
+      toast.success("Thông tin đơn hàng đã sẵn sàng!");
       setShowFacebookModal(true);
-
     } catch (error) {
-      console.error('Error completing payment:', error);
-      toast.error('Có lỗi xảy ra khi hoàn tất đơn hàng. Vui lòng thử lại.');
+      console.error("Error completing payment:", error);
+      toast.error("Có lỗi xảy ra khi hoàn tất đơn hàng. Vui lòng thử lại.");
     } finally {
       setIsSubmitting(false);
     }
@@ -339,7 +392,7 @@ export default function CheckoutPage() {
 
   const handleCancel = () => {
     clearCart();
-    navigate('/');
+    navigate("/");
   };
 
   const handleSaveProfile = (e: React.FormEvent) => {
@@ -355,11 +408,13 @@ export default function CheckoutPage() {
       return;
     }
 
-    const provinceName = provinces.find((p) => p.code === formValues.provinceCode)?.name || "";
-    const wardName = wards.find((w) => w.code === formValues.wardCode)?.name || "";
+    const provinceName =
+      provinces.find((p) => p.code === formValues.provinceCode)?.name || "";
+    const wardName =
+      wards.find((w) => w.code === formValues.wardCode)?.name || "";
 
     const newProfile: ShippingProfile = {
-      id: formMode === 'edit' ? activeProfileId : `prof-${Date.now()}`,
+      id: formMode === "edit" ? activeProfileId : `prof-${Date.now()}`,
       name: formValues.name,
       phone: formValues.phone,
       street: formValues.street,
@@ -367,40 +422,52 @@ export default function CheckoutPage() {
       provinceName,
       wardCode: formValues.wardCode,
       wardName,
-      note: formValues.note
+      note: formValues.note,
     };
 
     let updatedProfiles = [];
-    if (formMode === 'edit') {
-      updatedProfiles = profiles.map((p) => p.id === activeProfileId ? newProfile : p);
+    if (formMode === "edit") {
+      updatedProfiles = profiles.map((p) =>
+        p.id === activeProfileId ? newProfile : p,
+      );
     } else {
       updatedProfiles = [...profiles, newProfile];
     }
 
     setProfiles(updatedProfiles);
     setActiveProfileId(newProfile.id);
-    localStorage.setItem("commerce_shipping_profiles", JSON.stringify(updatedProfiles));
+    localStorage.setItem(
+      "commerce_shipping_profiles",
+      JSON.stringify(updatedProfiles),
+    );
     localStorage.setItem("commerce_active_profile_id", newProfile.id);
     setIsEditingOrAdding(false);
-    toast.success(formMode === 'edit' ? "Đã cập nhật địa chỉ giao hàng" : "Đã thêm địa chỉ giao hàng mới");
+    toast.success(
+      formMode === "edit"
+        ? "Đã cập nhật địa chỉ giao hàng"
+        : "Đã thêm địa chỉ giao hàng mới",
+    );
   };
 
   const handleAddNewClick = () => {
-    setFormMode('add');
+    setFormMode("add");
     setFormValues({
-      name: '',
-      phone: '',
-      street: '',
+      name: "",
+      phone: "",
+      street: "",
       provinceCode: 0,
       wardCode: 0,
-      note: ''
+      note: "",
     });
     setIsEditingOrAdding(true);
   };
 
-  const handleEditProfileClick = (profile: ShippingProfile, e: React.MouseEvent) => {
+  const handleEditProfileClick = (
+    profile: ShippingProfile,
+    e: React.MouseEvent,
+  ) => {
     e.stopPropagation();
-    setFormMode('edit');
+    setFormMode("edit");
     setActiveProfileId(profile.id);
     localStorage.setItem("commerce_active_profile_id", profile.id);
     setFormValues({
@@ -409,7 +476,7 @@ export default function CheckoutPage() {
       street: profile.street,
       provinceCode: profile.provinceCode,
       wardCode: profile.wardCode,
-      note: profile.note || ''
+      note: profile.note || "",
     });
     setIsEditingOrAdding(true);
   };
@@ -419,23 +486,26 @@ export default function CheckoutPage() {
     if (confirm("Bạn có chắc chắn muốn xóa địa chỉ này?")) {
       const updated = profiles.filter((p) => p.id !== id);
       setProfiles(updated);
-      localStorage.setItem("commerce_shipping_profiles", JSON.stringify(updated));
+      localStorage.setItem(
+        "commerce_shipping_profiles",
+        JSON.stringify(updated),
+      );
 
       if (activeProfileId === id) {
-        const nextActive = updated[0]?.id || '';
+        const nextActive = updated[0]?.id || "";
         setActiveProfileId(nextActive);
         localStorage.setItem("commerce_active_profile_id", nextActive);
 
         if (updated.length === 0) {
           setIsEditingOrAdding(true);
-          setFormMode('add');
+          setFormMode("add");
           setFormValues({
-            name: '',
-            phone: '',
-            street: '',
+            name: "",
+            phone: "",
+            street: "",
             provinceCode: 0,
             wardCode: 0,
-            note: ''
+            note: "",
           });
         }
       }
@@ -458,14 +528,26 @@ export default function CheckoutPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-neutral-900 dark:text-white">Thanh Toán</h1>
+        <h1 className="text-3xl font-bold text-neutral-900 dark:text-white">
+          Thanh Toán
+        </h1>
 
         {/* Progress Indicator */}
         {!SKIP_PAYMENT && (
           <div className="flex items-center gap-2 text-sm font-medium">
-            <span className={`flex h-8 w-8 items-center justify-center rounded-full ${step >= 1 ? 'bg-orange-600 text-white' : 'bg-neutral-200 text-neutral-700'}`}>1</span>
-            <span className={`h-1 w-8 rounded ${step >= 2 ? 'bg-orange-600' : 'bg-neutral-200'}`}></span>
-            <span className={`flex h-8 w-8 items-center justify-center rounded-full ${step >= 2 ? 'bg-orange-600 text-white' : 'bg-neutral-200 text-neutral-700'}`}>2</span>
+            <span
+              className={`flex h-8 w-8 items-center justify-center rounded-full ${step >= 1 ? "bg-orange-600 text-white" : "bg-neutral-200 text-neutral-700"}`}
+            >
+              1
+            </span>
+            <span
+              className={`h-1 w-8 rounded ${step >= 2 ? "bg-orange-600" : "bg-neutral-200"}`}
+            ></span>
+            <span
+              className={`flex h-8 w-8 items-center justify-center rounded-full ${step >= 2 ? "bg-orange-600 text-white" : "bg-neutral-200 text-neutral-700"}`}
+            >
+              2
+            </span>
           </div>
         )}
       </div>
@@ -474,45 +556,68 @@ export default function CheckoutPage() {
         {/* Left Column: Form & QR */}
         <div className="lg:col-span-2 space-y-8">
           {/* Step 1: Customer Form */}
-          <div className={`rounded-2xl border ${!SKIP_PAYMENT && step === 2 ? 'border-neutral-200 opacity-60' : 'border-orange-500 ring-1 ring-orange-500'} bg-white p-8 shadow-sm transition-all dark:bg-neutral-900 dark:border-neutral-800`}>
+          <div
+            className={`rounded-2xl border ${!SKIP_PAYMENT && step === 2 ? "border-neutral-200 opacity-60" : "border-orange-500 ring-1 ring-orange-500"} bg-white p-8 shadow-sm transition-all dark:bg-neutral-900 dark:border-neutral-800`}
+          >
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold flex items-center gap-2">
                 Thông tin giao hàng
               </h2>
               {step === 2 && (
-                <button onClick={() => setStep(1)} className="text-sm font-medium text-orange-600 hover:underline">Sửa</button>
+                <button
+                  onClick={() => setStep(1)}
+                  className="text-sm font-medium text-orange-600 hover:underline"
+                >
+                  Sửa
+                </button>
               )}
             </div>
 
             {step === 1 ? (
               <div className="space-y-6 animate-in fade-in slide-in-from-top-4 duration-500">
-
                 {/* Form Editor */}
                 {isEditingOrAdding ? (
-                  <form onSubmit={handleSaveProfile} className="space-y-4 border border-neutral-200 dark:border-neutral-800 p-6 rounded-xl bg-neutral-50/50 dark:bg-neutral-800/10">
+                  <form
+                    onSubmit={handleSaveProfile}
+                    className="space-y-4 border border-neutral-200 dark:border-neutral-800 p-6 rounded-xl bg-neutral-50/50 dark:bg-neutral-800/10"
+                  >
                     <h3 className="font-bold text-sm text-neutral-800 dark:text-neutral-200">
-                      {formMode === 'add' ? 'Thêm địa chỉ giao hàng mới' : 'Chỉnh sửa địa chỉ giao hàng'}
+                      {formMode === "add"
+                        ? "Thêm địa chỉ giao hàng mới"
+                        : "Chỉnh sửa địa chỉ giao hàng"}
                     </h3>
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                       <div className="space-y-1">
-                        <label className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">Họ và tên *</label>
+                        <label className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">
+                          Họ và tên *
+                        </label>
                         <input
                           type="text"
                           required
                           value={formValues.name}
-                          onChange={(e) => setFormValues({ ...formValues, name: e.target.value })}
+                          onChange={(e) =>
+                            setFormValues({
+                              ...formValues,
+                              name: e.target.value,
+                            })
+                          }
                           placeholder="Nguyễn Văn A"
                           className="w-full rounded-lg border border-neutral-200 bg-white p-2.5 text-xs focus:border-orange-500 focus:outline-none dark:border-neutral-700 dark:bg-neutral-800"
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">Số điện thoại *</label>
+                        <label className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">
+                          Số điện thoại *
+                        </label>
                         <input
                           type="tel"
                           required
                           value={formValues.phone}
                           onChange={(e) => {
-                            const sanitized = e.target.value.replace(/[^\d\s+]/g, '');
+                            const sanitized = e.target.value.replace(
+                              /[^\d\s+]/g,
+                              "",
+                            );
                             setFormValues({ ...formValues, phone: sanitized });
                           }}
                           placeholder="0912 xxx xxx"
@@ -526,7 +631,11 @@ export default function CheckoutPage() {
                         options={provinces}
                         value={formValues.provinceCode}
                         onChange={(code) => {
-                          setFormValues({ ...formValues, provinceCode: code, wardCode: 0 });
+                          setFormValues({
+                            ...formValues,
+                            provinceCode: code,
+                            wardCode: 0,
+                          });
                         }}
                         loading={loadingProvinces}
                       />
@@ -544,22 +653,36 @@ export default function CheckoutPage() {
                       />
 
                       <div className="md:col-span-2 space-y-1">
-                        <label className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">Số nhà, tên đường *</label>
+                        <label className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">
+                          Số nhà, tên đường *
+                        </label>
                         <input
                           type="text"
                           required
                           value={formValues.street}
-                          onChange={(e) => setFormValues({ ...formValues, street: e.target.value })}
+                          onChange={(e) =>
+                            setFormValues({
+                              ...formValues,
+                              street: e.target.value,
+                            })
+                          }
                           placeholder="Ví dụ: 123 Đường Trần Hưng Đạo"
                           className="w-full rounded-lg border border-neutral-200 bg-white p-2.5 text-xs focus:border-orange-500 focus:outline-none dark:border-neutral-700 dark:bg-neutral-800"
                         />
                       </div>
 
                       <div className="md:col-span-2 space-y-1">
-                        <label className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">Ghi chú thêm</label>
+                        <label className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">
+                          Ghi chú thêm
+                        </label>
                         <textarea
                           value={formValues.note}
-                          onChange={(e) => setFormValues({ ...formValues, note: e.target.value })}
+                          onChange={(e) =>
+                            setFormValues({
+                              ...formValues,
+                              note: e.target.value,
+                            })
+                          }
                           placeholder="Giao giờ hành chính, gọi trước khi đến..."
                           rows={2}
                           className="w-full rounded-lg border border-neutral-200 bg-white p-2.5 text-xs focus:border-orange-500 focus:outline-none dark:border-neutral-700 dark:bg-neutral-800"
@@ -594,10 +717,11 @@ export default function CheckoutPage() {
                         <div
                           key={p.id}
                           onClick={() => handleSelectProfile(p.id)}
-                          className={`relative rounded-xl border p-4 cursor-pointer transition-all ${isActive
-                              ? 'border-orange-500 bg-orange-50/5 ring-1 ring-orange-500'
-                              : 'border-neutral-200 hover:border-neutral-300 dark:border-neutral-800'
-                            }`}
+                          className={`relative rounded-xl border p-4 cursor-pointer transition-all ${
+                            isActive
+                              ? "border-orange-500 bg-orange-50/5 ring-1 ring-orange-500"
+                              : "border-neutral-200 hover:border-neutral-300 dark:border-neutral-800"
+                          }`}
                         >
                           <div className="flex items-start justify-between gap-4">
                             <div className="flex items-start gap-3">
@@ -616,10 +740,17 @@ export default function CheckoutPage() {
                                     </span>
                                   )}
                                 </div>
-                                <p className="text-xs font-semibold text-neutral-700 dark:text-neutral-300 mt-1.5">SĐT: {p.phone}</p>
-                                <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5">Địa chỉ: {p.street}, {p.wardName}, {p.provinceName}</p>
+                                <p className="text-xs font-semibold text-neutral-700 dark:text-neutral-300 mt-1.5">
+                                  SĐT: {p.phone}
+                                </p>
+                                <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5">
+                                  Địa chỉ: {p.street}, {p.wardName},{" "}
+                                  {p.provinceName}
+                                </p>
                                 {p.note && (
-                                  <p className="text-[11px] text-orange-600 font-medium italic mt-1.5">Ghi chú: {p.note}</p>
+                                  <p className="text-[11px] text-orange-600 font-medium italic mt-1.5">
+                                    Ghi chú: {p.note}
+                                  </p>
                                 )}
                               </div>
                             </div>
@@ -654,11 +785,31 @@ export default function CheckoutPage() {
             ) : (
               /* Review Active Address */
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-neutral-600 dark:text-neutral-400 animate-in fade-in duration-300">
-                <div><span className="font-semibold text-neutral-900 dark:text-neutral-200">Người nhận:</span> {activeProfile?.name}</div>
-                <div><span className="font-semibold text-neutral-900 dark:text-neutral-200">SĐT:</span> {activeProfile?.phone}</div>
-                <div className="md:col-span-2"><span className="font-semibold text-neutral-900 dark:text-neutral-200">Địa chỉ:</span> {displayAddress}</div>
+                <div>
+                  <span className="font-semibold text-neutral-900 dark:text-neutral-200">
+                    Người nhận:
+                  </span>{" "}
+                  {activeProfile?.name}
+                </div>
+                <div>
+                  <span className="font-semibold text-neutral-900 dark:text-neutral-200">
+                    SĐT:
+                  </span>{" "}
+                  {activeProfile?.phone}
+                </div>
+                <div className="md:col-span-2">
+                  <span className="font-semibold text-neutral-900 dark:text-neutral-200">
+                    Địa chỉ:
+                  </span>{" "}
+                  {displayAddress}
+                </div>
                 {activeProfile?.note && (
-                  <div className="md:col-span-2"><span className="font-semibold text-neutral-900 dark:text-neutral-200">Ghi chú:</span> {activeProfile.note}</div>
+                  <div className="md:col-span-2">
+                    <span className="font-semibold text-neutral-900 dark:text-neutral-200">
+                      Ghi chú:
+                    </span>{" "}
+                    {activeProfile.note}
+                  </div>
                 )}
               </div>
             )}
@@ -673,32 +824,37 @@ export default function CheckoutPage() {
 
               {/* Payment Toggler */}
               <div className="mb-8 flex flex-col sm:flex-row gap-4">
-                
                 <button
                   type="button"
-                  onClick={() => setPaymentMethod('cod')}
-                  className={`flex-1 flex flex-col items-center justify-center p-4 rounded-xl border text-center transition-all ${paymentMethod === 'cod'
-                      ? 'border-orange-500 bg-orange-50/10 ring-1 ring-orange-500 font-bold'
-                      : 'border-neutral-200 hover:border-neutral-300 dark:border-neutral-800'
-                    }`}
+                  onClick={() => setPaymentMethod("cod")}
+                  className={`flex-1 flex flex-col items-center justify-center p-4 rounded-xl border text-center transition-all ${
+                    paymentMethod === "cod"
+                      ? "border-orange-500 bg-orange-50/10 ring-1 ring-orange-500 font-bold"
+                      : "border-neutral-200 hover:border-neutral-300 dark:border-neutral-800"
+                  }`}
                 >
                   <span className="text-2xl mb-1.5">💵</span>
-                  <span className="text-xs font-semibold text-neutral-800 dark:text-neutral-200">Thanh toán khi nhận hàng (COD)</span>
+                  <span className="text-xs font-semibold text-neutral-800 dark:text-neutral-200">
+                    Thanh toán khi nhận hàng (COD)
+                  </span>
                 </button>
                 <button
                   type="button"
-                  onClick={() => setPaymentMethod('qr')}
-                  className={`flex-1 flex flex-col items-center justify-center p-4 rounded-xl border text-center transition-all ${paymentMethod === 'qr'
-                      ? 'border-orange-500 bg-orange-50/10 ring-1 ring-orange-500 font-bold'
-                      : 'border-neutral-200 hover:border-neutral-300 dark:border-neutral-800'
-                    }`}
+                  onClick={() => setPaymentMethod("qr")}
+                  className={`flex-1 flex flex-col items-center justify-center p-4 rounded-xl border text-center transition-all ${
+                    paymentMethod === "qr"
+                      ? "border-orange-500 bg-orange-50/10 ring-1 ring-orange-500 font-bold"
+                      : "border-neutral-200 hover:border-neutral-300 dark:border-neutral-800"
+                  }`}
                 >
                   <span className="text-2xl mb-1.5">💳</span>
-                  <span className="text-xs font-semibold text-neutral-800 dark:text-neutral-200">Chuyển khoản VietQR</span>
+                  <span className="text-xs font-semibold text-neutral-800 dark:text-neutral-200">
+                    Chuyển khoản VietQR
+                  </span>
                 </button>
               </div>
 
-              {paymentMethod === 'qr' ? (
+              {paymentMethod === "qr" ? (
                 /* QR Method */
                 <div className="flex flex-col md:flex-row gap-8 items-center animate-in fade-in duration-300">
                   <div className="relative aspect-square w-full max-w-full md:max-w-[350px] overflow-hidden rounded-xl border border-neutral-100 bg-white p-2 shadow-md dark:border-neutral-800">
@@ -710,18 +866,28 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex-1 space-y-4 w-full">
                     <div className="rounded-xl bg-orange-50/50 p-4 dark:bg-orange-900/10">
-                      <p className="text-xs text-orange-800 dark:text-orange-300 mb-1">Số tiền thanh toán</p>
+                      <p className="text-xs text-orange-800 dark:text-orange-300 mb-1">
+                        Số tiền thanh toán
+                      </p>
                       <p className="text-xl font-bold text-neutral-900 dark:text-white">
                         {formatCurrency(cart.cost.totalAmount.amount)}
                       </p>
                     </div>
                     <div className="rounded-xl bg-neutral-50 p-4 dark:bg-neutral-800/50">
-                      <p className="text-xs text-neutral-700 mb-1">Chủ tài khoản</p>
-                      <p className="font-bold uppercase text-neutral-900 dark:text-white">{ACCOUNT_NAME}</p>
-                      <p className="text-sm mt-1">{BANK_ID} - {ACCOUNT_NO}</p>
+                      <p className="text-xs text-neutral-700 mb-1">
+                        Chủ tài khoản
+                      </p>
+                      <p className="font-bold uppercase text-neutral-900 dark:text-white">
+                        {ACCOUNT_NAME}
+                      </p>
+                      <p className="text-sm mt-1">
+                        {BANK_ID} - {ACCOUNT_NO}
+                      </p>
                     </div>
                     <div className="rounded-xl bg-orange-50/50 p-4 dark:bg-orange-900/10">
-                      <p className="text-xs text-orange-800 dark:text-orange-300 mb-1">Nội dung chuyển khoản (bắt buộc)</p>
+                      <p className="text-xs text-orange-800 dark:text-orange-300 mb-1">
+                        Nội dung chuyển khoản (bắt buộc)
+                      </p>
                       <p className="font-bold text-orange-600">{orderId}</p>
                     </div>
                   </div>
@@ -732,14 +898,33 @@ export default function CheckoutPage() {
                   <div className="flex items-center gap-3 text-orange-600">
                     <span className="text-3xl">🚚</span>
                     <div>
-                      <h3 className="font-bold text-sm text-neutral-900 dark:text-neutral-100">Dịch vụ giao hàng COD</h3>
-                      <p className="text-xs text-neutral-500">Thanh toán bằng tiền mặt ngay khi nhận hàng</p>
+                      <h3 className="font-bold text-sm text-neutral-900 dark:text-neutral-100">
+                        Dịch vụ giao hàng COD
+                      </h3>
+                      <p className="text-xs text-neutral-500">
+                        Thanh toán bằng tiền mặt ngay khi nhận hàng
+                      </p>
                     </div>
                   </div>
                   <div className="border-t border-neutral-200 dark:border-neutral-800 pt-4 text-xs text-neutral-600 dark:text-neutral-400 space-y-2 leading-relaxed">
-                    <p>• Bạn sẽ thanh toán số tiền tổng cộng là <strong className="text-orange-600 text-sm font-bold">{formatCurrency(cart.cost.totalAmount.amount)}</strong> cho nhân viên giao hàng (shipper).</p>
-                    <p>• Phí vận chuyển: <strong className="text-green-600">Miễn phí toàn quốc</strong>.</p>
-                    <p>• Vui lòng chú ý điện thoại từ shipper trong vòng 2-4 ngày tới để nhận hàng.</p>
+                    <p>
+                      • Bạn sẽ thanh toán số tiền tổng cộng là{" "}
+                      <strong className="text-orange-600 text-sm font-bold">
+                        {formatCurrency(cart.cost.totalAmount.amount)}
+                      </strong>{" "}
+                      cho nhân viên giao hàng (shipper).
+                    </p>
+                    <p>
+                      • Phí vận chuyển:{" "}
+                      <strong className="text-green-600">
+                        Miễn phí toàn quốc
+                      </strong>
+                      .
+                    </p>
+                    <p>
+                      • Vui lòng chú ý điện thoại từ shipper trong vòng 2-4 ngày
+                      tới để nhận hàng.
+                    </p>
                   </div>
                 </div>
               )}
@@ -751,13 +936,15 @@ export default function CheckoutPage() {
         <div className="space-y-6">
           <div className="sticky top-24 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
             <h2 className="mb-6 text-xl font-bold">Tóm tắt đơn hàng</h2>
-            
+
             <div className="">
-              
               {/* Product List */}
               <div className="max-h-[40vh] overflow-auto pr-2 space-y-4 custom-scrollbar">
                 {cart.lines.map((line) => (
-                  <div key={line.id} className="flex gap-4 border-b border-neutral-50 pb-4 last:border-0 dark:border-neutral-800">
+                  <div
+                    key={line.id}
+                    className="flex gap-4 border-b border-neutral-50 pb-4 last:border-0 dark:border-neutral-800"
+                  >
                     <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-neutral-200 dark:border-neutral-800">
                       <img
                         src={line.merchandise.product.featuredImage.url}
@@ -766,7 +953,9 @@ export default function CheckoutPage() {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-medium leading-tight truncate">{line.merchandise.product.title}</h3>
+                      <h3 className="text-sm font-medium leading-tight truncate">
+                        {line.merchandise.product.title}
+                      </h3>
                       <p className="text-xs text-neutral-700 mt-1">
                         {line.merchandise.title} x {line.quantity}
                       </p>
@@ -785,7 +974,10 @@ export default function CheckoutPage() {
                 <div className="mt-6 pt-6 border-t space-y-3 border-neutral-100 dark:border-neutral-800">
                   <div className="flex justify-between text-sm">
                     <span className="text-neutral-700">Tạm tính</span>
-                    <Price amount={cart.cost.subtotalAmount.amount} currencyCode={cart.cost.subtotalAmount.currencyCode} />
+                    <Price
+                      amount={cart.cost.subtotalAmount.amount}
+                      currencyCode={cart.cost.subtotalAmount.currencyCode}
+                    />
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-neutral-700">Phí vận chuyển</span>
@@ -793,7 +985,10 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex justify-between pt-2 text-xl font-bold text-neutral-900 dark:text-white border-t border-neutral-100 dark:border-neutral-800">
                     <span>Tổng cộng</span>
-                    <Price amount={cart.cost.totalAmount.amount} currencyCode={cart.cost.totalAmount.currencyCode} />
+                    <Price
+                      amount={cart.cost.totalAmount.amount}
+                      currencyCode={cart.cost.totalAmount.currencyCode}
+                    />
                   </div>
                 </div>
 
@@ -802,16 +997,27 @@ export default function CheckoutPage() {
                     <button
                       onClick={handleCompletePayment}
                       disabled={!isFormValid || isSubmitting}
-                      className={`flex w-full items-center justify-center gap-2 rounded-full py-4 text-sm font-bold text-white shadow-lg transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed ${isFormValid
-                          ? 'bg-orange-600 hover:bg-orange-700 hover:shadow-lg'
-                          : 'bg-neutral-300 cursor-not-allowed dark:bg-neutral-700 dark:text-neutral-500'
-                        }`}
+                      className={`flex w-full items-center justify-center gap-2 rounded-full py-4 text-sm font-bold text-white shadow-lg transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed ${
+                        isFormValid
+                          ? "bg-orange-600 hover:bg-orange-700 hover:shadow-lg"
+                          : "bg-neutral-300 cursor-not-allowed dark:bg-neutral-700 dark:text-neutral-500"
+                      }`}
                     >
                       {isSubmitting ? (
                         <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
                       ) : (
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        <svg
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
                         </svg>
                       )}
                       Xác nhận đặt hàng qua Facebook
@@ -820,10 +1026,11 @@ export default function CheckoutPage() {
                     <button
                       onClick={handleNextStep}
                       disabled={!isFormValid}
-                      className={`w-full rounded-full py-4 text-sm font-bold text-white shadow-md transition-all ${isFormValid
-                          ? 'bg-orange-600 hover:bg-orange-700 hover:shadow-lg active:scale-95'
-                          : 'bg-neutral-300 cursor-not-allowed dark:bg-neutral-700 dark:text-neutral-500'
-                        }`}
+                      className={`w-full rounded-full py-4 text-sm font-bold text-white shadow-md transition-all ${
+                        isFormValid
+                          ? "bg-orange-600 hover:bg-orange-700 hover:shadow-lg active:scale-95"
+                          : "bg-neutral-300 cursor-not-allowed dark:bg-neutral-700 dark:text-neutral-500"
+                      }`}
                     >
                       Tiếp tục thanh toán
                     </button>
@@ -831,19 +1038,32 @@ export default function CheckoutPage() {
                     <button
                       onClick={handleCompletePayment}
                       disabled={isSubmitting}
-                      className={`flex w-full items-center justify-center gap-2 rounded-full py-4 text-sm font-bold text-white shadow-lg transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed ${paymentMethod === 'cod'
-                          ? 'bg-orange-600 hover:bg-orange-700'
-                          : 'bg-green-600 hover:bg-green-700'
-                        }`}
+                      className={`flex w-full items-center justify-center gap-2 rounded-full py-4 text-sm font-bold text-white shadow-lg transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed ${
+                        paymentMethod === "cod"
+                          ? "bg-orange-600 hover:bg-orange-700"
+                          : "bg-green-600 hover:bg-green-700"
+                      }`}
                     >
                       {isSubmitting ? (
                         <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
                       ) : (
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        <svg
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
                         </svg>
                       )}
-                      {paymentMethod === 'cod' ? 'Xác nhận đặt hàng (COD)' : 'Tôi đã chuyển khoản thành công'}
+                      {paymentMethod === "cod"
+                        ? "Xác nhận đặt hàng (COD)"
+                        : "Tôi đã chuyển khoản thành công"}
                     </button>
                   )}
 
@@ -855,7 +1075,6 @@ export default function CheckoutPage() {
                   </button>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -868,12 +1087,22 @@ export default function CheckoutPage() {
             {/* Close Button */}
             <button
               onClick={handleCloseModal}
-              style={{ position: 'absolute', right: '20px', top: '20px' }}
+              style={{ position: "absolute", right: "20px", top: "20px" }}
               className="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 hover:rotate-90 transition-all duration-300 rounded-full p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 cursor-pointer"
               title="Đóng"
             >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
 
@@ -901,11 +1130,11 @@ export default function CheckoutPage() {
                   📋 Đã tự động sao chép thông tin đơn hàng
                 </p>
                 <p className="text-[12px] text-neutral-700 dark:text-neutral-400 mt-1.5 leading-relaxed">
-                  Hệ thống sắp chuyển bạn sang Facebook. Vui lòng bấm vào phần <strong>Nhắn tin</strong> trên Fanpage và <strong>Dán</strong> toàn bộ nội dung vừa sao chép để xác nhận đơn hàng với shop.
+                  Hệ thống sắp chuyển bạn sang Facebook. Vui lòng bấm vào phần{" "}
+                  <strong>Nhắn tin</strong> trên Fanpage và <strong>Dán</strong>{" "}
+                  toàn bộ nội dung vừa sao chép để xác nhận đơn hàng với shop.
                 </p>
               </div>
-
-           
 
               {/* Action Buttons */}
               <div className="w-full rounded-md bg-orange-500">
@@ -913,7 +1142,9 @@ export default function CheckoutPage() {
                   onClick={handleRedirectToFacebook}
                   className="w-full rounded-xl bg-[#1877F2] hover:bg-[#166FE5] py-3 text-sm font-bold !text-white shadow-lg transition-all hover:scale-[1.02] active:scale-98 flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span className="!text-white">Đã hiểu, chuyển sang Facebook</span>
+                  <span className="!text-white">
+                    Đã hiểu, chuyển sang Facebook
+                  </span>
                   <span className="bg-[#0c5eb9] px-2 py-0.5 rounded-md text-xs font-semibold !text-white">
                     {countdown}s
                   </span>
@@ -944,55 +1175,80 @@ function SearchableSelect({
   value,
   onChange,
   disabled = false,
-  loading = false
+  loading = false,
 }: SearchableSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [search, setSearch] = useState('');
-  
-  const selectedOption = options.find(o => o.code === value);
-  
+  const [search, setSearch] = useState("");
+
+  const selectedOption = options.find((o) => o.code === value);
+
   const removeAccents = (str: string) => {
     return str
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/đ/g, 'd')
-      .replace(/Đ/g, 'D');
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D");
   };
 
-  const filteredOptions = options.filter(o => 
-    removeAccents(o.name.toLowerCase()).includes(removeAccents(search.toLowerCase()))
+  const filteredOptions = options.filter((o) =>
+    removeAccents(o.name.toLowerCase()).includes(
+      removeAccents(search.toLowerCase()),
+    ),
   );
 
   useEffect(() => {
     if (!isOpen) return;
     const handleOutsideClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (!target.closest('.searchable-select-container')) {
+      if (!target.closest(".searchable-select-container")) {
         setIsOpen(false);
       }
     };
-    document.addEventListener('click', handleOutsideClick);
-    return () => document.removeEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
   }, [isOpen]);
 
   return (
     <div className="relative searchable-select-container space-y-1">
-      <label className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">{label}</label>
-      
+      <label className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">
+        {label}
+      </label>
+
       <button
         type="button"
         disabled={disabled || loading}
         onClick={() => {
           setIsOpen(!isOpen);
-          setSearch('');
+          setSearch("");
         }}
         className="w-full flex items-center justify-between rounded-lg border border-neutral-200 bg-white p-2.5 text-xs text-left focus:border-orange-500 focus:outline-none dark:border-neutral-700 dark:bg-neutral-800 disabled:opacity-50 transition-colors"
       >
-        <span className={selectedOption ? "text-neutral-950 dark:text-neutral-100" : "text-neutral-400 dark:text-neutral-500"}>
-          {loading ? 'Đang tải...' : (selectedOption ? selectedOption.name : placeholder)}
+        <span
+          className={
+            selectedOption
+              ? "text-neutral-950 dark:text-neutral-100"
+              : "text-neutral-400 dark:text-neutral-500"
+          }
+        >
+          {loading
+            ? "Đang tải..."
+            : selectedOption
+              ? selectedOption.name
+              : placeholder}
         </span>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className={`h-3.5 w-3.5 text-neutral-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          stroke="currentColor"
+          className={`h-3.5 w-3.5 text-neutral-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+          />
         </svg>
       </button>
 
@@ -1006,7 +1262,7 @@ function SearchableSelect({
             placeholder="Tìm nhanh..."
             className="mb-2 w-full rounded-md border border-neutral-200 bg-white px-2.5 py-1.5 text-xs focus:border-orange-500 focus:outline-none dark:border-neutral-700 dark:bg-neutral-900 text-neutral-900 dark:text-white"
           />
-          
+
           <div className="overflow-y-auto max-h-48 space-y-0.5 custom-scrollbar">
             {filteredOptions.length > 0 ? (
               filteredOptions.map((opt) => {
@@ -1019,7 +1275,7 @@ function SearchableSelect({
                       onChange(opt.code);
                       setIsOpen(false);
                     }}
-                    className={`w-full text-left px-2.5 py-1.5 rounded-md text-xs transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-700/50 ${isSelected ? 'bg-orange-50 text-orange-600 font-bold dark:bg-orange-950/20 dark:text-orange-400' : 'text-neutral-800 dark:text-neutral-200'}`}
+                    className={`w-full text-left px-2.5 py-1.5 rounded-md text-xs transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-700/50 ${isSelected ? "bg-orange-50 text-orange-600 font-bold dark:bg-orange-950/20 dark:text-orange-400" : "text-neutral-800 dark:text-neutral-200"}`}
                   >
                     {opt.name}
                   </button>

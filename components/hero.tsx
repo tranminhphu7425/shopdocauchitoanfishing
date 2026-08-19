@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { formatImageUrl } from "lib/site-config";
 
@@ -7,7 +6,7 @@ const Hero = () => {
     <div className="relative h-[55vh] sm:h-[65vh] md:h-[80vh] lg:h-[90vh] w-full overflow-hidden border-b border-neutral-200 dark:border-neutral-800">
       {/* Background Image with Overlay */}
       <img
-        src={("/images/banner/hero.png")}
+        src={"/images/banner/hero.png"}
         alt="Chí Toàn Fishing Hero"
         className="absolute inset-0 h-full w-full object-cover object-center"
       />
@@ -32,14 +31,14 @@ const Hero = () => {
               to="/search"
               className="rounded-full bg-white px-6 py-3 sm:px-8 sm:py-4 text-xs sm:text-sm font-bold text-black transition-all hover:bg-orange-500 hover:text-white"
             >
-              Xem tất cả
+              Xem tất cả sản phẩm
             </Link>
-            <Link
+            {/* <Link
               to="/contact"
               className="rounded-full border border-white/50 bg-white/10 px-6 py-3 sm:px-8 sm:py-4 text-xs sm:text-sm font-bold text-white backdrop-blur-md transition-all hover:bg-white/20"
             >
               Liên hệ
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

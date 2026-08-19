@@ -18,13 +18,13 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
   global: {
     fetch: (url, options) => {
       const headers = new Headers(options?.headers);
-      
+
       // Inject admin authentication header dynamically if logged in
       if (typeof window !== "undefined") {
         const authStatus =
           localStorage.getItem("ctf_admin_authenticated") ||
           sessionStorage.getItem("ctf_admin_authenticated");
-        
+
         if (authStatus === "true") {
           headers.set("x-admin-password", TARGET_HASH);
         }

@@ -12,7 +12,7 @@ export default function EditProductPage() {
 
   useEffect(() => {
     if (!handle) return;
-    
+
     async function loadData() {
       try {
         const data = await getProduct(handle!);
@@ -27,7 +27,7 @@ export default function EditProductPage() {
         setLoading(false);
       }
     }
-    
+
     loadData();
   }, [handle]);
 

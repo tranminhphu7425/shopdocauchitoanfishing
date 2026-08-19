@@ -13,36 +13,36 @@ export default function HomePage() {
 
   useEffect(() => {
     document.title = "Chí Toàn Fishing Shop";
-    
+
     async function loadData() {
       try {
         const [prodData, colData] = await Promise.all([
           getProducts({}),
-          getCollections()
+          getCollections(),
         ]);
         setProducts(prodData);
         // Lọc bỏ danh mục "Tất cả sản phẩm" (handle rỗng)
-        setCollections(colData.filter(c => c.handle !== ""));
+        setCollections(colData.filter((c) => c.handle !== ""));
       } catch (error) {
         console.error("Error loading products:", error);
       } finally {
         setLoading(false);
       }
     }
-    
+
     loadData();
   }, []);
 
   return (
     <>
       <Hero />
-      
+
       {loading ? (
         <SkeletonThreeItemGrid />
       ) : (
         <ThreeItemGrid initialProducts={products} />
       )}
-      
+
       <div className="space-y-6 md:space-y-12 mb-16">
         {collections.map((collection) => (
           <CategorySection key={collection.handle} collection={collection} />

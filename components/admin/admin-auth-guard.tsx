@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { LockClosedIcon, KeyIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import {
+  LockClosedIcon,
+  KeyIcon,
+  EyeIcon,
+  EyeSlashIcon,
+} from "@heroicons/react/24/outline";
 import { toast } from "sonner";
 
 // Expected SHA-256 hash of "Chitoan@2026"
@@ -55,7 +60,11 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
   };
 
   if (loading) {
-    return <div className="flex h-64 items-center justify-center">Đang kiểm tra quyền truy cập...</div>;
+    return (
+      <div className="flex h-64 items-center justify-center">
+        Đang kiểm tra quyền truy cập...
+      </div>
+    );
   }
 
   if (!isAuthenticated) {
@@ -70,7 +79,8 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
             Đăng nhập Quản trị
           </h2>
           <p className="text-center text-xs text-neutral-500 dark:text-neutral-400 mb-8 leading-relaxed">
-            Hệ thống yêu cầu mật khẩu quản trị để truy cập trang Quản lý sản phẩm Chí Toàn Fishing.
+            Hệ thống yêu cầu mật khẩu quản trị để truy cập trang Quản lý sản
+            phẩm Chí Toàn Fishing.
           </p>
 
           <form onSubmit={handleLogin} className="space-y-5">

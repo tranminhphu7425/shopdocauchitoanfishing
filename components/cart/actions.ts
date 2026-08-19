@@ -5,8 +5,7 @@ export async function addItem() {}
 export async function removeItem() {}
 export async function updateItemQuantity() {}
 export async function redirectToCheckout() {
-  const basePath =
-    import.meta.env.VITE_BASE_PATH ?? "/shopdocauchitoanfishing";
+  const basePath = import.meta.env.VITE_BASE_PATH ?? "/shopdocauchitoanfishing";
   window.location.href = `${basePath}/checkout`;
 }
 export async function createCartAndSetCookie() {}

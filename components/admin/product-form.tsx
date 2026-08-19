@@ -1,6 +1,11 @@
 import { createProductAction, updateProductAction } from "../../src/actions";
 import { getImageCache, useCachedImageUrl } from "lib/local/image-cache";
-import { Collection, Product, ProductOption, ProductVariant } from "lib/local/types";
+import {
+  Collection,
+  Product,
+  ProductOption,
+  ProductVariant,
+} from "lib/local/types";
 import { useNavigate } from "react-router-dom";
 import { getCollections } from "lib/local";
 import { supabase } from "lib/supabase/client";
@@ -360,7 +365,10 @@ function MobileStorefrontPreview({
         {/* Gallery Box (Exact replica of components/product/gallery.tsx) */}
         <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 flex items-center justify-center shadow-xs">
           <img
-            src={allImages[activeImgIdx] || "https://placehold.co/800x800.png?text=Anh+San+Pham"}
+            src={
+              allImages[activeImgIdx] ||
+              "https://placehold.co/800x800.png?text=Anh+San+Pham"
+            }
             alt={title || "Sản phẩm"}
             className="h-full w-full object-contain p-2"
           />
@@ -425,7 +433,10 @@ function MobileStorefrontPreview({
                     : "border-neutral-200 dark:border-neutral-800 opacity-70 hover:opacity-100"
                 }`}
               >
-                <img src={imgSrc} className="h-full w-full object-contain p-1" />
+                <img
+                  src={imgSrc}
+                  className="h-full w-full object-contain p-1"
+                />
               </button>
             ))}
           </div>
@@ -440,7 +451,11 @@ function MobileStorefrontPreview({
           {/* Product Price Bar */}
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
             <div className="mr-auto flex w-auto items-center gap-2 rounded-full bg-orange-600 p-2 text-sm text-white font-bold">
-              <span>{previewMinPrice ? `${formatNumberString(previewMinPrice)} đ` : "0 đ"}</span>
+              <span>
+                {previewMinPrice
+                  ? `${formatNumberString(previewMinPrice)} đ`
+                  : "0 đ"}
+              </span>
               {previewDiscountPercent > 0 && (
                 <span className="ml-1 rounded-full bg-white px-2 py-0.5 text-xs font-bold text-orange-600">
                   -{previewDiscountPercent}%
@@ -464,7 +479,9 @@ function MobileStorefrontPreview({
             </span>
             <div className="flex flex-wrap gap-1.5">
               {selectedCollections.map((colHandle) => {
-                const colObj = availableCollections.find((c) => c.handle === colHandle);
+                const colObj = availableCollections.find(
+                  (c) => c.handle === colHandle,
+                );
                 return (
                   <span
                     key={colHandle}
@@ -477,7 +494,6 @@ function MobileStorefrontPreview({
             </div>
           </div>
         )}
-
 
         {/* Product Description Snippet */}
         {description && (
@@ -539,7 +555,9 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
   );
 
   // Collections State
-  const [availableCollections, setAvailableCollections] = useState<Collection[]>([]);
+  const [availableCollections, setAvailableCollections] = useState<
+    Collection[]
+  >([]);
   const [selectedCollections, setSelectedCollections] = useState<string[]>(
     (initialData as any)?.collections || [],
   );
@@ -616,7 +634,6 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
         : [...prev, colHandle],
     );
   };
-
 
   // Options
   const [options, setOptions] = useState<
@@ -990,7 +1007,9 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
       let cheapestVar = variantsToSave[0];
       if (variantsToSave.length > 1) {
         variantsToSave.forEach((v) => {
-          if (parseFloat(v.price.amount) < parseFloat(cheapestVar.price.amount)) {
+          if (
+            parseFloat(v.price.amount) < parseFloat(cheapestVar.price.amount)
+          ) {
             cheapestVar = v;
           }
         });
@@ -1041,9 +1060,7 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
       }
 
       setIsDirty(false);
-      toast.success(
-        `🎉 Đã lưu sản phẩm "${title}" thành công!`,
-      );
+      toast.success(`🎉 Đã lưu sản phẩm "${title}" thành công!`);
 
       router("/admin");
     } catch (error) {
@@ -1055,38 +1072,43 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
   };
 
   // Computed values for Real-time Live Preview
-  const { previewMinPrice, previewComparePrice, previewDiscountPercent } = useMemo(() => {
-    let minP = Infinity;
-    let compP = 0;
+  const { previewMinPrice, previewComparePrice, previewDiscountPercent } =
+    useMemo(() => {
+      let minP = Infinity;
+      let compP = 0;
 
-    if (options.length > 0 && variantList.length > 0) {
-      variantList.forEach((v) => {
-        const vData = variantsData[v.title] || {};
-        const priceNum = Number(vData.price || 0);
-        if (priceNum > 0 && priceNum < minP) minP = priceNum;
-        const compareNum = Number(vData.compareAtPrice || 0);
-        if (compareNum > compP) compP = compareNum;
-      });
-    } else {
-      const defData = variantsData["Default Title"] || {};
-      minP = Number(defData.price || 0);
-      compP = Number(defData.compareAtPrice || 0);
-    }
+      if (options.length > 0 && variantList.length > 0) {
+        variantList.forEach((v) => {
+          const vData = variantsData[v.title] || {};
+          const priceNum = Number(vData.price || 0);
+          if (priceNum > 0 && priceNum < minP) minP = priceNum;
+          const compareNum = Number(vData.compareAtPrice || 0);
+          if (compareNum > compP) compP = compareNum;
+        });
+      } else {
+        const defData = variantsData["Default Title"] || {};
+        minP = Number(defData.price || 0);
+        compP = Number(defData.compareAtPrice || 0);
+      }
 
-    if (minP === Infinity) minP = 0;
-    const discount =
-      compP > minP && minP > 0 ? Math.round(((compP - minP) / compP) * 100) : 0;
+      if (minP === Infinity) minP = 0;
+      const discount =
+        compP > minP && minP > 0
+          ? Math.round(((compP - minP) / compP) * 100)
+          : 0;
 
-    return {
-      previewMinPrice: minP,
-      previewComparePrice: compP,
-      previewDiscountPercent: discount,
-    };
-  }, [options, variantList, variantsData]);
+      return {
+        previewMinPrice: minP,
+        previewComparePrice: compP,
+        previewDiscountPercent: discount,
+      };
+    }, [options, variantList, variantsData]);
 
   const handleCancel = () => {
     if (isDirty) {
-      if (confirm("Dữ liệu chưa được lưu, bạn có chắc chắn muốn thoát không?")) {
+      if (
+        confirm("Dữ liệu chưa được lưu, bạn có chắc chắn muốn thoát không?")
+      ) {
         router(-1);
       }
     } else {
@@ -1164,7 +1186,7 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           onClick={() => scrollToSection("sec-options-prices")}
           className="px-3.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 hover:bg-orange-50 hover:text-orange-600 dark:hover:bg-orange-950/40 text-xs font-bold transition-all whitespace-nowrap cursor-pointer"
         >
-        4. Tùy Chọn & Giá
+          4. Tùy Chọn & Giá
         </button>
         <button
           type="button"
@@ -1180,7 +1202,10 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
         {/* Left Column (xl:col-span-7) */}
         <div className="xl:col-span-8 space-y-9">
           {/* Card 1: Thông tin cơ bản */}
-          <div id="sec-basic" className="bg-white dark:bg-neutral-900 p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-6">
+          <div
+            id="sec-basic"
+            className="bg-white dark:bg-neutral-900 p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-6"
+          >
             <div className="flex items-center gap-3 border-b border-neutral-100 dark:border-neutral-800 pb-4">
               <span className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold text-sm">
                 1
@@ -1209,16 +1234,17 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                     if (titleError) setTitleError("");
                   }}
                   onBlur={() => {
-                    if (!title.trim()) setTitleError("Vui lòng nhập tên sản phẩm");
+                    if (!title.trim())
+                      setTitleError("Vui lòng nhập tên sản phẩm");
                   }}
                   placeholder="Ví dụ: Máy đứng Titan Special 3000"
                 />
                 {titleError && (
-                  <p className="text-red-500 text-xs mt-1.5 font-medium animate-in fade-in slide-in-from-top-1">{titleError}</p>
+                  <p className="text-red-500 text-xs mt-1.5 font-medium animate-in fade-in slide-in-from-top-1">
+                    {titleError}
+                  </p>
                 )}
               </div>
-
-
 
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
@@ -1239,7 +1265,10 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           </div>
 
           {/* Card 2: Danh mục sản phẩm (Collections) */}
-          <div id="sec-collections" className="bg-white dark:bg-neutral-900 p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-6">
+          <div
+            id="sec-collections"
+            className="bg-white dark:bg-neutral-900 p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-6"
+          >
             <div className="flex items-center justify-between border-b border-neutral-100 dark:border-neutral-800 pb-4">
               <div className="flex items-center gap-3">
                 <span className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold text-sm">
@@ -1250,7 +1279,8 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                     Danh Mục Sản Phẩm (Collections)
                   </h2>
                   <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                    Chọn một hoặc nhiều danh mục để sản phẩm này xuất hiện khi khách chọn danh mục tương ứng
+                    Chọn một hoặc nhiều danh mục để sản phẩm này xuất hiện khi
+                    khách chọn danh mục tương ứng
                   </p>
                 </div>
               </div>
@@ -1263,7 +1293,9 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
               </label>
               <div className="flex flex-wrap gap-2.5">
                 {availableCollections.length === 0 ? (
-                  <span className="text-xs text-neutral-400">Đang tải danh mục...</span>
+                  <span className="text-xs text-neutral-400">
+                    Đang tải danh mục...
+                  </span>
                 ) : (
                   availableCollections.map((col) => {
                     const isSelected = selectedCollections.includes(col.handle);
@@ -1289,7 +1321,10 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           </div>
 
           {/* Card 3: Thư viện hình ảnh */}
-          <div id="sec-gallery" className="bg-white dark:bg-neutral-900 p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-6">
+          <div
+            id="sec-gallery"
+            className="bg-white dark:bg-neutral-900 p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-6"
+          >
             <div className="flex items-center justify-between border-b border-neutral-100 dark:border-neutral-800 pb-4">
               <div className="flex items-center gap-3">
                 <span className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold text-sm">
@@ -1327,8 +1362,8 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
             {(imageUrl || galleryImages.length > 0) && (
               <div className="space-y-3 pt-2">
                 <label className="text-xs font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
-                  Danh sách ảnh đã tải ({(imageUrl ? 1 : 0) + galleryImages.length}{" "}
-                  ảnh)
+                  Danh sách ảnh đã tải (
+                  {(imageUrl ? 1 : 0) + galleryImages.length} ảnh)
                 </label>
                 <div className="flex flex-wrap gap-4">
                   {/* Featured Main Cover Image */}
@@ -1386,8 +1421,8 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                     Phân Loại Sản Phẩm (Options)
                   </h2>
                   <p className="text-xs text-neutral-700 dark:text-neutral-400">
-                    Tạo các tùy chọn như Kích cỡ (S, M, L) hoặc Màu sắc (Đỏ, Xanh)
-                    để sinh ra biến thể.
+                    Tạo các tùy chọn như Kích cỡ (S, M, L) hoặc Màu sắc (Đỏ,
+                    Xanh) để sinh ra biến thể.
                   </p>
                 </div>
               </div>
@@ -1481,7 +1516,10 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
           </div>
 
           {/* Card 4: Giá bán & Biến thể */}
-          <div id="sec-options-prices" className="bg-white dark:bg-neutral-900 p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-6">
+          <div
+            id="sec-options-prices"
+            className="bg-white dark:bg-neutral-900 p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-6"
+          >
             <div className="flex items-center gap-3 border-b border-neutral-100 dark:border-neutral-800 pb-4">
               <span className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold text-sm">
                 4
@@ -1496,10 +1534,18 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                 <table className="w-full text-xs text-left">
                   <thead className="bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 font-bold uppercase tracking-wider">
                     <tr>
-                      <th className="px-4 py-3.5 whitespace-nowrap">Biến thể</th>
-                      <th className="px-4 py-3.5 min-w-[130px]">Giá bán (VND) *</th>
-                      <th className="px-4 py-3.5 min-w-[130px]">Giá gốc (VND)</th>
-                      <th className="px-4 py-3.5 text-center min-w-[120px]">Trạng thái kho</th>
+                      <th className="px-4 py-3.5 whitespace-nowrap">
+                        Biến thể
+                      </th>
+                      <th className="px-4 py-3.5 min-w-[130px]">
+                        Giá bán (VND) *
+                      </th>
+                      <th className="px-4 py-3.5 min-w-[130px]">
+                        Giá gốc (VND)
+                      </th>
+                      <th className="px-4 py-3.5 text-center min-w-[120px]">
+                        Trạng thái kho
+                      </th>
                       <th className="px-4 py-3.5 min-w-[200px]">
                         Ảnh riêng cho biến thể
                       </th>
@@ -1536,18 +1582,29 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                                   cleanPriceInput(e.target.value),
                                 );
                                 if (priceErrors[v.title]) {
-                                  setPriceErrors(prev => ({ ...prev, [v.title]: "" }));
+                                  setPriceErrors((prev) => ({
+                                    ...prev,
+                                    [v.title]: "",
+                                  }));
                                 }
                               }}
                               onBlur={(e) => {
-                                if (!e.target.value.trim() || e.target.value.trim() === "0") {
-                                  setPriceErrors(prev => ({ ...prev, [v.title]: "Nhập giá bán" }));
+                                if (
+                                  !e.target.value.trim() ||
+                                  e.target.value.trim() === "0"
+                                ) {
+                                  setPriceErrors((prev) => ({
+                                    ...prev,
+                                    [v.title]: "Nhập giá bán",
+                                  }));
                                 }
                               }}
                               placeholder="Giá bán *"
                             />
                             {priceErrors[v.title] && (
-                              <p className="text-red-500 text-[10px] mt-1.5 font-medium animate-in fade-in slide-in-from-top-1">{priceErrors[v.title]}</p>
+                              <p className="text-red-500 text-[10px] mt-1.5 font-medium animate-in fade-in slide-in-from-top-1">
+                                {priceErrors[v.title]}
+                              </p>
                             )}
                           </td>
                           <td className="px-4 py-3.5">
@@ -1555,7 +1612,9 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                               type="text"
                               inputMode="numeric"
                               className="w-full p-2.5 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-xs"
-                              value={formatNumberString(vData.compareAtPrice || "")}
+                              value={formatNumberString(
+                                vData.compareAtPrice || "",
+                              )}
                               onChange={(e) => {
                                 setIsDirty(true);
                                 handleVariantChange(
@@ -1592,7 +1651,9 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                                     : "bg-red-500"
                                 }`}
                               />
-                              <span>{isVariantInStock ? "Còn hàng" : "Hết hàng"}</span>
+                              <span>
+                                {isVariantInStock ? "Còn hàng" : "Hết hàng"}
+                              </span>
                             </button>
                           </td>
                           <td className="px-4 py-3.5">
@@ -1610,7 +1671,10 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                                 <div className="flex flex-wrap gap-2 pt-1">
                                   {vData.images.map(
                                     (imgUrl: string, imgIdx: number) => (
-                                      <div key={imgIdx} className="relative group">
+                                      <div
+                                        key={imgIdx}
+                                        className="relative group"
+                                      >
                                         <FormImagePreview
                                           src={imgUrl}
                                           alt={`Ảnh biến thể ${imgIdx + 1}`}
@@ -1636,7 +1700,8 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
             ) : (
               <div className="bg-neutral-50 dark:bg-neutral-800/50 p-6 rounded-2xl border border-neutral-200 dark:border-neutral-700/60">
                 <p className="text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-4">
-                  Sản phẩm chưa có phân loại. Vui lòng nhập giá bán cho sản phẩm mặc định:
+                  Sản phẩm chưa có phân loại. Vui lòng nhập giá bán cho sản phẩm
+                  mặc định:
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-xl">
                   <div>
@@ -1663,18 +1728,26 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
                           cleanPriceInput(e.target.value),
                         );
                         if (priceErrors["default"]) {
-                          setPriceErrors(prev => ({ ...prev, "default": "" }));
+                          setPriceErrors((prev) => ({ ...prev, default: "" }));
                         }
                       }}
                       onBlur={(e) => {
-                        if (!e.target.value.trim() || e.target.value.trim() === "0") {
-                          setPriceErrors(prev => ({ ...prev, "default": "Vui lòng nhập giá bán hợp lệ" }));
+                        if (
+                          !e.target.value.trim() ||
+                          e.target.value.trim() === "0"
+                        ) {
+                          setPriceErrors((prev) => ({
+                            ...prev,
+                            default: "Vui lòng nhập giá bán hợp lệ",
+                          }));
                         }
                       }}
                       placeholder="0"
                     />
                     {priceErrors["default"] && (
-                      <p className="text-red-500 text-xs mt-1.5 font-medium animate-in fade-in slide-in-from-top-1">{priceErrors["default"]}</p>
+                      <p className="text-red-500 text-xs mt-1.5 font-medium animate-in fade-in slide-in-from-top-1">
+                        {priceErrors["default"]}
+                      </p>
                     )}
                   </div>
                   <div>
@@ -1704,136 +1777,147 @@ export function ProductForm({ initialData }: { initialData?: Product }) {
             )}
           </div>
 
-      {/* Card 5: Thẻ Tags Sản Phẩm */}
-      <div id="sec-tags" className="bg-white dark:bg-neutral-900 p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-6">
-        <div className="flex items-center justify-between border-b border-neutral-100 dark:border-neutral-800 pb-4">
-          <div className="flex items-center gap-3">
-            <span className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold text-sm">
-              5
-            </span>
-            <div>
-              <h2 className="text-lg font-bold text-neutral-900 dark:text-white">
-                Thẻ Tags Từ Khóa (Product Tags)
-              </h2>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                Thêm từ khóa phân loại nổi bật (Ví dụ: bán chạy, hàng mới, giảm giá...)
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Input & Add Tag */}
-        <div className="space-y-4">
-          <div className="flex gap-3 max-w-md">
-            <input
-              type="text"
-              placeholder="Nhập thẻ tag mới và nhấn Enter..."
-              value={tagInput}
-              onChange={(e) => {
-                setTagInput(e.target.value);
-                setIsDirty(true);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  handleAddTag();
-                }
-              }}
-              className="flex-1 p-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-sm focus:border-orange-500 focus:outline-none transition-colors"
-            />
-            <button
-              type="button"
-              onClick={() => handleAddTag()}
-              className="px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl transition-all shadow-xs cursor-pointer"
-            >
-              + Thêm Tag
-            </button>
-          </div>
-
-          {/* Quick Tag Suggestions */}
-          <div className="space-y-2">
-            <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider">
-              Gợi ý từ khóa phổ biến:
-            </span>
-            <div className="flex flex-wrap gap-2">
-              {["bán chạy", "mới về", "giảm giá", "hàng hot", "miễn phí vận chuyển", "chính hãng"].map(
-                (suggested) => (
-                  <button
-                    key={suggested}
-                    type="button"
-                    onClick={() => handleAddTag(suggested)}
-                    className="px-2.5 py-1 rounded-lg bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 text-xs font-semibold transition-colors cursor-pointer"
-                  >
-                    + {suggested}
-                  </button>
-                ),
-              )}
-            </div>
-          </div>
-
-          {/* Active Tags Display */}
-          <div className="pt-2">
-            <span className="text-xs font-bold text-neutral-600 dark:text-neutral-400 block mb-2">
-              Các thẻ Tag đã chọn ({tags.length}):
-            </span>
-            {tags.length === 0 ? (
-              <p className="text-xs text-neutral-400 italic">Chưa có thẻ tag nào được gắn.</p>
-            ) : (
-              <div className="flex flex-wrap gap-2">
-                {tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-50 text-orange-700 dark:bg-orange-950/40 dark:text-orange-400 border border-orange-200 dark:border-orange-900/50 text-xs font-bold shadow-2xs"
-                  >
-                    🏷️ {tag}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveTag(tag)}
-                      className="hover:bg-orange-200 dark:hover:bg-orange-800 p-0.5 rounded-full text-orange-600 dark:text-orange-300 transition-colors ml-1 cursor-pointer"
-                    >
-                      ✕
-                    </button>
-                  </span>
-                ))}
+          {/* Card 5: Thẻ Tags Sản Phẩm */}
+          <div
+            id="sec-tags"
+            className="bg-white dark:bg-neutral-900 p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-6"
+          >
+            <div className="flex items-center justify-between border-b border-neutral-100 dark:border-neutral-800 pb-4">
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold text-sm">
+                  5
+                </span>
+                <div>
+                  <h2 className="text-lg font-bold text-neutral-900 dark:text-white">
+                    Thẻ Tags Từ Khóa (Product Tags)
+                  </h2>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+                    Thêm từ khóa phân loại nổi bật (Ví dụ: bán chạy, hàng mới,
+                    giảm giá...)
+                  </p>
+                </div>
               </div>
-            )}
-          </div>
-        </div>
-      </div>
-      {/* End Left Column */}
-      </div>
+            </div>
 
-      {/* Right Column: Real-time Live Preview Card (xl:col-span-5) */}
-      <div className="hidden xl:block xl:col-span-4 sticky top-24 space-y-4">
-        <div className="flex items-center justify-between bg-white dark:bg-neutral-900 px-5 py-3 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs">
-          <div className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <h3 className="font-bold text-xs text-neutral-900 dark:text-white uppercase tracking-wider">
-              XEM TRƯỚC GIAO DIỆN (/product/{handle || "handle"})
-            </h3>
+            {/* Input & Add Tag */}
+            <div className="space-y-4">
+              <div className="flex gap-3 max-w-md">
+                <input
+                  type="text"
+                  placeholder="Nhập thẻ tag mới và nhấn Enter..."
+                  value={tagInput}
+                  onChange={(e) => {
+                    setTagInput(e.target.value);
+                    setIsDirty(true);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleAddTag();
+                    }
+                  }}
+                  className="flex-1 p-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-sm focus:border-orange-500 focus:outline-none transition-colors"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleAddTag()}
+                  className="px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl transition-all shadow-xs cursor-pointer"
+                >
+                  + Thêm Tag
+                </button>
+              </div>
+
+              {/* Quick Tag Suggestions */}
+              <div className="space-y-2">
+                <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider">
+                  Gợi ý từ khóa phổ biến:
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    "bán chạy",
+                    "mới về",
+                    "giảm giá",
+                    "hàng hot",
+                    "miễn phí vận chuyển",
+                    "chính hãng",
+                  ].map((suggested) => (
+                    <button
+                      key={suggested}
+                      type="button"
+                      onClick={() => handleAddTag(suggested)}
+                      className="px-2.5 py-1 rounded-lg bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 text-xs font-semibold transition-colors cursor-pointer"
+                    >
+                      + {suggested}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Active Tags Display */}
+              <div className="pt-2">
+                <span className="text-xs font-bold text-neutral-600 dark:text-neutral-400 block mb-2">
+                  Các thẻ Tag đã chọn ({tags.length}):
+                </span>
+                {tags.length === 0 ? (
+                  <p className="text-xs text-neutral-400 italic">
+                    Chưa có thẻ tag nào được gắn.
+                  </p>
+                ) : (
+                  <div className="flex flex-wrap gap-2">
+                    {tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-50 text-orange-700 dark:bg-orange-950/40 dark:text-orange-400 border border-orange-200 dark:border-orange-900/50 text-xs font-bold shadow-2xs"
+                      >
+                        🏷️ {tag}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTag(tag)}
+                          className="hover:bg-orange-200 dark:hover:bg-orange-800 p-0.5 rounded-full text-orange-600 dark:text-orange-300 transition-colors ml-1 cursor-pointer"
+                        >
+                          ✕
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-          <span className="text-[10px] uppercase font-extrabold px-2.5 py-1 rounded-full bg-orange-100 text-orange-600 dark:bg-orange-950/60 dark:text-orange-400 border border-orange-200 dark:border-orange-900/50">
-            Realtime
-          </span>
+          {/* End Left Column */}
         </div>
 
-        {/* Smartphone Frame Container */}
-        <MobileStorefrontPreview
-          title={title}
-          imageUrl={imageUrl}
-          galleryImages={galleryImages}
-          previewMinPrice={previewMinPrice}
-          previewComparePrice={previewComparePrice}
-          previewDiscountPercent={previewDiscountPercent}
-          availableForSale={availableForSale}
-          selectedCollections={selectedCollections}
-          availableCollections={availableCollections}
-          options={options}
-          tags={tags}
-          description={description}
-        />
-      </div>
-      {/* End Right Column */}
+        {/* Right Column: Real-time Live Preview Card (xl:col-span-5) */}
+        <div className="hidden xl:block xl:col-span-4 sticky top-24 space-y-4">
+          <div className="flex items-center justify-between bg-white dark:bg-neutral-900 px-5 py-3 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs">
+            <div className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <h3 className="font-bold text-xs text-neutral-900 dark:text-white uppercase tracking-wider">
+                XEM TRƯỚC GIAO DIỆN (/product/{handle || "handle"})
+              </h3>
+            </div>
+            <span className="text-[10px] uppercase font-extrabold px-2.5 py-1 rounded-full bg-orange-100 text-orange-600 dark:bg-orange-950/60 dark:text-orange-400 border border-orange-200 dark:border-orange-900/50">
+              Realtime
+            </span>
+          </div>
+
+          {/* Smartphone Frame Container */}
+          <MobileStorefrontPreview
+            title={title}
+            imageUrl={imageUrl}
+            galleryImages={galleryImages}
+            previewMinPrice={previewMinPrice}
+            previewComparePrice={previewComparePrice}
+            previewDiscountPercent={previewDiscountPercent}
+            availableForSale={availableForSale}
+            selectedCollections={selectedCollections}
+            availableCollections={availableCollections}
+            options={options}
+            tags={tags}
+            description={description}
+          />
+        </div>
+        {/* End Right Column */}
       </div>
       {/* End Grid */}
 

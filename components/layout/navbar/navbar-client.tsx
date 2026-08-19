@@ -72,10 +72,11 @@ export default function NavbarClient({
               <li>
                 <Link
                   to="/admin"
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors ${pathname === "/admin"
-                    ? "bg-orange-50 text-orange-600 font-bold dark:bg-orange-950/30 dark:text-orange-500"
-                    : "text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"
-                    }`}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors ${
+                    pathname === "/admin"
+                      ? "bg-orange-50 text-orange-600 font-bold dark:bg-orange-950/30 dark:text-orange-500"
+                      : "text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"
+                  }`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -97,10 +98,11 @@ export default function NavbarClient({
               <li>
                 <Link
                   to="/admin/products/new"
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors ${pathname === "/admin/products/new"
-                    ? "bg-orange-50 text-orange-600 font-bold dark:bg-orange-950/30 dark:text-orange-500"
-                    : "text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"
-                    }`}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors ${
+                    pathname === "/admin/products/new"
+                      ? "bg-orange-50 text-orange-600 font-bold dark:bg-orange-950/30 dark:text-orange-500"
+                      : "text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"
+                  }`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +192,6 @@ export default function NavbarClient({
             </Suspense>
           </div>
           <div className="flex items-center justify-end gap-2 md:w-1/3">
-
             {isAdminAuth && (
               <Link
                 to="/admin"

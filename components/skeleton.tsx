@@ -48,7 +48,7 @@ export function SkeletonProductDetail() {
             ))}
           </ul>
         </div>
-        
+
         <div className="basis-full lg:basis-2/6 flex flex-col gap-6">
           <Skeleton className="h-10 w-full" />
           <Skeleton className="h-8 w-1/3" />
@@ -85,7 +85,10 @@ export function SkeletonAdminDashboard() {
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs flex items-center gap-4">
+          <div
+            key={i}
+            className="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xs flex items-center gap-4"
+          >
             <Skeleton className="w-12 h-12 rounded-2xl shrink-0" />
             <div className="w-full">
               <Skeleton className="h-3 w-1/2 mb-2" />
@@ -125,12 +128,12 @@ export function SkeletonProductForm() {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-           <Skeleton className="h-64 w-full rounded-2xl" />
-           <Skeleton className="h-96 w-full rounded-2xl" />
+          <Skeleton className="h-64 w-full rounded-2xl" />
+          <Skeleton className="h-96 w-full rounded-2xl" />
         </div>
         <div className="space-y-8">
-           <Skeleton className="h-48 w-full rounded-2xl" />
-           <Skeleton className="h-48 w-full rounded-2xl" />
+          <Skeleton className="h-48 w-full rounded-2xl" />
+          <Skeleton className="h-48 w-full rounded-2xl" />
         </div>
       </div>
     </div>

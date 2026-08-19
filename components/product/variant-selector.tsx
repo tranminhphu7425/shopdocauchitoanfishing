@@ -2,7 +2,12 @@
 
 import clsx from "clsx";
 import { ProductOption, ProductVariant } from "lib/local/types";
-import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useLocation,
+  useSearchParams,
+  useParams,
+} from "react-router-dom";
 
 type Combination = {
   id: string;

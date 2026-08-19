@@ -40,7 +40,9 @@ export function ProductTable({
 }) {
   const [productList, setProductList] = useState(initialProducts);
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'hidden'>('all');
+  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "hidden">(
+    "all",
+  );
   const [selectedHandles, setSelectedHandles] = useState<string[]>([]);
   const [togglingHandle, setTogglingHandle] = useState<string | null>(null);
 
@@ -67,8 +69,8 @@ export function ProductTable({
   };
 
   const filteredProducts = productList.filter((p) => {
-    if (statusFilter === 'active' && p.availableForSale === false) return false;
-    if (statusFilter === 'hidden' && p.availableForSale !== false) return false;
+    if (statusFilter === "active" && p.availableForSale === false) return false;
+    if (statusFilter === "hidden" && p.availableForSale !== false) return false;
 
     if (!searchQuery.trim()) return true;
     const queryClean = removeAccents(searchQuery.toLowerCase().trim());
@@ -104,7 +106,10 @@ export function ProductTable({
   };
 
   // Quick Status Toggle Switch
-  const handleToggleStatus = async (handle: string, currentAvailable: boolean) => {
+  const handleToggleStatus = async (
+    handle: string,
+    currentAvailable: boolean,
+  ) => {
     setTogglingHandle(handle);
     const newStatus = !currentAvailable;
 
@@ -142,7 +147,9 @@ export function ProductTable({
     try {
       let successCount = 0;
       for (const h of selectedHandles) {
-        const res = await updateProductAction(h, { availableForSale: available });
+        const res = await updateProductAction(h, {
+          availableForSale: available,
+        });
         if (res.success) successCount++;
       }
 
@@ -381,7 +388,9 @@ export function ProductTable({
                         {new Intl.NumberFormat("vi-VN", {
                           style: "currency",
                           currency: "VND",
-                        }).format(Number(product.priceRange.minVariantPrice.amount))}
+                        }).format(
+                          Number(product.priceRange.minVariantPrice.amount),
+                        )}
                       </div>
                     </div>
                   </div>
@@ -391,7 +400,9 @@ export function ProductTable({
                     <button
                       type="button"
                       disabled={isTogglingThis}
-                      onClick={() => handleToggleStatus(product.handle, isAvailable)}
+                      onClick={() =>
+                        handleToggleStatus(product.handle, isAvailable)
+                      }
                       className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold transition-all border shadow-2xs whitespace-nowrap cursor-pointer flex-1 justify-center ${
                         isAvailable
                           ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900/50 hover:bg-emerald-100"
@@ -400,10 +411,14 @@ export function ProductTable({
                     >
                       <span
                         className={`h-2 w-2 rounded-full ${
-                          isAvailable ? "bg-emerald-500 animate-pulse" : "bg-neutral-400"
+                          isAvailable
+                            ? "bg-emerald-500 animate-pulse"
+                            : "bg-neutral-400"
                         }`}
                       />
-                      <span className="whitespace-nowrap">{isAvailable ? "Hiển thị" : "Tạm ẩn"}</span>
+                      <span className="whitespace-nowrap">
+                        {isAvailable ? "Hiển thị" : "Tạm ẩn"}
+                      </span>
                     </button>
                     <div className="flex gap-2">
                       <Link
@@ -541,10 +556,14 @@ export function ProductTable({
                         >
                           <span
                             className={`h-2 w-2 rounded-full ${
-                              isAvailable ? "bg-emerald-500 animate-pulse" : "bg-neutral-400"
+                              isAvailable
+                                ? "bg-emerald-500 animate-pulse"
+                                : "bg-neutral-400"
                             }`}
                           />
-                          <span className="whitespace-nowrap">{isAvailable ? "Hiển thị" : "Tạm ẩn"}</span>
+                          <span className="whitespace-nowrap">
+                            {isAvailable ? "Hiển thị" : "Tạm ẩn"}
+                          </span>
                         </button>
                       </td>
 
@@ -620,7 +639,9 @@ export function ProductTable({
                 onClick={confirmSingleDelete}
                 className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-lg shadow-red-600/30 transition-all active:scale-95 disabled:opacity-50 flex items-center gap-2 justify-center"
               >
-                {isProcessing ? "Đang xóa..." : (
+                {isProcessing ? (
+                  "Đang xóa..."
+                ) : (
                   <>
                     <TrashIcon className="w-4 h-4" />
                     <span>XÓA VĨNH VIỄN</span>

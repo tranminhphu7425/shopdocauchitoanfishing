@@ -7,7 +7,7 @@ export async function createProductAction(
   try {
     // Insert product
     const { collections, id, ...productData } = product;
-    
+
     let calculatedPriceRange = product.priceRange;
     if (product.variants && product.variants.length > 0) {
       let cheapestVar = product.variants[0];
@@ -17,8 +17,15 @@ export async function createProductAction(
         }
       });
       calculatedPriceRange = {
-        minVariantPrice: { amount: cheapestVar.price.amount, currencyCode: "VND" },
-        maxVariantPrice: { amount: cheapestVar.compareAtPrice?.amount || cheapestVar.price.amount, currencyCode: "VND" },
+        minVariantPrice: {
+          amount: cheapestVar.price.amount,
+          currencyCode: "VND",
+        },
+        maxVariantPrice: {
+          amount:
+            cheapestVar.compareAtPrice?.amount || cheapestVar.price.amount,
+          currencyCode: "VND",
+        },
       };
     }
 
@@ -37,26 +44,32 @@ export async function createProductAction(
         variants: product.variants,
         seo: product.seo,
         tags: product.tags,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .select()
       .single();
 
     if (insertError || !insertedProduct) {
       console.error(insertError);
-      return { success: false, error: insertError?.message || "Failed to create product" };
+      return {
+        success: false,
+        error: insertError?.message || "Failed to create product",
+      };
     }
 
     // Insert collections
     if (collections && collections.length > 0) {
-      const { data: colData } = await supabase.from("collections").select("id, handle").in("handle", collections);
-      
+      const { data: colData } = await supabase
+        .from("collections")
+        .select("id, handle")
+        .in("handle", collections);
+
       if (colData && colData.length > 0) {
         const productCollections = colData.map((c: any) => ({
           product_id: insertedProduct.id,
-          collection_id: c.id
+          collection_id: c.id,
         }));
-        
+
         await supabase.from("product_collections").insert(productCollections);
       }
     }
@@ -73,32 +86,49 @@ export async function updateProductAction(
 ): Promise<{ success: boolean; error?: string }> {
   try {
     const { collections, id, ...updateData } = updates;
-    
+
     const mappedUpdates: any = { updated_at: new Date().toISOString() };
     if (updateData.title !== undefined) mappedUpdates.title = updateData.title;
-    if (updateData.handle !== undefined) mappedUpdates.handle = updateData.handle;
-    if (updateData.description !== undefined) mappedUpdates.description = updateData.description;
-    if (updateData.descriptionHtml !== undefined) mappedUpdates.description_html = updateData.descriptionHtml;
-    if (updateData.availableForSale !== undefined) mappedUpdates.available_for_sale = updateData.availableForSale;
-    if (updateData.priceRange !== undefined) mappedUpdates.price_range = updateData.priceRange;
+    if (updateData.handle !== undefined)
+      mappedUpdates.handle = updateData.handle;
+    if (updateData.description !== undefined)
+      mappedUpdates.description = updateData.description;
+    if (updateData.descriptionHtml !== undefined)
+      mappedUpdates.description_html = updateData.descriptionHtml;
+    if (updateData.availableForSale !== undefined)
+      mappedUpdates.available_for_sale = updateData.availableForSale;
+    if (updateData.priceRange !== undefined)
+      mappedUpdates.price_range = updateData.priceRange;
     if (updateData.variants !== undefined) {
       mappedUpdates.variants = updateData.variants;
       if (updateData.variants.length > 0) {
         let cheapestVar = updateData.variants[0];
         updateData.variants.forEach((v) => {
-          if (parseFloat(v.price.amount) < parseFloat(cheapestVar.price.amount)) {
+          if (
+            parseFloat(v.price.amount) < parseFloat(cheapestVar.price.amount)
+          ) {
             cheapestVar = v;
           }
         });
         mappedUpdates.price_range = {
-          minVariantPrice: { amount: cheapestVar.price.amount, currencyCode: "VND" },
-          maxVariantPrice: { amount: cheapestVar.compareAtPrice?.amount || cheapestVar.price.amount, currencyCode: "VND" },
+          minVariantPrice: {
+            amount: cheapestVar.price.amount,
+            currencyCode: "VND",
+          },
+          maxVariantPrice: {
+            amount:
+              cheapestVar.compareAtPrice?.amount || cheapestVar.price.amount,
+            currencyCode: "VND",
+          },
         };
       }
     }
-    if (updateData.featuredImage !== undefined) mappedUpdates.featured_image = updateData.featuredImage;
-    if (updateData.images !== undefined) mappedUpdates.images = updateData.images;
-    if (updateData.options !== undefined) mappedUpdates.options = updateData.options;
+    if (updateData.featuredImage !== undefined)
+      mappedUpdates.featured_image = updateData.featuredImage;
+    if (updateData.images !== undefined)
+      mappedUpdates.images = updateData.images;
+    if (updateData.options !== undefined)
+      mappedUpdates.options = updateData.options;
     // Removed old variants line as it is handled above
     if (updateData.seo !== undefined) mappedUpdates.seo = updateData.seo;
     if (updateData.tags !== undefined) mappedUpdates.tags = updateData.tags;
@@ -111,23 +141,32 @@ export async function updateProductAction(
       .single();
 
     if (updateError || !updatedProduct) {
-      return { success: false, error: updateError?.message || "Failed to update product" };
+      return {
+        success: false,
+        error: updateError?.message || "Failed to update product",
+      };
     }
 
     if (collections !== undefined) {
       // Clear existing collections
-      await supabase.from("product_collections").delete().eq("product_id", updatedProduct.id);
-      
+      await supabase
+        .from("product_collections")
+        .delete()
+        .eq("product_id", updatedProduct.id);
+
       // Insert new collections
       if (collections.length > 0) {
-        const { data: colData } = await supabase.from("collections").select("id, handle").in("handle", collections);
-        
+        const { data: colData } = await supabase
+          .from("collections")
+          .select("id, handle")
+          .in("handle", collections);
+
         if (colData && colData.length > 0) {
           const productCollections = colData.map((c: any) => ({
             product_id: updatedProduct.id,
-            collection_id: c.id
+            collection_id: c.id,
           }));
-          
+
           await supabase.from("product_collections").insert(productCollections);
         }
       }
@@ -143,11 +182,14 @@ export async function deleteProductAction(
   handle: string,
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const { error } = await supabase.from("products").delete().eq("handle", handle);
+    const { error } = await supabase
+      .from("products")
+      .delete()
+      .eq("handle", handle);
     if (error) {
       return { success: false, error: error.message };
     }
-    
+
     return { success: true };
   } catch (err: any) {
     return { success: false, error: err.message || "Unknown error" };
@@ -189,7 +231,10 @@ export async function createCollectionAction(
       .single();
 
     if (error || !inserted) {
-      return { success: false, error: error?.message || "Failed to create collection" };
+      return {
+        success: false,
+        error: error?.message || "Failed to create collection",
+      };
     }
 
     return {

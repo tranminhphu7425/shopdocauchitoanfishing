@@ -12,9 +12,11 @@ export function CategorySection({ collection }: { collection: Collection }) {
   useEffect(() => {
     async function load() {
       try {
-        const data = await getCollectionProducts({ collection: collection.handle });
+        const data = await getCollectionProducts({
+          collection: collection.handle,
+        });
         // Display up to 5 products per category row (or you could use a carousel here if preferred)
-        setProducts(data.slice(0, 5)); 
+        setProducts(data.slice(0, 5));
       } catch (err) {
         console.error(err);
       } finally {
@@ -33,24 +35,28 @@ export function CategorySection({ collection }: { collection: Collection }) {
           <span className="w-1.5 h-6 bg-orange-600 rounded-full"></span>
           {collection.title}
         </h2>
-        <Link 
-          to={collection.path} 
+        <Link
+          to={collection.path}
           className="text-xs md:text-sm font-bold text-orange-600 hover:text-orange-700 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/40 px-4 py-2 rounded-full transition-colors"
         >
           Xem tất cả →
         </Link>
       </div>
-      
+
       {loading ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-           {[1, 2, 3, 4, 5].map(i => (
-             <div key={i} className="aspect-square bg-neutral-100 dark:bg-neutral-800 rounded-2xl animate-pulse" />
-           ))}
+          {[1, 2, 3, 4, 5].map((i) => (
+            <div
+              key={i}
+              className="aspect-square bg-neutral-100 dark:bg-neutral-800 rounded-2xl animate-pulse"
+            />
+          ))}
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {products.map(product => {
-            const { discountPercent, minPrice, compareAtAmount } = getCheapestVariantDiscount(product);
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {products.map((product) => {
+            const { discountPercent, minPrice, compareAtAmount } =
+              getCheapestVariantDiscount(product);
             return (
               <div key={product.handle} className="group">
                 <Link
@@ -63,9 +69,10 @@ export function CategorySection({ collection }: { collection: Collection }) {
                     label={{
                       title: product.title,
                       amount: minPrice,
-                      currencyCode: product.priceRange.minVariantPrice.currencyCode,
+                      currencyCode:
+                        product.priceRange.minVariantPrice.currencyCode,
                       compareAtAmount: compareAtAmount,
-                      position: "bottom"
+                      position: "bottom",
                     }}
                     discountPercent={discountPercent}
                     fill
@@ -73,7 +80,7 @@ export function CategorySection({ collection }: { collection: Collection }) {
                   />
                 </Link>
               </div>
-            )
+            );
           })}
         </div>
       )}

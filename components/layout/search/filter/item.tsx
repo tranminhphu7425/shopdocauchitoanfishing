@@ -4,11 +4,16 @@ import clsx from "clsx";
 import type { SortFilterItem } from "lib/constants";
 import { createUrl } from "lib/utils";
 import { Link } from "react-router-dom";
-import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useLocation,
+  useSearchParams,
+  useParams,
+} from "react-router-dom";
 import type { ListItem, PathFilterItem } from ".";
 
 function PathFilterItem({ item }: { item: PathFilterItem }) {
-  const pathname = (useLocation().pathname);
+  const pathname = useLocation().pathname;
   const [searchParams] = useSearchParams();
   const active = pathname === item.path;
   const newParams = new URLSearchParams(searchParams.toString());
@@ -34,7 +39,7 @@ function PathFilterItem({ item }: { item: PathFilterItem }) {
 }
 
 function SortFilterItem({ item }: { item: SortFilterItem }) {
-  const pathname = (useLocation().pathname);
+  const pathname = useLocation().pathname;
   const [searchParams] = useSearchParams();
   const active = searchParams.get("sort") === item.slug;
   const q = searchParams.get("q");

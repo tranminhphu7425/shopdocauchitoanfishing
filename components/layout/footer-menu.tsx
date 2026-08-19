@@ -3,11 +3,16 @@
 import clsx from "clsx";
 import { Menu } from "lib/local/types";
 import { Link } from "react-router-dom";
-import { useNavigate, useLocation, useSearchParams, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useLocation,
+  useSearchParams,
+  useParams,
+} from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export function FooterMenuItem({ item }: { item: Menu }) {
-  const pathname = (useLocation().pathname);
+  const pathname = useLocation().pathname;
   const [active, setActive] = useState(pathname === item.path);
 
   useEffect(() => {

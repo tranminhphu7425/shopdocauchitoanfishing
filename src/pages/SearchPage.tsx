@@ -26,11 +26,13 @@ export default function SearchPage() {
           }
           document.title = `${col.title} | Chí Toàn Fishing`;
           const data = await getCollectionProducts({ collection });
-          if (isMounted) setProducts(data.filter((p: any) => p.availableForSale));
+          if (isMounted)
+            setProducts(data.filter((p: any) => p.availableForSale));
         } else {
           document.title = "Tất cả sản phẩm | Chí Toàn Fishing";
           const data = await getProducts({});
-          if (isMounted) setProducts(data.filter((p: any) => p.availableForSale));
+          if (isMounted)
+            setProducts(data.filter((p: any) => p.availableForSale));
         }
       } catch (error) {
         console.error("Error loading search products:", error);
